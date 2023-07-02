@@ -1,0 +1,36 @@
+server:
+  port: 8003
+  tomcat:
+    uri-encoding: UTF-8
+    max-swallow-size: -1
+
+spring:
+  datasource:
+    username: root
+    password: Catastrophe.123
+    #url中database为对应的数据库名称
+    url: jdbc:mysql://localhost:3306/xjtuhub?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: 192.168.204.130
+    port: 6379
+    password: 123456
+    database: 0
+
+  mail:
+    host: smtp.163.com
+    # 设置用户名
+    username: zss1029918372@163.com
+    # 设置密码，该处的密码是邮箱开启SMTP的授权码而非密码
+    password: JPUEJHLHVOLJEYGT
+    # 设置编码
+    default-encoding: UTF-8
+    #发件人
+    # 必须进行授权认证，它的目的就是阻止他人任意乱发邮件
+    smtp:
+      auth: true
+      #SMTP加密方式:连接到一个TLS保护连接
+      starttls:
+        enable: true
+        required: true

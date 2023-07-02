@@ -1,0 +1,11 @@
+D:\WorkSpace\xjtuhub-dev\src\main\java\com\xjtuhub\XJTUhubApplication.java
+D:\WorkSpace\xjtuhub-dev\src\main\java\com\xjtuhub\controller\HelloController.java
+D:\WorkSpace\xjtuhub-dev\src\main\java\com\xjtuhub\common\result\JSONResult.java
+D:\WorkSpace\xjtuhub-dev\src\main\java\com\xjtuhub\mapper\RoleMapper.java
+D:\WorkSpace\xjtuhub-dev\src\main\java\com\xjtuhub\controller\RoleController.java
+D:\WorkSpace\xjtuhub-dev\src\main\java\com\xjtuhub\service\impl\RoleService.java
+D:\WorkSpace\xjtuhub-dev\src\main\java\com\xjtuhub\common\mail\MailSender.java
+D:\WorkSpace\xjtuhub-dev\src\main\java\com\xjtuhub\common\RedisOperator.java
+D:\WorkSpace\xjtuhub-dev\src\main\java\com\xjtuhub\common\result\ResponseStatusEnum.java
+D:\WorkSpace\xjtuhub-dev\src\main\java\com\xjtuhub\entity\Role.java
+D:\WorkSpace\xjtuhub-dev\src\main\java\com\xjtuhub\service\api\RoleServiceApi.java
