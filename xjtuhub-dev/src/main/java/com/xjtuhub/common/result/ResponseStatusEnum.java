@@ -12,7 +12,7 @@ public enum ResponseStatusEnum {
 
     // 50x
     ROLE_EXIST(501, false, "用户名已存在！"),
-    LOG_UP_SUCCEED(502, true, "注册成功！"),
+    LOG_UP_SUCCEED(502, true, "注册成功！我们会向您的邮箱发送激活邮件，请点击邮件中的链接以完成激活。"),
     UN_ACTIVATE(503, false, "账号未激活！请查收您的激活邮件，并点击邮件中的链接以完成激活。"),
     ACTIVATE_SUCCEED(504, true, "激活成功！"),
     ACTIVATE_FAIL(505, false, "激活失败！"),
@@ -21,8 +21,9 @@ public enum ResponseStatusEnum {
     LOG_IN_SUCCEED(508, true, "登陆成功！"),
     CODE_GENERATE_ERROR(509, false, "验证码生成失败！"),
     CODE_ERROR(510, false, "验证码错误！"),
-    USER_UN_LOGIN(511, false, "未登录！"),
-    SYS_ERROR(512, false, "系统错误！");
+    CODE_VALID(511, false, "验证码正确！"),
+    USER_UN_LOGIN(512, false, "未登录！"),
+    SYS_ERROR(513, false, "系统错误！");
 
     // 响应业务状态
     private Integer status;

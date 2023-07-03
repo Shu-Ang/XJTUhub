@@ -66,8 +66,9 @@ public class LoginController {
         if(!loginUser.getVerificationCode().equals(serverCode)){
             return JSONResult.responseCustom(ResponseStatusEnum.CODE_ERROR);
         }
-        if (!roleService.isRoleExist(loginUser.getUserId()))
+        if (!roleService.isRoleExist(loginUser.getUserId())) {
             return JSONResult.responseCustom(ResponseStatusEnum.ROLE_NOT_EXIST);
+        }
         Role dbRole = roleService.findRoleById(loginUser.getUserId());
         if (dbRole.getStatus() == 0)
             return JSONResult.responseCustom(ResponseStatusEnum.UN_ACTIVATE);
