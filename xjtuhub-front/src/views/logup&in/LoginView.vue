@@ -1,28 +1,56 @@
 <template>
-    <el-form ref="ruleFormRef" :model="loginForm" status-icon :rules="rules" label-width="120px" class="demo-ruleForm">
-        <el-form-item label="用户名" prop="roleId">
-            <el-input v-model="loginForm.roleId" type="roleId" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="密码" prop="pass">
-            <el-input v-model="loginForm.password" type="password" autocomplete="off" />
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" @click="submitForm(ruleFormRef)">登录</el-button>
-            <RouterLink to="/register"><el-button>去注册</el-button></RouterLink>
+    <div class="login">
+        <el-card class="box-card" shadow="always">
+            <div style="
+            padding: 40px 0px 50px 0px;
+            text-align: center;
+            color: #409eff;
+            font-size: 40px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            ">XJTUHUB
+            </div>
+            <el-form ref="ruleFormRef" :model="loginForm" status-icon :rules="rules" label-width="120px"
+                class="demo-ruleForm">
+                <el-form-item label="用户名" prop="roleId">
+                    <el-input v-model="loginForm.userId" type="roleId" autocomplete="off"
+                        placeholder="Please input username" />
+                </el-form-item>
+                <el-form-item label="密码" prop="pass">
+                    <el-input v-model="loginForm.userPwd" type="password" autocomplete="off"
+                        placeholder="Please input password" show-password />
+                </el-form-item>
+                <el-form-item label="验证码" prop="verificationCode">
+                    <el-input v-model="loginForm.verificationCode">
+                        <template #suffix>
+                            <el-image v-if="flag" style="overflow: visible; position: relative; left: 16px;" :src="codeSrc"
+                                @click="codeSrc.value = 'data:image/png;base64,' + getCode()"></el-image>
+                        </template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item>
+                    <div style="text-align: justify; width: 360px; margin: 40px auto 0px">
+                        <el-button type="primary" size="large" style="width: 200px"
+                            @click="submitForm(ruleFormRef)">登录</el-button>
+                    </div>
+                    <div style="text-align: justify; width: 360px; margin: 20px auto 0px">
+                        <RouterLink to="/register"><el-button size="large" style="width: 200px">去注册</el-button></RouterLink>
+                    </div>
+                </el-form-item>
+            </el-form>
 
-        </el-form-item>
-    </el-form>
-
-    <el-dialog v-model="centerDialogVisible" width="30%" align-center>
-        <span>{{ content }}</span>
-        <template #footer>
-            <span class="dialog-footer">
-                <el-button type="primary" @click="centerDialogVisible = false">
-                    确认
-                </el-button>
-            </span>
-        </template>
-    </el-dialog>
+            <el-dialog v-model="centerDialogVisible" width="30%" align-center>
+                <span>{{ content }}</span>
+                <template #footer>
+                    <span class="dialog-footer">
+                        <el-button type="primary" @click="centerDialogVisible = false">
+                            确认
+                        </el-button>
+                    </span>
+                </template>
+            </el-dialog>
+        </el-card>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -30,10 +58,39 @@ import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import axios from 'axios';
 
-import router from '../../router';
+import router from '../../router'
+
 const ruleFormRef = ref<FormInstance>()
 const centerDialogVisible = ref(false)
 const content = ref()
+const flag = ref(false)
+// 验证码后台接口
+const codeSrc = ref()
+const getCode = async () => {
+    return new Promise(async (resolve, reject) => {
+        await axios.get('/dev/captcha/captchaImage').then(result => {
+            // 图片的src属性显示为：前缀+后台传递的Base64验证码图片编码
+            // 验证码可以正常显示
+            flag.value = true
+            resolve(result.data.data);
+        }
+        ).catch(err => {
+            reject(err)
+        });
+    }).then(result => {
+        console.log(result)
+        const map = new Map();
+        const res = result as object
+        // 遍历对象的键值对，并将其添加到 Map 中
+        for (const [key, value] of Object.entries(res)) {
+            map.set(key, value);
+        }
+        codeSrc.value = 'data:image/jpg;base64,' + map.get("imgUrl");
+        loginForm.verificationKey = map.get("imgKey"); // redis存储验证码的key
+    })
+}
+
+codeSrc.value = 'data:image/png;base64,' + getCode()
 
 const validateRoleId = (rule: any, value: any, callback: any) => {
     if (value === '') {
@@ -52,15 +109,24 @@ const validatePass = (rule: any, value: any, callback: any) => {
     }
 }
 
-
+const validateKey = (rule: any, value: any, callback: any) => {
+    if (value === '') {
+        return callback(new Error('请输入验证码'))
+    } else {
+        callback()
+    }
+}
 const loginForm = reactive({
-    roleId: '',
-    password: '',
+    userId: '',
+    userPwd: '',
+    verificationCode: '',
+    verificationKey: ''
 })
 
 const rules = reactive<FormRules<typeof loginForm>>({
-    roleId: [{ validator: validateRoleId, trigger: 'blur' }],
-    password: [{ validator: validatePass, trigger: 'blur' }],
+    userId: [{ validator: validateRoleId, trigger: 'blur' }],
+    userPwd: [{ validator: validatePass, trigger: 'blur' }],
+    verificationCode: [{ validator: validateKey, trigger: 'blur' }],
 })
 
 const submitForm = async (formEl: FormInstance | undefined) => {
@@ -70,8 +136,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             console.log('submit!')
             await axios.post("/dev/login",
                 loginForm).then(result => {
+                    console.log(result)
                     if (result.data.status == 508) {
-                        router.push('')
+                        router.push('/home')
                     } else {
                         content.value = result.data.msg
                         centerDialogVisible.value = true
@@ -85,3 +152,28 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 }
 
 </script>
+
+<style scoped>
+.login {
+    background-image: url(@/assets/xjtu1.jpg);
+    background-size: 100% 100%;
+
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box-card {
+    position: relative;
+    left: 250px;
+    width: 500px;
+    height: 500px;
+    opacity: 0.92;
+}
+</style>

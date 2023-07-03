@@ -1,33 +1,57 @@
 <template>
-    <el-form ref="ruleFormRef" :model="registerForm" status-icon :rules="rules" label-width="120px" class="demo-ruleForm">
-        <el-form-item label="用户名" prop="roleId">
-            <el-input v-model="registerForm.roleId" type="roleId" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-            <el-input v-model="registerForm.password" type="password" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="请再次输入密码" prop="checkPassword">
-            <el-input v-model="registerForm.checkPassword" type="password" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="邮箱" prop="Email">
-            <el-input v-model="registerForm.Email" type="Email" autocomplete="off" />
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" @click="submitForm(ruleFormRef)">注册</el-button>
-            <RouterLink to="/login"><el-button>去登录</el-button></RouterLink>
-        </el-form-item>
-    </el-form>
+    <div class="login">
+        <el-card class="box-card" shadow="always">
+            <div style="
+            padding: 20px 0px 30px 0px;
+            text-align: center;
+            color: #409eff;
+            font-size: 35px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            ">WELCOME TO XJTUHUB!
+            </div>
+            <el-form ref="ruleFormRef" :model="registerForm" status-icon :rules="rules" label-width="120px"
+                class="demo-ruleForm">
+                <el-form-item label="用户名" prop="roleId">
+                    <el-input v-model="registerForm.roleId" type="roleId" autocomplete="off"
+                        placeholder="Please input username" />
+                </el-form-item>
+                <el-form-item label="密码" prop="password">
+                    <el-input v-model="registerForm.password" type="password" autocomplete="off"
+                        placeholder="Please input password" show-password />
+                </el-form-item>
+                <el-form-item label="再次输入密码" prop="checkPassword">
+                    <el-input v-model="registerForm.checkPassword" type="password" autocomplete="off"
+                        placeholder="Please input password" show-password />
+                </el-form-item>
+                <el-form-item label="邮箱" prop="Email">
+                    <el-input v-model="registerForm.Email" type="Email" autocomplete="off"
+                        placeholder="Please input email" />
+                </el-form-item>
+                <el-form-item>
+                    <div style="text-align: justify; width: 360px; margin: 12px auto 0px">
+                        <el-button type="primary" size="large" style="width: 200px"
+                            @click="submitForm(ruleFormRef)">注册</el-button>
+                    </div>
+                    <div style="text-align: justify; width: 360px; margin: 10px auto 0px">
+                        <RouterLink to="/login"><el-button type="default" size="large" style="width: 200px">去登录</el-button>
+                        </RouterLink>
+                    </div>
+                </el-form-item>
+            </el-form>
 
-    <el-dialog v-model="centerDialogVisible"  width="30%" align-center>
-        <span>{{ content }}</span>
-        <template #footer>
-            <span class="dialog-footer">
-                <el-button type="primary" @click="centerDialogVisible = false">
-                    确认
-                </el-button>
-            </span>
-        </template>
-    </el-dialog>
+            <el-dialog v-model="centerDialogVisible" width="30%" align-center>
+                <span>{{ content }}</span>
+                <template #footer>
+                    <span class="dialog-footer">
+                        <el-button type="primary" @click="centerDialogVisible = false">
+                            确认
+                        </el-button>
+                    </span>
+                </template>
+            </el-dialog>
+        </el-card>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -104,7 +128,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
                 content.value = result.data.msg
                 centerDialogVisible.value = true
             })
-            
+
         } else {
             console.log('error submit!')
             return false
@@ -113,3 +137,29 @@ const submitForm = (formEl: FormInstance | undefined) => {
 }
 
 </script>
+
+<style scoped>
+.login {
+    background-image: url(@/assets/xjtu1.jpg);
+    background-size: 100% 100%;
+
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box-card {
+    position: relative;
+    left: 250px;
+    width: 500px;
+    height: 500px;
+    opacity: 0.92;
+}
+</style>
+
