@@ -1,10 +1,10 @@
 <template>
-    <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="120px" class="demo-ruleForm">
+    <el-form ref="ruleFormRef" :model="loginForm" status-icon :rules="rules" label-width="120px" class="demo-ruleForm">
         <el-form-item label="用户名" prop="roleId">
-            <el-input v-model="ruleForm.roleId" type="roleId" autocomplete="off" />
+            <el-input v-model="loginForm.roleId" type="roleId" autocomplete="off" />
         </el-form-item>
         <el-form-item label="密码" prop="pass">
-            <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
+            <el-input v-model="loginForm.password" type="password" autocomplete="off" />
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="submitForm(ruleFormRef)">登录</el-button>
@@ -53,12 +53,12 @@ const validatePass = (rule: any, value: any, callback: any) => {
 }
 
 
-const ruleForm = reactive({
+const loginForm = reactive({
     roleId: '',
     password: '',
 })
 
-const rules = reactive<FormRules<typeof ruleForm>>({
+const rules = reactive<FormRules<typeof loginForm>>({
     roleId: [{ validator: validateRoleId, trigger: 'blur' }],
     password: [{ validator: validatePass, trigger: 'blur' }],
 })
@@ -69,9 +69,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         if (valid) {
             console.log('submit!')
             await axios.post("/dev/login",
-                ruleForm).then(result => {
+                loginForm).then(result => {
                     if (result.data.status == 508) {
-                        router.push('/home')
+                        router.push('')
                     } else {
                         content.value = result.data.msg
                         centerDialogVisible.value = true
