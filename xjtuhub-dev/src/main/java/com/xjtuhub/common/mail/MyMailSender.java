@@ -1,7 +1,7 @@
 package com.xjtuhub.common.mail;
 
 import cn.hutool.core.util.IdUtil;
-import com.xjtuhub.common.RedisOperator;
+import com.xjtuhub.common.utils.RedisOperator;
 import com.xjtuhub.common.exception.MailException;
 import com.xjtuhub.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ public class MyMailSender {
             helper.setText(emailTemplate,true);
             javaMailSender.send(message);
         } catch (Exception e) {
-            throw new MailException();
+            throw new MailException("发送邮件失败");
         }
     }
 

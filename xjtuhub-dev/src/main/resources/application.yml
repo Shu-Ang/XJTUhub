@@ -11,6 +11,11 @@ spring:
     #url中database为对应的数据库名称
     url: jdbc:mysql://localhost:3306/xjtuhub?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      initial-size: 5 # 初始化连接数
+      max-active: 30  # 最大连接数
+      min-idle: 3     # 最小空闲数
+      max-wait: 4000  # 超时时间，单位：毫秒
 
   redis:
     host: 192.168.204.130
@@ -34,3 +39,10 @@ spring:
       starttls:
         enable: true
         required: true
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+xjtuhub:
+  expire-time: 36000  # 令牌过期时间（单位：秒），实际过期时间是该时间的两倍

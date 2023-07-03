@@ -1,4 +1,4 @@
-package com.xjtuhub.common;
+package com.xjtuhub.common.utils;
 
 import cn.hutool.core.util.IdUtil;
 import org.springframework.stereotype.Component;

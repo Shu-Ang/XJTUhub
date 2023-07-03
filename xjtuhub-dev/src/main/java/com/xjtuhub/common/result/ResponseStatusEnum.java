@@ -18,8 +18,11 @@ public enum ResponseStatusEnum {
     ACTIVATE_FAIL(505, false, "激活失败！"),
     ROLE_NOT_EXIST(506, false, "用户名不存在！"),
     WRONG_PASSWORD(507, false, "密码错误！"),
-    LOG_IN_SUCCEED(508, true, "登陆成功！");
-
+    LOG_IN_SUCCEED(508, true, "登陆成功！"),
+    CODE_GENERATE_ERROR(509, false, "验证码生成失败！"),
+    CODE_ERROR(510, false, "验证码错误！"),
+    USER_UN_LOGIN(511, false, "未登录！"),
+    SYS_ERROR(512, false, "系统错误！");
 
     // 响应业务状态
     private Integer status;
