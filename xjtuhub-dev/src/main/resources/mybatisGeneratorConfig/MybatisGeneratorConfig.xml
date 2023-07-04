@@ -25,20 +25,20 @@
 
         <!-- 生成model类，targetPackage指定model类的包名，targetProject指定生成的model放在哪个工程中 -->
         <javaModelGenerator targetPackage="com.xjtuhub.entity"
-                            targetProject="D:\WorkSpace\xjtuhub-dev\src\main\java">
+                            targetProject="D:\repo\xjtuhub-dev\src\main\java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <!-- 生成mybatis的mapper.xml文件，targetPackage指定mapper.xml的包名，targetProject指定mapper.xml在哪个工程目录下 -->
         <sqlMapGenerator targetPackage="com.xjtuhub.mapper"
-                         targetProject="D:\WorkSpace\xjtuhub-dev\src\main\resources">
+                         targetProject="D:\repo\xjtuhub-dev\src\main\resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <!-- 生成mybatis的Mapper接口类文件，targetPackage指定Mapper接口类文件的包名，targetProject指定Mapper接口类在哪个工程目录下 -->
         <javaClientGenerator targetPackage="com.xjtuhub.mapper"
-                             targetProject="D:\WorkSpace\xjtuhub-dev\src\main\java"
+                             targetProject="D:\repo\xjtuhub-dev\src\main\java"
                              type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
@@ -49,6 +49,96 @@
                selectByExampleQueryId="false"/>-->
         <!-- 数据库表以及对应的java模型类名（如果是多个表的话，可以复制多份然后修改成对应的表以及需要生成的模型名） -->
         <table tableName="role" domainObjectName="Role"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!--<columnRenamingRule searchString="^D_"
+                                replaceString=""/>-->
+        </table>
+
+        <table tableName="course" domainObjectName="Course"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!--<columnRenamingRule searchString="^D_"
+                                replaceString=""/>-->
+        </table>
+
+        <table tableName="department" domainObjectName="Department"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!--<columnRenamingRule searchString="^D_"
+                                replaceString=""/>-->
+        </table>
+
+        <table tableName="favorites_relation" domainObjectName="Favorites_relation"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!--<columnRenamingRule searchString="^D_"
+                                replaceString=""/>-->
+        </table>
+
+        <table tableName="follow" domainObjectName="Follow"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!--<columnRenamingRule searchString="^D_"
+                                replaceString=""/>-->
+        </table>
+
+        <table tableName="footprints" domainObjectName="Footprints"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!--<columnRenamingRule searchString="^D_"
+                                replaceString=""/>-->
+        </table>
+
+        <table tableName="message" domainObjectName="Message"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!--<columnRenamingRule searchString="^D_"
+                                replaceString=""/>-->
+        </table>
+
+        <table tableName="blog" domainObjectName="Blog"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <columnOverride column="content" javaType="java.lang.String" jdbcType="TEXT"></columnOverride>
+            <columnOverride column="summary" javaType="java.lang.String" jdbcType="TEXT"></columnOverride>
+            <!--<columnRenamingRule searchString="^D_"
+                                replaceString=""/>-->
+        </table>
+
+        <table tableName="comment" domainObjectName="Comment"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!--<columnRenamingRule searchString="^D_"
+                                replaceString=""/>-->
+        </table>
+
+        <table tableName="favorites" domainObjectName="Favorites"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!--<columnRenamingRule searchString="^D_"
+                                replaceString=""/>-->
+        </table>
+
+        <table tableName="likes" domainObjectName="Likes"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!--<columnRenamingRule searchString="^D_"
+                                replaceString=""/>-->
+        </table>
+
+        <table tableName="major" domainObjectName="Major"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

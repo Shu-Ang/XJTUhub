@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjtuhub.mapper.LikesMapper">
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Likes">
+    <id column="likes_id" jdbcType="INTEGER" property="likesId" />
+    <result column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="flag" jdbcType="BIT" property="flag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    likes_id, comment_id, blog_id, role_id, flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from likes
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from likes
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Likes">
+    insert into likes (likes_id, comment_id, blog_id, 
+      role_id, flag)
+    values (#{likesId,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER}, 
+      #{roleId,jdbcType=VARCHAR}, #{flag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Likes">
+    insert into likes
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="likesId != null">
+        likes_id,
+      </if>
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="likesId != null">
+        #{likesId,jdbcType=INTEGER},
+      </if>
+      <if test="commentId != null">
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Likes">
+    update likes
+    <set>
+      <if test="commentId != null">
+        comment_id = #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        blog_id = #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=BIT},
+      </if>
+    </set>
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Likes">
+    update likes
+    set comment_id = #{commentId,jdbcType=INTEGER},
+      blog_id = #{blogId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=BIT}
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Likes">
+    <id column="likes_id" jdbcType="INTEGER" property="likesId" />
+    <result column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="flag" jdbcType="BIT" property="flag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    likes_id, comment_id, blog_id, role_id, flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from likes
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from likes
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Likes">
+    insert into likes (likes_id, comment_id, blog_id, 
+      role_id, flag)
+    values (#{likesId,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER}, 
+      #{roleId,jdbcType=VARCHAR}, #{flag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Likes">
+    insert into likes
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="likesId != null">
+        likes_id,
+      </if>
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="likesId != null">
+        #{likesId,jdbcType=INTEGER},
+      </if>
+      <if test="commentId != null">
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Likes">
+    update likes
+    <set>
+      <if test="commentId != null">
+        comment_id = #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        blog_id = #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=BIT},
+      </if>
+    </set>
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Likes">
+    update likes
+    set comment_id = #{commentId,jdbcType=INTEGER},
+      blog_id = #{blogId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=BIT}
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Likes">
+    <id column="likes_id" jdbcType="INTEGER" property="likesId" />
+    <result column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="flag" jdbcType="BIT" property="flag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    likes_id, comment_id, blog_id, role_id, flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from likes
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from likes
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Likes">
+    insert into likes (likes_id, comment_id, blog_id, 
+      role_id, flag)
+    values (#{likesId,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER}, 
+      #{roleId,jdbcType=VARCHAR}, #{flag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Likes">
+    insert into likes
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="likesId != null">
+        likes_id,
+      </if>
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="likesId != null">
+        #{likesId,jdbcType=INTEGER},
+      </if>
+      <if test="commentId != null">
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Likes">
+    update likes
+    <set>
+      <if test="commentId != null">
+        comment_id = #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        blog_id = #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=BIT},
+      </if>
+    </set>
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Likes">
+    update likes
+    set comment_id = #{commentId,jdbcType=INTEGER},
+      blog_id = #{blogId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=BIT}
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Likes">
+    <id column="likes_id" jdbcType="INTEGER" property="likesId" />
+    <result column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="flag" jdbcType="BIT" property="flag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    likes_id, comment_id, blog_id, role_id, flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from likes
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from likes
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Likes">
+    insert into likes (likes_id, comment_id, blog_id, 
+      role_id, flag)
+    values (#{likesId,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER}, 
+      #{roleId,jdbcType=VARCHAR}, #{flag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Likes">
+    insert into likes
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="likesId != null">
+        likes_id,
+      </if>
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="likesId != null">
+        #{likesId,jdbcType=INTEGER},
+      </if>
+      <if test="commentId != null">
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Likes">
+    update likes
+    <set>
+      <if test="commentId != null">
+        comment_id = #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        blog_id = #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=BIT},
+      </if>
+    </set>
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Likes">
+    update likes
+    set comment_id = #{commentId,jdbcType=INTEGER},
+      blog_id = #{blogId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=BIT}
+    where likes_id = #{likesId,jdbcType=INTEGER}
+  </update>
+</mapper>

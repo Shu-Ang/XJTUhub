@@ -1,0 +1,899 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjtuhub.mapper.BlogMapper">
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Blog">
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="release_date" jdbcType="TIMESTAMP" property="releaseDate" />
+    <result column="is_draft" jdbcType="BIT" property="isDraft" />
+    <result column="is_private" jdbcType="BIT" property="isPrivate" />
+    <result column="is_top" jdbcType="BIT" property="isTop" />
+    <result column="category" jdbcType="INTEGER" property="category" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="views" jdbcType="INTEGER" property="views" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="TEXT" property="content" />
+    <result column="summary" jdbcType="TEXT" property="summary" />
+    <result column="graph_addr" jdbcType="VARCHAR" property="graphAddr" />
+    <result column="file_addr" jdbcType="VARCHAR" property="fileAddr" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    blog_id, role_id, course_id, release_date, is_draft, is_private, is_top, category, 
+    status, views, title, content, summary, graph_addr, file_addr
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Blog">
+    insert into blog (blog_id, role_id, course_id, 
+      release_date, is_draft, is_private, 
+      is_top, category, status, 
+      views, title, content, 
+      summary, graph_addr, file_addr
+      )
+    values (#{blogId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{courseId,jdbcType=VARCHAR}, 
+      #{releaseDate,jdbcType=TIMESTAMP}, #{isDraft,jdbcType=BIT}, #{isPrivate,jdbcType=BIT}, 
+      #{isTop,jdbcType=BIT}, #{category,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{views,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=TEXT}, 
+      #{summary,jdbcType=TEXT}, #{graphAddr,jdbcType=VARCHAR}, #{fileAddr,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Blog">
+    insert into blog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="releaseDate != null">
+        release_date,
+      </if>
+      <if test="isDraft != null">
+        is_draft,
+      </if>
+      <if test="isPrivate != null">
+        is_private,
+      </if>
+      <if test="isTop != null">
+        is_top,
+      </if>
+      <if test="category != null">
+        category,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="views != null">
+        views,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="graphAddr != null">
+        graph_addr,
+      </if>
+      <if test="fileAddr != null">
+        file_addr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseDate != null">
+        #{releaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDraft != null">
+        #{isDraft,jdbcType=BIT},
+      </if>
+      <if test="isPrivate != null">
+        #{isPrivate,jdbcType=BIT},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=BIT},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="views != null">
+        #{views,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=TEXT},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=TEXT},
+      </if>
+      <if test="graphAddr != null">
+        #{graphAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="fileAddr != null">
+        #{fileAddr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Blog">
+    update blog
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseDate != null">
+        release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDraft != null">
+        is_draft = #{isDraft,jdbcType=BIT},
+      </if>
+      <if test="isPrivate != null">
+        is_private = #{isPrivate,jdbcType=BIT},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=BIT},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="views != null">
+        views = #{views,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=TEXT},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=TEXT},
+      </if>
+      <if test="graphAddr != null">
+        graph_addr = #{graphAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="fileAddr != null">
+        file_addr = #{fileAddr,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Blog">
+    update blog
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      is_draft = #{isDraft,jdbcType=BIT},
+      is_private = #{isPrivate,jdbcType=BIT},
+      is_top = #{isTop,jdbcType=BIT},
+      category = #{category,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      views = #{views,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=TEXT},
+      summary = #{summary,jdbcType=TEXT},
+      graph_addr = #{graphAddr,jdbcType=VARCHAR},
+      file_addr = #{fileAddr,jdbcType=VARCHAR}
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Blog">
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="release_date" jdbcType="TIMESTAMP" property="releaseDate" />
+    <result column="is_draft" jdbcType="BIT" property="isDraft" />
+    <result column="is_private" jdbcType="BIT" property="isPrivate" />
+    <result column="is_top" jdbcType="BIT" property="isTop" />
+    <result column="category" jdbcType="INTEGER" property="category" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="views" jdbcType="INTEGER" property="views" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="graph_addr" jdbcType="VARCHAR" property="graphAddr" />
+    <result column="file_addr" jdbcType="VARCHAR" property="fileAddr" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xjtuhub.entity.BlogWithBLOBs">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="summary" jdbcType="LONGVARCHAR" property="summary" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    blog_id, role_id, course_id, release_date, is_draft, is_private, is_top, category, 
+    status, views, title, graph_addr, file_addr
+  </sql>
+  <sql id="Blob_Column_List">
+    content, summary
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.BlogWithBLOBs">
+    insert into blog (blog_id, role_id, course_id, 
+      release_date, is_draft, is_private, 
+      is_top, category, status, 
+      views, title, graph_addr, 
+      file_addr, content, summary
+      )
+    values (#{blogId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{courseId,jdbcType=VARCHAR}, 
+      #{releaseDate,jdbcType=TIMESTAMP}, #{isDraft,jdbcType=BIT}, #{isPrivate,jdbcType=BIT}, 
+      #{isTop,jdbcType=BIT}, #{category,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{views,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{graphAddr,jdbcType=VARCHAR}, 
+      #{fileAddr,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{summary,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.BlogWithBLOBs">
+    insert into blog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="releaseDate != null">
+        release_date,
+      </if>
+      <if test="isDraft != null">
+        is_draft,
+      </if>
+      <if test="isPrivate != null">
+        is_private,
+      </if>
+      <if test="isTop != null">
+        is_top,
+      </if>
+      <if test="category != null">
+        category,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="views != null">
+        views,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="graphAddr != null">
+        graph_addr,
+      </if>
+      <if test="fileAddr != null">
+        file_addr,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseDate != null">
+        #{releaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDraft != null">
+        #{isDraft,jdbcType=BIT},
+      </if>
+      <if test="isPrivate != null">
+        #{isPrivate,jdbcType=BIT},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=BIT},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="views != null">
+        #{views,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="graphAddr != null">
+        #{graphAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="fileAddr != null">
+        #{fileAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.BlogWithBLOBs">
+    update blog
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseDate != null">
+        release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDraft != null">
+        is_draft = #{isDraft,jdbcType=BIT},
+      </if>
+      <if test="isPrivate != null">
+        is_private = #{isPrivate,jdbcType=BIT},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=BIT},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="views != null">
+        views = #{views,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="graphAddr != null">
+        graph_addr = #{graphAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="fileAddr != null">
+        file_addr = #{fileAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xjtuhub.entity.BlogWithBLOBs">
+    update blog
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      is_draft = #{isDraft,jdbcType=BIT},
+      is_private = #{isPrivate,jdbcType=BIT},
+      is_top = #{isTop,jdbcType=BIT},
+      category = #{category,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      views = #{views,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      graph_addr = #{graphAddr,jdbcType=VARCHAR},
+      file_addr = #{fileAddr,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      summary = #{summary,jdbcType=LONGVARCHAR}
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Blog">
+    update blog
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      is_draft = #{isDraft,jdbcType=BIT},
+      is_private = #{isPrivate,jdbcType=BIT},
+      is_top = #{isTop,jdbcType=BIT},
+      category = #{category,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      views = #{views,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      graph_addr = #{graphAddr,jdbcType=VARCHAR},
+      file_addr = #{fileAddr,jdbcType=VARCHAR}
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Blog">
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="release_date" jdbcType="TIMESTAMP" property="releaseDate" />
+    <result column="is_draft" jdbcType="BIT" property="isDraft" />
+    <result column="is_private" jdbcType="BIT" property="isPrivate" />
+    <result column="is_top" jdbcType="BIT" property="isTop" />
+    <result column="category" jdbcType="INTEGER" property="category" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="views" jdbcType="INTEGER" property="views" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="graph_addr" jdbcType="VARCHAR" property="graphAddr" />
+    <result column="file_addr" jdbcType="VARCHAR" property="fileAddr" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xjtuhub.entity.BlogWithBLOBs">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="abstract" jdbcType="LONGVARCHAR" property="abstract" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    blog_id, role_id, course_id, release_date, is_draft, is_private, is_top, category, 
+    status, views, title, graph_addr, file_addr
+  </sql>
+  <sql id="Blob_Column_List">
+    content, abstract
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.BlogWithBLOBs">
+    insert into blog (blog_id, role_id, course_id, 
+      release_date, is_draft, is_private, 
+      is_top, category, status, 
+      views, title, graph_addr, 
+      file_addr, content, abstract
+      )
+    values (#{blogId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{courseId,jdbcType=VARCHAR}, 
+      #{releaseDate,jdbcType=TIMESTAMP}, #{isDraft,jdbcType=BIT}, #{isPrivate,jdbcType=BIT}, 
+      #{isTop,jdbcType=BIT}, #{category,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{views,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{graphAddr,jdbcType=VARCHAR}, 
+      #{fileAddr,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{abstract,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.BlogWithBLOBs">
+    insert into blog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="releaseDate != null">
+        release_date,
+      </if>
+      <if test="isDraft != null">
+        is_draft,
+      </if>
+      <if test="isPrivate != null">
+        is_private,
+      </if>
+      <if test="isTop != null">
+        is_top,
+      </if>
+      <if test="category != null">
+        category,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="views != null">
+        views,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="graphAddr != null">
+        graph_addr,
+      </if>
+      <if test="fileAddr != null">
+        file_addr,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="abstract != null">
+        abstract,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseDate != null">
+        #{releaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDraft != null">
+        #{isDraft,jdbcType=BIT},
+      </if>
+      <if test="isPrivate != null">
+        #{isPrivate,jdbcType=BIT},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=BIT},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="views != null">
+        #{views,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="graphAddr != null">
+        #{graphAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="fileAddr != null">
+        #{fileAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="abstract != null">
+        #{abstract,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.BlogWithBLOBs">
+    update blog
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseDate != null">
+        release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDraft != null">
+        is_draft = #{isDraft,jdbcType=BIT},
+      </if>
+      <if test="isPrivate != null">
+        is_private = #{isPrivate,jdbcType=BIT},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=BIT},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="views != null">
+        views = #{views,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="graphAddr != null">
+        graph_addr = #{graphAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="fileAddr != null">
+        file_addr = #{fileAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="abstract != null">
+        abstract = #{abstract,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xjtuhub.entity.BlogWithBLOBs">
+    update blog
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      is_draft = #{isDraft,jdbcType=BIT},
+      is_private = #{isPrivate,jdbcType=BIT},
+      is_top = #{isTop,jdbcType=BIT},
+      category = #{category,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      views = #{views,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      graph_addr = #{graphAddr,jdbcType=VARCHAR},
+      file_addr = #{fileAddr,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      abstract = #{abstract,jdbcType=LONGVARCHAR}
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Blog">
+    update blog
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      is_draft = #{isDraft,jdbcType=BIT},
+      is_private = #{isPrivate,jdbcType=BIT},
+      is_top = #{isTop,jdbcType=BIT},
+      category = #{category,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      views = #{views,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      graph_addr = #{graphAddr,jdbcType=VARCHAR},
+      file_addr = #{fileAddr,jdbcType=VARCHAR}
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Blog">
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="release_date" jdbcType="TIMESTAMP" property="releaseDate" />
+    <result column="is_draft" jdbcType="BIT" property="isDraft" />
+    <result column="is_private" jdbcType="BIT" property="isPrivate" />
+    <result column="is_top" jdbcType="BIT" property="isTop" />
+    <result column="category" jdbcType="INTEGER" property="category" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="views" jdbcType="INTEGER" property="views" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="graph_addr" jdbcType="VARCHAR" property="graphAddr" />
+    <result column="file_addr" jdbcType="VARCHAR" property="fileAddr" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xjtuhub.entity.Blog">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    blog_id, role_id, course_id, release_date, is_draft, is_private, is_top, category, 
+    status, views, title, graph_addr, file_addr
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+
+  <select id="selectBlogList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from blog
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Blog">
+    insert into blog (blog_id, role_id, course_id, 
+      release_date, is_draft, is_private, 
+      is_top, category, status, 
+      views, title, graph_addr, 
+      file_addr, content)
+    values (#{blogId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{courseId,jdbcType=VARCHAR}, 
+      #{releaseDate,jdbcType=TIMESTAMP}, #{isDraft,jdbcType=BIT}, #{isPrivate,jdbcType=BIT}, 
+      #{isTop,jdbcType=BIT}, #{category,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{views,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{graphAddr,jdbcType=VARCHAR}, 
+      #{fileAddr,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Blog">
+    insert into blog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="releaseDate != null">
+        release_date,
+      </if>
+      <if test="isDraft != null">
+        is_draft,
+      </if>
+      <if test="isPrivate != null">
+        is_private,
+      </if>
+      <if test="isTop != null">
+        is_top,
+      </if>
+      <if test="category != null">
+        category,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="views != null">
+        views,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="graphAddr != null">
+        graph_addr,
+      </if>
+      <if test="fileAddr != null">
+        file_addr,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseDate != null">
+        #{releaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDraft != null">
+        #{isDraft,jdbcType=BIT},
+      </if>
+      <if test="isPrivate != null">
+        #{isPrivate,jdbcType=BIT},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=BIT},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="views != null">
+        #{views,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="graphAddr != null">
+        #{graphAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="fileAddr != null">
+        #{fileAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Blog">
+    update blog
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseDate != null">
+        release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDraft != null">
+        is_draft = #{isDraft,jdbcType=BIT},
+      </if>
+      <if test="isPrivate != null">
+        is_private = #{isPrivate,jdbcType=BIT},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=BIT},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="views != null">
+        views = #{views,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="graphAddr != null">
+        graph_addr = #{graphAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="fileAddr != null">
+        file_addr = #{fileAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xjtuhub.entity.Blog">
+    update blog
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      is_draft = #{isDraft,jdbcType=BIT},
+      is_private = #{isPrivate,jdbcType=BIT},
+      is_top = #{isTop,jdbcType=BIT},
+      category = #{category,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      views = #{views,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      graph_addr = #{graphAddr,jdbcType=VARCHAR},
+      file_addr = #{fileAddr,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Blog">
+    update blog
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      release_date = #{releaseDate,jdbcType=TIMESTAMP},
+      is_draft = #{isDraft,jdbcType=BIT},
+      is_private = #{isPrivate,jdbcType=BIT},
+      is_top = #{isTop,jdbcType=BIT},
+      category = #{category,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      views = #{views,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      graph_addr = #{graphAddr,jdbcType=VARCHAR},
+      file_addr = #{fileAddr,jdbcType=VARCHAR}
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+</mapper>

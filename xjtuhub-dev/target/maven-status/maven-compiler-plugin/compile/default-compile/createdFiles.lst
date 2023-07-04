@@ -1,12 +1,7 @@
 com\xjtuhub\common\result\ResponseStatusEnum.class
 com\xjtuhub\controller\RoleController.class
-com\xjtuhub\controller\HelloController.class
-com\xjtuhub\common\RedisOperator.class
-com\xjtuhub\XJTUhubApplication.class
-com\xjtuhub\service\api\RoleServiceApi.class
-com\xjtuhub\common\RedisOperator$1.class
-com\xjtuhub\common\mail\MailSender.class
-com\xjtuhub\entity\Role.class
-com\xjtuhub\service\impl\RoleService.class
 com\xjtuhub\common\result\JSONResult.class
 com\xjtuhub\mapper\RoleMapper.class
+com\xjtuhub\XJTUhubApplication.class
+com\xjtuhub\entity\Role.class
+com\xjtuhub\service\impl\RoleService.class

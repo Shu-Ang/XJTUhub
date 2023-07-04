@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjtuhub.mapper.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Comment">
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="parent_comment" jdbcType="INTEGER" property="parentComment" />
+    <result column="comment_date" jdbcType="TIMESTAMP" property="commentDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xjtuhub.entity.Comment">
+    <result column="comment_content" jdbcType="LONGVARCHAR" property="commentContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    comment_id, blog_id, role_id, parent_comment, comment_date
+  </sql>
+  <sql id="Blob_Column_List">
+    comment_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Comment">
+    insert into comment (comment_id, blog_id, role_id, 
+      parent_comment, comment_date, comment_content
+      )
+    values (#{commentId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, 
+      #{parentComment,jdbcType=INTEGER}, #{commentDate,jdbcType=TIMESTAMP}, #{commentContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Comment">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="parentComment != null">
+        parent_comment,
+      </if>
+      <if test="commentDate != null">
+        comment_date,
+      </if>
+      <if test="commentContent != null">
+        comment_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentComment != null">
+        #{parentComment,jdbcType=INTEGER},
+      </if>
+      <if test="commentDate != null">
+        #{commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentContent != null">
+        #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Comment">
+    update comment
+    <set>
+      <if test="blogId != null">
+        blog_id = #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentComment != null">
+        parent_comment = #{parentComment,jdbcType=INTEGER},
+      </if>
+      <if test="commentDate != null">
+        comment_date = #{commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentContent != null">
+        comment_content = #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xjtuhub.entity.Comment">
+    update comment
+    set blog_id = #{blogId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      parent_comment = #{parentComment,jdbcType=INTEGER},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP},
+      comment_content = #{commentContent,jdbcType=LONGVARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Comment">
+    update comment
+    set blog_id = #{blogId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      parent_comment = #{parentComment,jdbcType=INTEGER},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Comment">
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="parent_comment" jdbcType="INTEGER" property="parentComment" />
+    <result column="comment_date" jdbcType="TIMESTAMP" property="commentDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xjtuhub.entity.Comment">
+    <result column="comment_content" jdbcType="LONGVARCHAR" property="commentContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    comment_id, blog_id, role_id, parent_comment, comment_date
+  </sql>
+  <sql id="Blob_Column_List">
+    comment_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Comment">
+    insert into comment (comment_id, blog_id, role_id, 
+      parent_comment, comment_date, comment_content
+      )
+    values (#{commentId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, 
+      #{parentComment,jdbcType=INTEGER}, #{commentDate,jdbcType=TIMESTAMP}, #{commentContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Comment">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="parentComment != null">
+        parent_comment,
+      </if>
+      <if test="commentDate != null">
+        comment_date,
+      </if>
+      <if test="commentContent != null">
+        comment_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentComment != null">
+        #{parentComment,jdbcType=INTEGER},
+      </if>
+      <if test="commentDate != null">
+        #{commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentContent != null">
+        #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Comment">
+    update comment
+    <set>
+      <if test="blogId != null">
+        blog_id = #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentComment != null">
+        parent_comment = #{parentComment,jdbcType=INTEGER},
+      </if>
+      <if test="commentDate != null">
+        comment_date = #{commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentContent != null">
+        comment_content = #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xjtuhub.entity.Comment">
+    update comment
+    set blog_id = #{blogId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      parent_comment = #{parentComment,jdbcType=INTEGER},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP},
+      comment_content = #{commentContent,jdbcType=LONGVARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Comment">
+    update comment
+    set blog_id = #{blogId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      parent_comment = #{parentComment,jdbcType=INTEGER},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Comment">
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="parent_comment" jdbcType="INTEGER" property="parentComment" />
+    <result column="comment_date" jdbcType="TIMESTAMP" property="commentDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xjtuhub.entity.Comment">
+    <result column="comment_content" jdbcType="LONGVARCHAR" property="commentContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    comment_id, blog_id, role_id, parent_comment, comment_date
+  </sql>
+  <sql id="Blob_Column_List">
+    comment_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Comment">
+    insert into comment (comment_id, blog_id, role_id, 
+      parent_comment, comment_date, comment_content
+      )
+    values (#{commentId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, 
+      #{parentComment,jdbcType=INTEGER}, #{commentDate,jdbcType=TIMESTAMP}, #{commentContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Comment">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="parentComment != null">
+        parent_comment,
+      </if>
+      <if test="commentDate != null">
+        comment_date,
+      </if>
+      <if test="commentContent != null">
+        comment_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentComment != null">
+        #{parentComment,jdbcType=INTEGER},
+      </if>
+      <if test="commentDate != null">
+        #{commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentContent != null">
+        #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Comment">
+    update comment
+    <set>
+      <if test="blogId != null">
+        blog_id = #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentComment != null">
+        parent_comment = #{parentComment,jdbcType=INTEGER},
+      </if>
+      <if test="commentDate != null">
+        comment_date = #{commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentContent != null">
+        comment_content = #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xjtuhub.entity.Comment">
+    update comment
+    set blog_id = #{blogId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      parent_comment = #{parentComment,jdbcType=INTEGER},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP},
+      comment_content = #{commentContent,jdbcType=LONGVARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Comment">
+    update comment
+    set blog_id = #{blogId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      parent_comment = #{parentComment,jdbcType=INTEGER},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Comment">
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="parent_comment" jdbcType="INTEGER" property="parentComment" />
+    <result column="comment_date" jdbcType="TIMESTAMP" property="commentDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xjtuhub.entity.Comment">
+    <result column="comment_content" jdbcType="LONGVARCHAR" property="commentContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    comment_id, blog_id, role_id, parent_comment, comment_date
+  </sql>
+  <sql id="Blob_Column_List">
+    comment_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Comment">
+    insert into comment (comment_id, blog_id, role_id, 
+      parent_comment, comment_date, comment_content
+      )
+    values (#{commentId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, 
+      #{parentComment,jdbcType=INTEGER}, #{commentDate,jdbcType=TIMESTAMP}, #{commentContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Comment">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="parentComment != null">
+        parent_comment,
+      </if>
+      <if test="commentDate != null">
+        comment_date,
+      </if>
+      <if test="commentContent != null">
+        comment_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentComment != null">
+        #{parentComment,jdbcType=INTEGER},
+      </if>
+      <if test="commentDate != null">
+        #{commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentContent != null">
+        #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Comment">
+    update comment
+    <set>
+      <if test="blogId != null">
+        blog_id = #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentComment != null">
+        parent_comment = #{parentComment,jdbcType=INTEGER},
+      </if>
+      <if test="commentDate != null">
+        comment_date = #{commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentContent != null">
+        comment_content = #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xjtuhub.entity.Comment">
+    update comment
+    set blog_id = #{blogId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      parent_comment = #{parentComment,jdbcType=INTEGER},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP},
+      comment_content = #{commentContent,jdbcType=LONGVARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Comment">
+    update comment
+    set blog_id = #{blogId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      parent_comment = #{parentComment,jdbcType=INTEGER},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+</mapper>

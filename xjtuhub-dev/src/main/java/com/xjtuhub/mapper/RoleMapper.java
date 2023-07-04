@@ -2,6 +2,8 @@ package com.xjtuhub.mapper;
 
 import com.xjtuhub.entity.Role;
 
+import java.util.List;
+
 public interface RoleMapper {
     int deleteByPrimaryKey(String roleId);
 
@@ -14,4 +16,6 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+
+    List<Role> selectRoleList();
 }

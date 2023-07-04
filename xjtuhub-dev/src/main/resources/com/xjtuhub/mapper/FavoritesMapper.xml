@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjtuhub.mapper.FavoritesMapper">
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Favorites">
+    <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="favorite_name" jdbcType="VARCHAR" property="favoriteName" />
+    <result column="is_private" jdbcType="BIT" property="isPrivate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    favorite_id, role_id, favorite_name, is_private
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from favorites
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from favorites
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Favorites">
+    insert into favorites (favorite_id, role_id, favorite_name, 
+      is_private)
+    values (#{favoriteId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{favoriteName,jdbcType=VARCHAR}, 
+      #{isPrivate,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Favorites">
+    insert into favorites
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        favorite_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="favoriteName != null">
+        favorite_name,
+      </if>
+      <if test="isPrivate != null">
+        is_private,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        #{favoriteId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="favoriteName != null">
+        #{favoriteName,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrivate != null">
+        #{isPrivate,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Favorites">
+    update favorites
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="favoriteName != null">
+        favorite_name = #{favoriteName,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrivate != null">
+        is_private = #{isPrivate,jdbcType=BIT},
+      </if>
+    </set>
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Favorites">
+    update favorites
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      favorite_name = #{favoriteName,jdbcType=VARCHAR},
+      is_private = #{isPrivate,jdbcType=BIT}
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Favorites">
+    <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="favorite_name" jdbcType="VARCHAR" property="favoriteName" />
+    <result column="is_private" jdbcType="BIT" property="isPrivate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    favorite_id, role_id, favorite_name, is_private
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from favorites
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from favorites
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Favorites">
+    insert into favorites (favorite_id, role_id, favorite_name, 
+      is_private)
+    values (#{favoriteId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{favoriteName,jdbcType=VARCHAR}, 
+      #{isPrivate,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Favorites">
+    insert into favorites
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        favorite_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="favoriteName != null">
+        favorite_name,
+      </if>
+      <if test="isPrivate != null">
+        is_private,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        #{favoriteId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="favoriteName != null">
+        #{favoriteName,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrivate != null">
+        #{isPrivate,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Favorites">
+    update favorites
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="favoriteName != null">
+        favorite_name = #{favoriteName,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrivate != null">
+        is_private = #{isPrivate,jdbcType=BIT},
+      </if>
+    </set>
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Favorites">
+    update favorites
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      favorite_name = #{favoriteName,jdbcType=VARCHAR},
+      is_private = #{isPrivate,jdbcType=BIT}
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Favorites">
+    <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="favorite_name" jdbcType="VARCHAR" property="favoriteName" />
+    <result column="is_private" jdbcType="BIT" property="isPrivate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    favorite_id, role_id, favorite_name, is_private
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from favorites
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from favorites
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Favorites">
+    insert into favorites (favorite_id, role_id, favorite_name, 
+      is_private)
+    values (#{favoriteId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{favoriteName,jdbcType=VARCHAR}, 
+      #{isPrivate,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Favorites">
+    insert into favorites
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        favorite_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="favoriteName != null">
+        favorite_name,
+      </if>
+      <if test="isPrivate != null">
+        is_private,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        #{favoriteId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="favoriteName != null">
+        #{favoriteName,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrivate != null">
+        #{isPrivate,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Favorites">
+    update favorites
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="favoriteName != null">
+        favorite_name = #{favoriteName,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrivate != null">
+        is_private = #{isPrivate,jdbcType=BIT},
+      </if>
+    </set>
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Favorites">
+    update favorites
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      favorite_name = #{favoriteName,jdbcType=VARCHAR},
+      is_private = #{isPrivate,jdbcType=BIT}
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Favorites">
+    <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="favorite_name" jdbcType="VARCHAR" property="favoriteName" />
+    <result column="is_private" jdbcType="BIT" property="isPrivate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    favorite_id, role_id, favorite_name, is_private
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from favorites
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from favorites
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Favorites">
+    insert into favorites (favorite_id, role_id, favorite_name, 
+      is_private)
+    values (#{favoriteId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{favoriteName,jdbcType=VARCHAR}, 
+      #{isPrivate,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Favorites">
+    insert into favorites
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        favorite_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="favoriteName != null">
+        favorite_name,
+      </if>
+      <if test="isPrivate != null">
+        is_private,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        #{favoriteId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="favoriteName != null">
+        #{favoriteName,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrivate != null">
+        #{isPrivate,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Favorites">
+    update favorites
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="favoriteName != null">
+        favorite_name = #{favoriteName,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrivate != null">
+        is_private = #{isPrivate,jdbcType=BIT},
+      </if>
+    </set>
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Favorites">
+    update favorites
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      favorite_name = #{favoriteName,jdbcType=VARCHAR},
+      is_private = #{isPrivate,jdbcType=BIT}
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+  </update>
+</mapper>

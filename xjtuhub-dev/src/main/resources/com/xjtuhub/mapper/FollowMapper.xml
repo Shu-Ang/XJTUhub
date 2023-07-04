@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjtuhub.mapper.FollowMapper">
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Follow">
+    <id column="follow_id" jdbcType="INTEGER" property="followId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="writer_id" jdbcType="VARCHAR" property="writerId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    follow_id, role_id, writer_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from follow
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from follow
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Follow">
+    insert into follow (follow_id, role_id, writer_id
+      )
+    values (#{followId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{writerId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Follow">
+    insert into follow
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="followId != null">
+        follow_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="writerId != null">
+        writer_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="followId != null">
+        #{followId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="writerId != null">
+        #{writerId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Follow">
+    update follow
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="writerId != null">
+        writer_id = #{writerId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Follow">
+    update follow
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      writer_id = #{writerId,jdbcType=VARCHAR}
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Follow">
+    <id column="follow_id" jdbcType="INTEGER" property="followId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="writer_id" jdbcType="VARCHAR" property="writerId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    follow_id, role_id, writer_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from follow
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from follow
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Follow">
+    insert into follow (follow_id, role_id, writer_id
+      )
+    values (#{followId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{writerId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Follow">
+    insert into follow
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="followId != null">
+        follow_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="writerId != null">
+        writer_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="followId != null">
+        #{followId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="writerId != null">
+        #{writerId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Follow">
+    update follow
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="writerId != null">
+        writer_id = #{writerId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Follow">
+    update follow
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      writer_id = #{writerId,jdbcType=VARCHAR}
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Follow">
+    <id column="follow_id" jdbcType="INTEGER" property="followId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="writer_id" jdbcType="VARCHAR" property="writerId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    follow_id, role_id, writer_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from follow
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from follow
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Follow">
+    insert into follow (follow_id, role_id, writer_id
+      )
+    values (#{followId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{writerId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Follow">
+    insert into follow
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="followId != null">
+        follow_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="writerId != null">
+        writer_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="followId != null">
+        #{followId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="writerId != null">
+        #{writerId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Follow">
+    update follow
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="writerId != null">
+        writer_id = #{writerId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Follow">
+    update follow
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      writer_id = #{writerId,jdbcType=VARCHAR}
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Follow">
+    <id column="follow_id" jdbcType="INTEGER" property="followId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="writer_id" jdbcType="VARCHAR" property="writerId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    follow_id, role_id, writer_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from follow
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from follow
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Follow">
+    insert into follow (follow_id, role_id, writer_id
+      )
+    values (#{followId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{writerId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Follow">
+    insert into follow
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="followId != null">
+        follow_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="writerId != null">
+        writer_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="followId != null">
+        #{followId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="writerId != null">
+        #{writerId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Follow">
+    update follow
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="writerId != null">
+        writer_id = #{writerId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Follow">
+    update follow
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      writer_id = #{writerId,jdbcType=VARCHAR}
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </update>
+</mapper>

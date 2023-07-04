@@ -6,6 +6,8 @@ import com.xjtuhub.service.RoleServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoleService implements RoleServiceApi {
 
@@ -46,6 +48,11 @@ public class RoleService implements RoleServiceApi {
     @Override
     public int deleteRole(String roleId) {
         return roleMapper.deleteByPrimaryKey(roleId);
+    }
+
+    @Override
+    public List<Role> findRoleList() {
+        return roleMapper.selectRoleList();
     }
 
 }

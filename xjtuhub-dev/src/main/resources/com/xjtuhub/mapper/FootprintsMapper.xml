@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjtuhub.mapper.FootprintsMapper">
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Footprints">
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="view_date" jdbcType="TIMESTAMP" property="viewDate" />
+  </resultMap>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Footprints">
+    insert into footprints (role_id, blog_id, view_date
+      )
+    values (#{roleId,jdbcType=VARCHAR}, #{blogId,jdbcType=INTEGER}, #{viewDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Footprints">
+    insert into footprints
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="viewDate != null">
+        view_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="viewDate != null">
+        #{viewDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Footprints">
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="view_date" jdbcType="TIMESTAMP" property="viewDate" />
+  </resultMap>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Footprints">
+    insert into footprints (role_id, blog_id, view_date
+      )
+    values (#{roleId,jdbcType=VARCHAR}, #{blogId,jdbcType=INTEGER}, #{viewDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Footprints">
+    insert into footprints
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="viewDate != null">
+        view_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="viewDate != null">
+        #{viewDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Footprints">
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="view_date" jdbcType="TIMESTAMP" property="viewDate" />
+  </resultMap>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Footprints">
+    insert into footprints (role_id, blog_id, view_date
+      )
+    values (#{roleId,jdbcType=VARCHAR}, #{blogId,jdbcType=INTEGER}, #{viewDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Footprints">
+    insert into footprints
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="viewDate != null">
+        view_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="viewDate != null">
+        #{viewDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Footprints">
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="view_date" jdbcType="TIMESTAMP" property="viewDate" />
+  </resultMap>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Footprints">
+    insert into footprints (role_id, blog_id, view_date
+      )
+    values (#{roleId,jdbcType=VARCHAR}, #{blogId,jdbcType=INTEGER}, #{viewDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Footprints">
+    insert into footprints
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="viewDate != null">
+        view_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="viewDate != null">
+        #{viewDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

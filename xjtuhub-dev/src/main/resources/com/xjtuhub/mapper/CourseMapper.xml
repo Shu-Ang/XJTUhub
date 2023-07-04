@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjtuhub.mapper.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Course">
+    <id column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="major_id" jdbcType="INTEGER" property="majorId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="credit" jdbcType="DECIMAL" property="credit" />
+    <result column="period" jdbcType="INTEGER" property="period" />
+    <result column="term" jdbcType="VARCHAR" property="term" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    course_id, major_id, course_name, credit, period, term
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from course
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Course">
+    insert into course (course_id, major_id, course_name, 
+      credit, period, term
+      )
+    values (#{courseId,jdbcType=VARCHAR}, #{majorId,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR}, 
+      #{credit,jdbcType=DECIMAL}, #{period,jdbcType=INTEGER}, #{term,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Course">
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="majorId != null">
+        major_id,
+      </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
+      <if test="credit != null">
+        credit,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="term != null">
+        term,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null">
+        #{majorId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="credit != null">
+        #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=INTEGER},
+      </if>
+      <if test="term != null">
+        #{term,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Course">
+    update course
+    <set>
+      <if test="majorId != null">
+        major_id = #{majorId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="credit != null">
+        credit = #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=INTEGER},
+      </if>
+      <if test="term != null">
+        term = #{term,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Course">
+    update course
+    set major_id = #{majorId,jdbcType=INTEGER},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      credit = #{credit,jdbcType=DECIMAL},
+      period = #{period,jdbcType=INTEGER},
+      term = #{term,jdbcType=VARCHAR}
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Course">
+    <id column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="major_id" jdbcType="INTEGER" property="majorId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="credit" jdbcType="DECIMAL" property="credit" />
+    <result column="period" jdbcType="INTEGER" property="period" />
+    <result column="term" jdbcType="VARCHAR" property="term" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    course_id, major_id, course_name, credit, period, term
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from course
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Course">
+    insert into course (course_id, major_id, course_name, 
+      credit, period, term
+      )
+    values (#{courseId,jdbcType=VARCHAR}, #{majorId,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR}, 
+      #{credit,jdbcType=DECIMAL}, #{period,jdbcType=INTEGER}, #{term,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Course">
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="majorId != null">
+        major_id,
+      </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
+      <if test="credit != null">
+        credit,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="term != null">
+        term,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null">
+        #{majorId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="credit != null">
+        #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=INTEGER},
+      </if>
+      <if test="term != null">
+        #{term,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Course">
+    update course
+    <set>
+      <if test="majorId != null">
+        major_id = #{majorId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="credit != null">
+        credit = #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=INTEGER},
+      </if>
+      <if test="term != null">
+        term = #{term,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Course">
+    update course
+    set major_id = #{majorId,jdbcType=INTEGER},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      credit = #{credit,jdbcType=DECIMAL},
+      period = #{period,jdbcType=INTEGER},
+      term = #{term,jdbcType=VARCHAR}
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Course">
+    <id column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="major_id" jdbcType="INTEGER" property="majorId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="credit" jdbcType="DECIMAL" property="credit" />
+    <result column="period" jdbcType="INTEGER" property="period" />
+    <result column="term" jdbcType="VARCHAR" property="term" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    course_id, major_id, course_name, credit, period, term
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from course
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Course">
+    insert into course (course_id, major_id, course_name, 
+      credit, period, term
+      )
+    values (#{courseId,jdbcType=VARCHAR}, #{majorId,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR}, 
+      #{credit,jdbcType=DECIMAL}, #{period,jdbcType=INTEGER}, #{term,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Course">
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="majorId != null">
+        major_id,
+      </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
+      <if test="credit != null">
+        credit,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="term != null">
+        term,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null">
+        #{majorId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="credit != null">
+        #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=INTEGER},
+      </if>
+      <if test="term != null">
+        #{term,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Course">
+    update course
+    <set>
+      <if test="majorId != null">
+        major_id = #{majorId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="credit != null">
+        credit = #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=INTEGER},
+      </if>
+      <if test="term != null">
+        term = #{term,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Course">
+    update course
+    set major_id = #{majorId,jdbcType=INTEGER},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      credit = #{credit,jdbcType=DECIMAL},
+      period = #{period,jdbcType=INTEGER},
+      term = #{term,jdbcType=VARCHAR}
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Course">
+    <id column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="major_id" jdbcType="INTEGER" property="majorId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="credit" jdbcType="DECIMAL" property="credit" />
+    <result column="period" jdbcType="INTEGER" property="period" />
+    <result column="term" jdbcType="VARCHAR" property="term" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    course_id, major_id, course_name, credit, period, term
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from course
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Course">
+    insert into course (course_id, major_id, course_name, 
+      credit, period, term
+      )
+    values (#{courseId,jdbcType=VARCHAR}, #{majorId,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR}, 
+      #{credit,jdbcType=DECIMAL}, #{period,jdbcType=INTEGER}, #{term,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Course">
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="majorId != null">
+        major_id,
+      </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
+      <if test="credit != null">
+        credit,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="term != null">
+        term,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null">
+        #{majorId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="credit != null">
+        #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=INTEGER},
+      </if>
+      <if test="term != null">
+        #{term,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Course">
+    update course
+    <set>
+      <if test="majorId != null">
+        major_id = #{majorId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="credit != null">
+        credit = #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=INTEGER},
+      </if>
+      <if test="term != null">
+        term = #{term,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Course">
+    update course
+    set major_id = #{majorId,jdbcType=INTEGER},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      credit = #{credit,jdbcType=DECIMAL},
+      period = #{period,jdbcType=INTEGER},
+      term = #{term,jdbcType=VARCHAR}
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </update>
+</mapper>

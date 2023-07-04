@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjtuhub.mapper.Favorites_relationMapper">
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Favorites_relationKey">
+    <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.xjtuhub.entity.Favorites_relationKey">
+    delete from favorites_relation
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+      and blog_id = #{blogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Favorites_relationKey">
+    insert into favorites_relation (favorite_id, blog_id)
+    values (#{favoriteId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Favorites_relationKey">
+    insert into favorites_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        favorite_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        #{favoriteId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Favorites_relationKey">
+    <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.xjtuhub.entity.Favorites_relationKey">
+    delete from favorites_relation
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+      and blog_id = #{blogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Favorites_relationKey">
+    insert into favorites_relation (favorite_id, blog_id)
+    values (#{favoriteId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Favorites_relationKey">
+    insert into favorites_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        favorite_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        #{favoriteId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Favorites_relationKey">
+    <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.xjtuhub.entity.Favorites_relationKey">
+    delete from favorites_relation
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+      and blog_id = #{blogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Favorites_relationKey">
+    insert into favorites_relation (favorite_id, blog_id)
+    values (#{favoriteId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Favorites_relationKey">
+    insert into favorites_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        favorite_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        #{favoriteId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Favorites_relationKey">
+    <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.xjtuhub.entity.Favorites_relationKey">
+    delete from favorites_relation
+    where favorite_id = #{favoriteId,jdbcType=INTEGER}
+      and blog_id = #{blogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Favorites_relationKey">
+    insert into favorites_relation (favorite_id, blog_id)
+    values (#{favoriteId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Favorites_relationKey">
+    insert into favorites_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        favorite_id,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="favoriteId != null">
+        #{favoriteId,jdbcType=INTEGER},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

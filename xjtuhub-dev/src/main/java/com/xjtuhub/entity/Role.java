@@ -5,7 +5,7 @@ import java.util.Date;
 public class Role {
     private String roleId;
 
-    private String face;
+    private String faceAddr;
 
     private String email;
 
@@ -25,12 +25,12 @@ public class Role {
         this.roleId = roleId == null ? null : roleId.trim();
     }
 
-    public String getFace() {
-        return face;
+    public String getFaceAddr() {
+        return faceAddr;
     }
 
-    public void setFace(String face) {
-        this.face = face == null ? null : face.trim();
+    public void setFaceAddr(String faceAddr) {
+        this.faceAddr = faceAddr == null ? null : faceAddr.trim();
     }
 
     public String getEmail() {

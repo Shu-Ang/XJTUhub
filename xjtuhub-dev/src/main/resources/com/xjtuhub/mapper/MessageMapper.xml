@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjtuhub.mapper.MessageMapper">
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Message">
+    <id column="message_id" jdbcType="INTEGER" property="messageId" />
+    <result column="sender_id" jdbcType="VARCHAR" property="senderId" />
+    <result column="receiver_id" jdbcType="VARCHAR" property="receiverId" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xjtuhub.entity.Message">
+    <result column="message_content" jdbcType="LONGVARCHAR" property="messageContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    message_id, sender_id, receiver_id, time
+  </sql>
+  <sql id="Blob_Column_List">
+    message_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Message">
+    insert into message (message_id, sender_id, receiver_id, 
+      time, message_content)
+    values (#{messageId,jdbcType=INTEGER}, #{senderId,jdbcType=VARCHAR}, #{receiverId,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{messageContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Message">
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        message_id,
+      </if>
+      <if test="senderId != null">
+        sender_id,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="messageContent != null">
+        message_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="senderId != null">
+        #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageContent != null">
+        #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Message">
+    update message
+    <set>
+      <if test="senderId != null">
+        sender_id = #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageContent != null">
+        message_content = #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xjtuhub.entity.Message">
+    update message
+    set sender_id = #{senderId,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      message_content = #{messageContent,jdbcType=LONGVARCHAR}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Message">
+    update message
+    set sender_id = #{senderId,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Message">
+    <id column="message_id" jdbcType="INTEGER" property="messageId" />
+    <result column="sender_id" jdbcType="VARCHAR" property="senderId" />
+    <result column="receiver_id" jdbcType="VARCHAR" property="receiverId" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xjtuhub.entity.Message">
+    <result column="message_content" jdbcType="LONGVARCHAR" property="messageContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    message_id, sender_id, receiver_id, time
+  </sql>
+  <sql id="Blob_Column_List">
+    message_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Message">
+    insert into message (message_id, sender_id, receiver_id, 
+      time, message_content)
+    values (#{messageId,jdbcType=INTEGER}, #{senderId,jdbcType=VARCHAR}, #{receiverId,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{messageContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Message">
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        message_id,
+      </if>
+      <if test="senderId != null">
+        sender_id,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="messageContent != null">
+        message_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="senderId != null">
+        #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageContent != null">
+        #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Message">
+    update message
+    <set>
+      <if test="senderId != null">
+        sender_id = #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageContent != null">
+        message_content = #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xjtuhub.entity.Message">
+    update message
+    set sender_id = #{senderId,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      message_content = #{messageContent,jdbcType=LONGVARCHAR}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Message">
+    update message
+    set sender_id = #{senderId,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Message">
+    <id column="message_id" jdbcType="INTEGER" property="messageId" />
+    <result column="sender_id" jdbcType="VARCHAR" property="senderId" />
+    <result column="receiver_id" jdbcType="VARCHAR" property="receiverId" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xjtuhub.entity.Message">
+    <result column="message_content" jdbcType="LONGVARCHAR" property="messageContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    message_id, sender_id, receiver_id, time
+  </sql>
+  <sql id="Blob_Column_List">
+    message_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Message">
+    insert into message (message_id, sender_id, receiver_id, 
+      time, message_content)
+    values (#{messageId,jdbcType=INTEGER}, #{senderId,jdbcType=VARCHAR}, #{receiverId,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{messageContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Message">
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        message_id,
+      </if>
+      <if test="senderId != null">
+        sender_id,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="messageContent != null">
+        message_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="senderId != null">
+        #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageContent != null">
+        #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Message">
+    update message
+    <set>
+      <if test="senderId != null">
+        sender_id = #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageContent != null">
+        message_content = #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xjtuhub.entity.Message">
+    update message
+    set sender_id = #{senderId,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      message_content = #{messageContent,jdbcType=LONGVARCHAR}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Message">
+    update message
+    set sender_id = #{senderId,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Message">
+    <id column="message_id" jdbcType="INTEGER" property="messageId" />
+    <result column="sender_id" jdbcType="VARCHAR" property="senderId" />
+    <result column="receiver_id" jdbcType="VARCHAR" property="receiverId" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xjtuhub.entity.Message">
+    <result column="message_content" jdbcType="LONGVARCHAR" property="messageContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    message_id, sender_id, receiver_id, time
+  </sql>
+  <sql id="Blob_Column_List">
+    message_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xjtuhub.entity.Message">
+    insert into message (message_id, sender_id, receiver_id, 
+      time, message_content)
+    values (#{messageId,jdbcType=INTEGER}, #{senderId,jdbcType=VARCHAR}, #{receiverId,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{messageContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtuhub.entity.Message">
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        message_id,
+      </if>
+      <if test="senderId != null">
+        sender_id,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="messageContent != null">
+        message_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="senderId != null">
+        #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageContent != null">
+        #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Message">
+    update message
+    <set>
+      <if test="senderId != null">
+        sender_id = #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageContent != null">
+        message_content = #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xjtuhub.entity.Message">
+    update message
+    set sender_id = #{senderId,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      message_content = #{messageContent,jdbcType=LONGVARCHAR}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Message">
+    update message
+    set sender_id = #{senderId,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+</mapper>
