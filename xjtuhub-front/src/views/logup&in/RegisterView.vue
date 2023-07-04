@@ -31,7 +31,7 @@
                 <el-form-item>
                     <div style="text-align: justify; width: 360px; margin: 12px auto 0px">
                         <el-button type="primary" size="large" style="width: 200px"
-                            @click="submitForm(ruleFormRef)">注册</el-button>
+                            @click="register()">注册</el-button>
                     </div>
                     <div style="text-align: justify; width: 360px; margin: 10px auto 0px">
                         <RouterLink to="/login"><el-button type="default" size="large" style="width: 200px">去登录</el-button>
@@ -56,9 +56,9 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
-import axios from 'axios';
-const ruleFormRef = ref<FormInstance>()
+import type { FormRules } from 'element-plus'
+import {post, tip} from '../../common'
+const ruleFormRef = ref()
 const centerDialogVisible = ref(false)
 const content = ref()
 const validateRoleId = (rule: any, value: any, callback: any) => {
@@ -113,13 +113,12 @@ const rules = reactive<FormRules<typeof registerForm>>({
     Email: [{ validator: validEmail, trigger: 'blur' }],
 })
 
-const submitForm = (formEl: FormInstance | undefined) => {
-    if (!formEl) return
-    formEl.validate(async (valid) => {
+const register = () => {
+    ruleFormRef.value.validate(async (valid) => {
         if (valid) {
             console.log('submit!')
-            await axios.post(
-                "/dev/register", {
+            await post(
+                "/register", {
                 roleId: registerForm.roleId,
                 password: registerForm.password,
                 email: registerForm.Email
@@ -127,6 +126,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             ).then(result => {
                 content.value = result.data.msg
                 centerDialogVisible.value = true
+                tip.success("注册成功")
             })
 
         } else {
@@ -136,6 +136,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
     })
 }
 
+// 回车登录
+window.onkeydown = ($event) => {
+    if ($event.key && $event.key == 'Enter') {
+        register();
+    }
+}
 </script>
 
 <style scoped>
