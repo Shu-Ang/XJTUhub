@@ -3,7 +3,7 @@
 <mapper namespace="com.xjtuhub.mapper.RoleMapper">
   <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Role">
     <id column="role_id" jdbcType="VARCHAR" property="roleId" />
-    <result column="face" jdbcType="VARCHAR" property="face" />
+    <result column="face_addr" jdbcType="VARCHAR" property="faceAddr" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="create_date" jdbcType="DATE" property="createDate" />
     <result column="password" jdbcType="VARCHAR" property="password" />
@@ -11,8 +11,13 @@
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    role_id, face, email, create_date, password, sign, status
+    role_id, face_addr, email, create_date, password, sign, status
   </sql>
+<!--  后台：只显示用户名、email、 创建时间、状态-->
+  <sql id="Admin_Role_List">
+    role_id, email, create_date, status
+  </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -24,10 +29,10 @@
     where role_id = #{roleId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.xjtuhub.entity.Role">
-    insert into role (role_id, face, email, 
+    insert into role (role_id, face_addr, email, 
       create_date, password, sign, 
       status)
-    values (#{roleId,jdbcType=VARCHAR}, #{face,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+    values (#{roleId,jdbcType=VARCHAR}, #{faceAddr,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{createDate,jdbcType=DATE}, #{password,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER})
   </insert>
@@ -37,8 +42,8 @@
       <if test="roleId != null">
         role_id,
       </if>
-      <if test="face != null">
-        face,
+      <if test="faceAddr != null">
+        face_addr,
       </if>
       <if test="email != null">
         email,
@@ -60,8 +65,8 @@
       <if test="roleId != null">
         #{roleId,jdbcType=VARCHAR},
       </if>
-      <if test="face != null">
-        #{face,jdbcType=VARCHAR},
+      <if test="faceAddr != null">
+        #{faceAddr,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
@@ -83,8 +88,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.xjtuhub.entity.Role">
     update role
     <set>
-      <if test="face != null">
-        face = #{face,jdbcType=VARCHAR},
+      <if test="faceAddr != null">
+        face_addr = #{faceAddr,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
@@ -106,7 +111,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xjtuhub.entity.Role">
     update role
-    set face = #{face,jdbcType=VARCHAR},
+    set face_addr = #{faceAddr,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=DATE},
       password = #{password,jdbcType=VARCHAR},

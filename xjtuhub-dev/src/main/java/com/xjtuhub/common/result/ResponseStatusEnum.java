@@ -1,7 +1,7 @@
 package com.xjtuhub.common.result;
 
 /**
- * 响应结果枚举，用于提供给GraceJSONResult返回给前端的
+ * 响应结果枚举，用于提供给SONResult返回给前端的
  * 本枚举类中包含了很多的不同的状态码供使用，可以自定义
  * 便于更优雅的对状态码进行管理，一目了然
  */
@@ -23,7 +23,8 @@ public enum ResponseStatusEnum {
     CODE_ERROR(510, false, "验证码错误！"),
     CODE_VALID(511, false, "验证码正确！"),
     USER_UN_LOGIN(512, false, "未登录！"),
-    SYS_ERROR(513, false, "系统错误！");
+    SYS_ERROR(513, false, "系统错误！"),
+    INVALID_TOKEN(514, false, "令牌失效！");
 
     // 响应业务状态
     private Integer status;

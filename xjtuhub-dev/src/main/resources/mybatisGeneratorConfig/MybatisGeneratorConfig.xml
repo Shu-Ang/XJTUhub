@@ -21,7 +21,10 @@
         <!-- 配置数据库连接信息 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://127.0.0.1:3306/xjtuhub?serverTimezone=UTC" userId="root"
-                        password="Catastrophe.123"/>
+                        password="Catastrophe.123">
+                        <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+
 
         <!-- 生成model类，targetPackage指定model类的包名，targetProject指定生成的model放在哪个工程中 -->
         <javaModelGenerator targetPackage="com.xjtuhub.entity"
@@ -100,6 +103,7 @@
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
+            <columnOverride column="message_content" javaType="java.lang.String" jdbcType="LONGVARCHAR"></columnOverride>
             <!--<columnRenamingRule searchString="^D_"
                                 replaceString=""/>-->
         </table>
@@ -108,8 +112,8 @@
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
-            <columnOverride column="content" javaType="java.lang.String" jdbcType="TEXT"></columnOverride>
-            <columnOverride column="summary" javaType="java.lang.String" jdbcType="TEXT"></columnOverride>
+            <columnOverride column="content" javaType="java.lang.String" jdbcType="LONGVARCHAR"></columnOverride>
+            <columnOverride column="summary" javaType="java.lang.String" jdbcType="LONGVARCHAR"></columnOverride>
             <!--<columnRenamingRule searchString="^D_"
                                 replaceString=""/>-->
         </table>
@@ -118,6 +122,7 @@
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
+            <columnOverride column="comment_content" javaType="java.lang.String" jdbcType="LONGVARCHAR"></columnOverride>
             <!--<columnRenamingRule searchString="^D_"
                                 replaceString=""/>-->
         </table>

@@ -25,13 +25,13 @@ public class Blog {
 
     private String title;
 
-    private String content;
-
-    private String summary;
-
     private String graphAddr;
 
     private String fileAddr;
+
+    private String content;
+
+    private String summary;
 
     public Integer getBlogId() {
         return blogId;
@@ -121,22 +121,6 @@ public class Blog {
         this.title = title == null ? null : title.trim();
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary == null ? null : summary.trim();
-    }
-
     public String getGraphAddr() {
         return graphAddr;
     }
@@ -152,4 +136,21 @@ public class Blog {
     public void setFileAddr(String fileAddr) {
         this.fileAddr = fileAddr == null ? null : fileAddr.trim();
     }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
 }

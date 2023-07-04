@@ -13,5 +13,7 @@ public interface BlogMapper {
 
     int updateByPrimaryKeySelective(Blog record);
 
+    int updateByPrimaryKeyWithBLOBs(Blog record);
+
     int updateByPrimaryKey(Blog record);
 }
