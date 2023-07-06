@@ -14,9 +14,32 @@
     role_id, face_addr, email, create_date, password, sign, status
   </sql>
 <!--  后台：只显示用户名、email、 创建时间、状态-->
-  <sql id="Admin_Role_List">
-    role_id, email, create_date, status
-  </sql>
+
+
+<!--  查询用户列表-->
+  <select id="selectRoleList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from role
+    where role_id != "admin"
+  </select>
+
+<!--  分页查询用户列表-->
+  <select id="selectRolePage" parameterType="com.xjtuhub.entity.Page" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from role
+    where role_id != "admin"
+    LIMIT #{limitIndex}, #{pageSize}
+  </select>
+
+<!--  查询用户总数-->
+  <select id="countRole" resultType="int">
+    select count(*)
+    from role
+    where role_id != "admin"
+  </select>
+
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -24,10 +47,12 @@
     from role
     where role_id = #{roleId,jdbcType=VARCHAR}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from role
     where role_id = #{roleId,jdbcType=VARCHAR}
   </delete>
+
   <insert id="insert" parameterType="com.xjtuhub.entity.Role">
     insert into role (role_id, face_addr, email, 
       create_date, password, sign, 

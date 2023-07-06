@@ -8,7 +8,6 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.xjtuhub.common.exception.BusinessException;
 import com.xjtuhub.common.exception.SysException;
-import com.xjtuhub.entity.CurrentUser;
 import com.xjtuhub.service.impl.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,7 @@
 package com.xjtuhub.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Comment {
@@ -10,10 +12,12 @@ public class Comment {
     private String roleId;
 
     private Integer parentComment;
-
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date commentDate;
 
     private String commentContent;
+
+    private Blog blog;
 
     public Integer getCommentId() {
         return commentId;

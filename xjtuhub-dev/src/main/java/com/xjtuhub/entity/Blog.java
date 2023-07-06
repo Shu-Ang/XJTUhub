@@ -1,7 +1,12 @@
 package com.xjtuhub.entity;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.Date;
+@Getter
+@Setter
 public class Blog {
     private Integer blogId;
 
@@ -9,6 +14,7 @@ public class Blog {
 
     private String courseId;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date releaseDate;
 
     private Boolean isDraft;
@@ -32,6 +38,8 @@ public class Blog {
     private String content;
 
     private String summary;
+
+    private Course course;
 
     public Integer getBlogId() {
         return blogId;

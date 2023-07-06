@@ -10,9 +10,39 @@
     <result column="comment_content" jdbcType="LONGVARCHAR" property="commentContent" />
   </resultMap>
 
+  <resultMap id="AdminCommentMap" type="com.xjtuhub.entity.Comment" autoMapping="true">
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="comment_date" jdbcType="TIMESTAMP" property="commentDate" />
+    <result column="comment_content" jdbcType="LONGVARCHAR" property="commentContent" />
+    <association property="blog" javaType="com.xjtuhub.entity.Blog">
+      <result column="title" jdbcType="VARCHAR" property="title" />
+    </association>
+  </resultMap>
+
   <sql id="Base_Column_List">
     comment_id, blog_id, role_id, parent_comment, comment_date, comment_content
   </sql>
+  
+  <sql id="Admin_Comment_List">
+    comment_id, title, comment.role_id,  comment_date, comment_content
+  </sql>
+  
+<!--  后台查询评论数量-->
+  <select id="countComment" resultType="java.lang.Integer">
+    select count(*)
+    from comment
+  </select>
+
+<!-- 分页查询评论 -->
+  <select id="selectCommentPage" parameterType="com.xjtuhub.entity.Page" resultMap="AdminCommentMap" >
+    select
+    <include refid="Admin_Comment_List"></include>
+    from comment , blog
+    where comment.blog_id = blog.blog_id
+    LIMIT #{limitIndex}, #{pageSize}
+  </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

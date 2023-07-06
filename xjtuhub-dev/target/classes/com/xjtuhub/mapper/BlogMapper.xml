@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xjtuhub.mapper.BlogMapper">
+
   <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Blog">
     <id column="blog_id" jdbcType="INTEGER" property="blogId" />
     <result column="role_id" jdbcType="VARCHAR" property="roleId" />
@@ -17,29 +18,100 @@
     <result column="file_addr" jdbcType="VARCHAR" property="fileAddr" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="summary" jdbcType="LONGVARCHAR" property="summary" />
+    <association property="course" javaType="com.xjtuhub.entity.Course">
+      <result column="major_id" jdbcType="INTEGER" property="majorId" />
+      <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+      <result column="credit" jdbcType="DECIMAL" property="credit" />
+      <result column="period" jdbcType="INTEGER" property="period" />
+      <result column="term" jdbcType="VARCHAR" property="term" />
+    </association>
   </resultMap>
 
+  <resultMap id="admin_blog_map" type="com.xjtuhub.entity.Blog" autoMapping="true">
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="release_date" jdbcType="TIMESTAMP" property="releaseDate" />
+    <result column="category" jdbcType="INTEGER" property="category" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="summary" jdbcType="LONGVARCHAR" property="summary" />
+    <association property="course" javaType="com.xjtuhub.entity.Course">
+      <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    </association>
+  </resultMap>
+
+  <!--  后台：只显示标题、课程、作者、时间、摘要、内容、分类-->
+  <sql id="Admin_Blog_List">
+    blog_id, role_id,  release_date, course_name,  title, summary, category
+  </sql>
+
   <sql id="Base_Column_List">
-    blog_id, role_id, course_id, release_date, is_draft, is_private, is_top, category, 
-    status, views, title, graph_addr, file_addr, content, summary
+    blog_id, role_id, blog.course_id, release_date, is_draft, is_private, is_top, category,
+    status, views, title, graph_addr, file_addr, content, summary, course_name
   </sql>
-<!--  预览：只显示标题、课程、作者、时间、摘要、浏览量、分类-->
-  <sql id="Preview_List">
-    blog_id, role_id, course_id, release_date, course_id, release_date, views, title, summary, category
-  </sql>
-<!--  后台：只显示标题、课程、作者、时间、摘要、内容、分类-->
-  <sql id="Admin_List">
-    blog_id, role_id, course_id, release_date, course_id, release_date, title, summary, content, category
-  </sql>
-<!--  根据课程号查找博客-->
-  <select id="selectByCourseId" parameterType="java.lang.Integer">
-    select
+
+
+
+  <!--  后台查询未审核博客数量-->
+  <select id="countRawBlog" resultType="java.lang.Integer">
+    select count(*)
+    from blog
+    where status=0 and is_draft=0 and is_private=0
   </select>
+<!--  查询未审核博客-->
+  <select id="selectAdminRawBlog" resultMap="admin_blog_map" resultType="com.xjtuhub.entity.Blog">
+    select
+    <include refid="Admin_Blog_List"></include>
+    from blog , course
+    where status=0 and is_draft=0 and is_private=0 and blog.course_id = course.course_id
+    LIMIT #{limitIndex}, #{pageSize}
+  </select>
+
+  <!--  后台查询所有博客数量-->
+  <select id="countAllBlog" resultType="java.lang.Integer">
+    select count(*)
+    from blog
+    where is_draft=0 and is_private=0 and status != 0
+  </select>
+  <!--  后台查询所有博客并分页-->
+  <select id="selectAdminAllBlog" parameterType="com.xjtuhub.entity.Page" resultMap="admin_blog_map">
+    select
+    <include refid="Admin_Blog_List"></include>
+    from blog , course
+    where status!=0 and is_draft=0 and is_private=0 and blog.course_id = course.course_id
+    LIMIT #{limitIndex}, #{pageSize}
+  </select>
+
+<!--  查询文章函数-->
+  <select id="countArticle">
+    select count(*)
+    from blog
+    where category = 0 and status = 1 and is_draft = 0 and is_private = 0
+  </select>
+<!--  查询问题数-->
+  <select id="countQuestion">
+    select count(*)
+    from blog
+    where category = 1 and status = 1 and is_draft = 0 and is_private = 0
+  </select>
+<!--  查询访问量-->
+  <select id="countViews">
+    select count(views)
+    from blog
+    where status = 1 and is_draft = 0 and is_private = 0
+  </select>
+<!--  根据课程号查找博客-->
+  <select id="selectByCourseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    where course_id=#{courseId}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from blog
-    where blog_id = #{blogId,jdbcType=INTEGER}
+    from blog, course
+    where blog_id = #{blogId,jdbcType=INTEGER} and blog.course_id = course.course_id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from blog

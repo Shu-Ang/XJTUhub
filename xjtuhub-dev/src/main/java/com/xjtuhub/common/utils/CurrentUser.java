@@ -1,4 +1,4 @@
-package com.xjtuhub.entity;
+package com.xjtuhub.common.utils;
 
 public class CurrentUser {
     private String userId;

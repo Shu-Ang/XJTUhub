@@ -18,7 +18,7 @@ public class JSONResult {
     private Integer status;
 
     // 响应消息
-    private String msg;
+    private String message;
 
     // 是否成功
     private Boolean success;
@@ -51,16 +51,27 @@ public class JSONResult {
         return new JSONResult(com.xjtuhub.common.result.ResponseStatusEnum.SUCCESS);
     }
 
+    public static JSONResult ok(String message) {
+        return new JSONResult(message);
+    }
+
     public JSONResult(Object data) {
         this.status = com.xjtuhub.common.result.ResponseStatusEnum.SUCCESS.status();
-        this.msg = com.xjtuhub.common.result.ResponseStatusEnum.SUCCESS.msg();
+        this.message = com.xjtuhub.common.result.ResponseStatusEnum.SUCCESS.message();
         this.success = com.xjtuhub.common.result.ResponseStatusEnum.SUCCESS.success();
         this.data = data;
     }
 
+    public JSONResult(String msg) {
+        this.status = com.xjtuhub.common.result.ResponseStatusEnum.SUCCESS.status();
+        this.message = msg;
+        this.success = com.xjtuhub.common.result.ResponseStatusEnum.SUCCESS.success();
+        this.data = null;
+    }
+
     public JSONResult(String message, Object data) {
         this.status = com.xjtuhub.common.result.ResponseStatusEnum.SUCCESS.status();
-        this.msg = message;
+        this.message = message;
         this.success = com.xjtuhub.common.result.ResponseStatusEnum.SUCCESS.success();
         this.data = data;
     }
@@ -113,18 +124,18 @@ public class JSONResult {
 
     public JSONResult(com.xjtuhub.common.result.ResponseStatusEnum responseStatus) {
         this.status = responseStatus.status();
-        this.msg = responseStatus.msg();
+        this.message = responseStatus.message();
         this.success = responseStatus.success();
     }
     public JSONResult(com.xjtuhub.common.result.ResponseStatusEnum responseStatus, Object data) {
         this.status = responseStatus.status();
-        this.msg = responseStatus.msg();
+        this.message = responseStatus.message();
         this.success = responseStatus.success();
         this.data = data;
     }
     public JSONResult(com.xjtuhub.common.result.ResponseStatusEnum responseStatus, String msg) {
         this.status = responseStatus.status();
-        this.msg = msg;
+        this.message = msg;
         this.success = responseStatus.success();
     }
 
@@ -140,11 +151,11 @@ public class JSONResult {
     }
 
     public String getMsg() {
-        return msg;
+        return message;
     }
 
     public void setMsg(String msg) {
-        this.msg = msg;
+        this.message = msg;
     }
 
     public Object getData() {

@@ -1,11 +1,12 @@
-package com.xjtuhub.mapper;
+package com.xjtuhub.service;
 
 import com.xjtuhub.entity.Blog;
 import com.xjtuhub.entity.Page;
 
 import java.util.List;
 
-public interface BlogMapper {
+public interface BlogServiceApi {
+
     int deleteByPrimaryKey(Integer blogId);
 
     int insert(Blog record);
@@ -16,15 +17,12 @@ public interface BlogMapper {
 
     int updateByPrimaryKeySelective(Blog record);
 
-    int updateByPrimaryKeyWithBLOBs(Blog record);
-
     int updateByPrimaryKey(Blog record);
 
-    int countRawBlog();
+    public int countRawBlog();
     List<Blog> selectAdminRawBlog(Page page);
-    int countAllBlog();
+    public int countAllBlog();
     List<Blog> selectAdminAllBlog(Page page);
-
     int countArticle();
     int countQuestion();
     int countViews();

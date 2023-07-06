@@ -8,7 +8,7 @@ import com.xjtuhub.common.utils.DigestUtil;
 import com.xjtuhub.common.utils.RedisOperator;
 import com.xjtuhub.common.utils.TokenUtils;
 import com.xjtuhub.common.utils.XjtuhubConstants;
-import com.xjtuhub.entity.CurrentUser;
+import com.xjtuhub.common.utils.CurrentUser;
 import com.xjtuhub.entity.LoginUser;
 import com.xjtuhub.entity.Role;
 import com.xjtuhub.service.impl.RoleService;

@@ -1,11 +1,11 @@
-package com.xjtuhub.mapper;
+package com.xjtuhub.service;
 
 import com.xjtuhub.entity.Comment;
 import com.xjtuhub.entity.Page;
 
 import java.util.List;
 
-public interface CommentMapper {
+public interface CommentServiceApi {
     int deleteByPrimaryKey(Integer commentId);
 
     int insert(Comment record);
@@ -22,5 +22,4 @@ public interface CommentMapper {
     int countComment();
 
     List<Comment> selectCommentPage(Page page);
-
 }

@@ -1,8 +1,10 @@
 package com.xjtuhub.mapper;
 
+import com.xjtuhub.entity.Page;
 import com.xjtuhub.entity.Role;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RoleMapper {
     int deleteByPrimaryKey(String roleId);
@@ -18,4 +20,8 @@ public interface RoleMapper {
     int updateByPrimaryKey(Role record);
 
     List<Role> selectRoleList();
+
+    List<Role> selectRolePage(Page page);
+
+    int countRole();
 }

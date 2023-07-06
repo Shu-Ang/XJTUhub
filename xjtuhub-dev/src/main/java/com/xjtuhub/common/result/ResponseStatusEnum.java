@@ -13,7 +13,7 @@ public enum ResponseStatusEnum {
     // 50x
     ROLE_EXIST(501, false, "用户名已存在！"),
     LOG_UP_SUCCEED(502, true, "注册成功！我们会向您的邮箱发送激活邮件，请点击邮件中的链接以完成激活。"),
-    UN_ACTIVATE(503, false, "账号未激活！请查收您的激活邮件，并点击邮件中的链接以完成激活。"),
+    UN_ACTIVATE(503, false, "账号未激活或者被冻结！"),
     ACTIVATE_SUCCEED(504, true, "激活成功！"),
     ACTIVATE_FAIL(505, false, "激活失败！"),
     ROLE_NOT_EXIST(506, false, "用户名不存在！"),
@@ -31,12 +31,12 @@ public enum ResponseStatusEnum {
     // 调用是否成功
     private Boolean success;
     // 响应消息，可以为成功或者失败的消息
-    private String msg;
+    private String message;
 
     ResponseStatusEnum(Integer status, Boolean success, String msg) {
         this.status = status;
         this.success = success;
-        this.msg = msg;
+        this.message = msg;
     }
 
     public Integer status() {
@@ -45,7 +45,7 @@ public enum ResponseStatusEnum {
     public Boolean success() {
         return success;
     }
-    public String msg() {
-        return msg;
+    public String message() {
+        return message;
     }
 }
