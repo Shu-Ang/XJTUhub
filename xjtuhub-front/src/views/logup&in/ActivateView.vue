@@ -1,8 +1,4 @@
 <template>
-    <el-button text @click=activate>
-        点击激活！
-    </el-button>
-
     <el-dialog v-model="centerDialogVisible" width="30%" align-center>
         <span>{{ content }}</span>
         <template #footer>
@@ -16,8 +12,8 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import axios from 'axios'
-
+import {getLocalToken, post} from "../../common"
+import axios from 'axios';
 const centerDialogVisible = ref(false)
 const content = ref()
 const activate = async () => {
@@ -26,12 +22,13 @@ const activate = async () => {
     const urlString: string = currentUrl.toString()
     const array = urlString.split('/')
     const uuid = array[array.length - 1]
-    console.log(uuid)
+    //console.log(getLocalToken())
     await axios.post("/dev/activate/" + uuid, uuid).then((result)=>{
         content.value = result.data.msg
         centerDialogVisible.value = true
     })
 }
+activate();
 </script>
 <style scoped>
 .dialog-footer button:first-child {

@@ -104,17 +104,24 @@ const rules = reactive<FormRules<typeof loginForm>>({
     verificationCode: [{ validator: validateKey, trigger: 'blur' }],
 })
 
-
+const config = reactive({
+    servMsg : true
+})
 const login = async () => {
     ruleFormRef.value.validate(async (valid) => {
         if (valid) {
             console.log('submit!')
             
             await post("/login",
-                loginForm).then(result => {
-                    setLocalToken(result.data)
-                    tip.success("登陆成功")
-                    router.push("/home")
+                loginForm, config).then(result => {
+                    //setLocalToken(result.data)
+                    if(loginForm.userId == 'admin'){
+                        router.push("/admin/dashboard")
+                    }
+                    else{
+                        router.push("/home")
+                    }
+                    
                 })
         } else {
             console.log('error submit!')

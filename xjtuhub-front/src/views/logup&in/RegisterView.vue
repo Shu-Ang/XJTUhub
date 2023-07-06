@@ -124,9 +124,9 @@ const register = () => {
                 email: registerForm.Email
             }
             ).then(result => {
+                console.log(result.data)
                 content.value = result.data.msg
                 centerDialogVisible.value = true
-                tip.success("注册成功")
             })
 
         } else {
