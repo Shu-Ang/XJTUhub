@@ -10,6 +10,15 @@
   <sql id="Base_Column_List">
     favorite_id, role_id, favorite_name, is_private
   </sql>
+<!--  查询用户所有收藏夹列表-->
+  <select id="selectByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from favorites
+    where role_id=#{roleId}
+  </select>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

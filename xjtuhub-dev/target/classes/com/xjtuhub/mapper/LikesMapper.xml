@@ -8,9 +8,30 @@
     <result column="role_id" jdbcType="VARCHAR" property="roleId" />
     <result column="flag" jdbcType="BIT" property="flag" />
   </resultMap>
+
+  <resultMap id="UserInfoMap" type="com.xjtuhub.entity.Likes" autoMapping="true">
+    <id column="likes_id" jdbcType="INTEGER" property="likesId" />
+    <result column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="flag" jdbcType="BIT" property="flag" />
+    <association property="blog" javaType="com.xjtuhub.entity.Blog">
+      <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    </association>
+  </resultMap>
   <sql id="Base_Column_List">
     likes_id, comment_id, blog_id, role_id, flag
   </sql>
+
+  <sql id="UserInfoList">
+    likes_id, comment_id, comment.blog_id, comment.role_id, flag, blog.role_id
+  </sql>
+<!--  用户点赞数-->
+  <select id="countUserLikes" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*)
+    form likes, blog
+    where blog.role_id = #{roleId} and blog.blog_id = likes.blog_id
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

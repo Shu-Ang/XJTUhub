@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xjtuhub.mapper.CommentMapper">
+
   <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Comment">
     <id column="comment_id" jdbcType="INTEGER" property="commentId" />
     <result column="blog_id" jdbcType="INTEGER" property="blogId" />
     <result column="role_id" jdbcType="VARCHAR" property="roleId" />
-    <result column="parent_comment" jdbcType="INTEGER" property="parentComment" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="root_id" jdbcType="INTEGER" property="rootId" />
     <result column="comment_date" jdbcType="TIMESTAMP" property="commentDate" />
     <result column="comment_content" jdbcType="LONGVARCHAR" property="commentContent" />
   </resultMap>
@@ -26,7 +28,7 @@
   </sql>
   
   <sql id="Admin_Comment_List">
-    comment_id, title, comment.role_id,  comment_date, comment_content
+    comment_id, comment.blog_id, blog.title, comment.role_id,  comment_date, comment_content
   </sql>
   
 <!--  后台查询评论数量-->

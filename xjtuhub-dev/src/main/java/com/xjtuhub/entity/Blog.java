@@ -39,6 +39,8 @@ public class Blog {
 
     private String summary;
 
+    private Integer rootId;
+
     private Course course;
 
     public Integer getBlogId() {

@@ -26,4 +26,16 @@ public interface BlogServiceApi {
     int countArticle();
     int countQuestion();
     int countViews();
+    int countUserArticle(String roleId);
+    int countUserQuestion(String roleId);
+    int countUserViews(String roleId);
+    List<Blog> selectDraftById(String roleId);
+    List<Blog> selectArticleById(String roleId);
+    List<Blog> selectQuestionById(String roleId);
+    List<Blog> selectArticleByContent(String content);
+    List<Blog> selectQuestionByContent(String content);
+    List<Blog> selectArticleList();
+    List<Blog> selectQuestionList();
+    List<Blog> selectArticleByCourseId(Integer courseId);
+    List<Blog> selectQuestionByCourseId(Integer courseId);
 }

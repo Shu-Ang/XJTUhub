@@ -2,6 +2,8 @@ package com.xjtuhub.mapper;
 
 import com.xjtuhub.entity.Department;
 
+import java.util.List;
+
 public interface DepartmentMapper {
     int deleteByPrimaryKey(Integer departmentId);
 
@@ -14,4 +16,5 @@ public interface DepartmentMapper {
     int updateByPrimaryKeySelective(Department record);
 
     int updateByPrimaryKey(Department record);
+    List<Department> selectDepartmentList();
 }

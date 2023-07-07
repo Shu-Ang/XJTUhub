@@ -1,15 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xjtuhub.mapper.Favorites_relationMapper">
+
   <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Favorites_relationKey">
     <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
     <id column="blog_id" jdbcType="INTEGER" property="blogId" />
   </resultMap>
+
+  <resultMap id="UserInfoMap" type="com.xjtuhub.entity.Favorites_relationKey" autoMapping="true">
+    <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <association property="blog" javaType="com.xjtuhub.entity.Blog">
+      <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    </association>
+  </resultMap>
+
+  <sql id="UserInfoList">
+    favorite_id, favorites_relation.blog_id, blog.role_id
+  </sql>
+<!--  查询收藏数-->
+  <select id="countFavorite" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*)
+    from blog, favorites_relation
+    where favorites_relation.blog_id = blog.blog_id and blog.role_id = #{roleId}
+  </select>
+
+  <resultMap id="favoriteResultMap" type="com.xjtuhub.entity.FavoriteBlog" autoMapping="true">
+    <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <association property="blog" javaType="com.xjtuhub.entity.Blog">
+      <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+      <result column="title" jdbcType="VARCHAR" property="title" />
+      <result column="summary" jdbcType="VARCHAR" property="summary" />
+      <result column="category" jdbcType="INTEGER" property="category" />
+    </association>
+  </resultMap>
+  <sql id="favoriteResultList">
+    favorite_id, favorites_relation.blog_id, blog.role_id, blog.title, blog.summary, blog.release_date, blog.category
+  </sql>
+<!--  根据收藏夹ID查询博客列表-->
+  <select id="selectBlogListByFavorite" parameterType="java.lang.Integer" resultMap="favoriteResultMap">
+    select
+    <include refid="favoriteResultList"></include>
+    from favorites_relation , blog
+    where favorites_relation.blog_id = blog.blog_id and favorites_relation.favorite_id = #{favoriteId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="com.xjtuhub.entity.Favorites_relationKey">
     delete from favorites_relation
     where favorite_id = #{favoriteId,jdbcType=INTEGER}
       and blog_id = #{blogId,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.xjtuhub.entity.Favorites_relationKey">
     insert into favorites_relation (favorite_id, blog_id)
     values (#{favoriteId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER})

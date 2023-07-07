@@ -6,9 +6,27 @@
     <result column="role_id" jdbcType="VARCHAR" property="roleId" />
     <result column="writer_id" jdbcType="VARCHAR" property="writerId" />
   </resultMap>
+
+  <resultMap id="FollowMap" type="com.xjtuhub.entity.Follow">
+    <id column="follow_id" jdbcType="INTEGER" property="followId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="writer_id" jdbcType="VARCHAR" property="writerId" />
+    <association property="role" javaType="com.xjtuhub.entity.Role">
+      <id column="role_id" jdbcType="VARCHAR" property="roleId" />
+      <result column="face_addr" jdbcType="VARCHAR" property="faceAddr" />
+    </association>
+  </resultMap>
+
   <sql id="Base_Column_List">
-    follow_id, role_id, writer_id
+    follow_id, role_id, writer_id, face_addr
   </sql>
+<!--  查询粉丝数-->
+  <select id="countFans" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*)
+    from follow
+    where writer_id = #{writerId}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

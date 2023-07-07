@@ -78,4 +78,66 @@ public class BlogService implements BlogServiceApi {
     public int countViews() {
         return blogMapper.countViews();
     }
+
+    @Override
+    public int countUserArticle(String roleId) {
+        return blogMapper.countUserArticle(roleId);
+    }
+
+    @Override
+    public int countUserQuestion(String roleId) {
+        return blogMapper.countUserQuestion(roleId);
+    }
+
+    @Override
+    public int countUserViews(String roleId) {
+        return blogMapper.countUserViews(roleId);
+    }
+
+    @Override
+    public List<Blog> selectDraftById(String roleId) {
+        return blogMapper.selectDraftById(roleId);
+    }
+
+    @Override
+    public List<Blog> selectArticleById(String roleId) {
+        return blogMapper.selectArticleById(roleId);
+    }
+
+    @Override
+    public List<Blog> selectQuestionById(String roleId) {
+        return blogMapper.selectQuestionById(roleId);
+    }
+
+    @Override
+    public List<Blog> selectArticleByContent(String content) {
+        return blogMapper.selectArticleByContent(content);
+    }
+
+    @Override
+    public List<Blog> selectQuestionByContent(String content) {
+        return blogMapper.selectQuestionByContent(content);
+    }
+
+    @Override
+    public List<Blog> selectArticleList() {
+        return blogMapper.selectArticleList();
+    }
+
+    @Override
+    public List<Blog> selectQuestionList() {
+        return blogMapper.selectArticleList();
+    }
+
+    @Override
+    public List<Blog> selectArticleByCourseId(Integer courseId) {
+        return blogMapper.selectArticleByCourseId(courseId);
+    }
+
+    @Override
+    public List<Blog> selectQuestionByCourseId(Integer courseId) {
+        return blogMapper.selectQuestionByCourseId(courseId);
+    }
+
+
 }

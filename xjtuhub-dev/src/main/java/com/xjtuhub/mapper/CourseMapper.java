@@ -1,6 +1,9 @@
 package com.xjtuhub.mapper;
 
 import com.xjtuhub.entity.Course;
+import com.xjtuhub.entity.Major;
+
+import java.util.List;
 
 public interface CourseMapper {
     int deleteByPrimaryKey(String courseId);
@@ -14,4 +17,6 @@ public interface CourseMapper {
     int updateByPrimaryKeySelective(Course record);
 
     int updateByPrimaryKey(Course record);
+
+    List<Course> selectCourseList();
 }

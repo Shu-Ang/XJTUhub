@@ -1,5 +1,10 @@
 package com.xjtuhub.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Likes {
     private Integer likesId;
 
@@ -10,6 +15,8 @@ public class Likes {
     private String roleId;
 
     private Boolean flag;
+    private Blog blog;
+    private Comment comment;
 
     public Integer getLikesId() {
         return likesId;

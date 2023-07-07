@@ -12,6 +12,12 @@
   <sql id="Base_Column_List">
     course_id, major_id, course_name, credit, period, term
   </sql>
+<!--  查询课程列表-->
+  <select id="selectCourseList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from course
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

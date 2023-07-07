@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xjtuhub.mapper.BlogMapper">
 
-  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Blog">
+  <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Blog" autoMapping="true">
     <id column="blog_id" jdbcType="INTEGER" property="blogId" />
     <result column="role_id" jdbcType="VARCHAR" property="roleId" />
     <result column="course_id" jdbcType="VARCHAR" property="courseId" />
@@ -11,6 +11,7 @@
     <result column="is_private" jdbcType="BIT" property="isPrivate" />
     <result column="is_top" jdbcType="BIT" property="isTop" />
     <result column="category" jdbcType="INTEGER" property="category" />
+    <result column="root_id" jdbcType="INTEGER" property="rootId" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="views" jdbcType="INTEGER" property="views" />
     <result column="title" jdbcType="VARCHAR" property="title" />
@@ -40,6 +41,8 @@
     </association>
   </resultMap>
 
+
+
   <!--  后台：只显示标题、课程、作者、时间、摘要、内容、分类-->
   <sql id="Admin_Blog_List">
     blog_id, role_id,  release_date, course_name,  title, summary, category
@@ -47,9 +50,8 @@
 
   <sql id="Base_Column_List">
     blog_id, role_id, blog.course_id, release_date, is_draft, is_private, is_top, category,
-    status, views, title, graph_addr, file_addr, content, summary, course_name
+    status, views, title, graph_addr, file_addr, content, summary, course_name, root_id
   </sql>
-
 
 
   <!--  后台查询未审核博客数量-->
@@ -82,13 +84,13 @@
     LIMIT #{limitIndex}, #{pageSize}
   </select>
 
-<!--  查询文章函数-->
+<!--  后台查询文章数-->
   <select id="countArticle">
     select count(*)
     from blog
     where category = 0 and status = 1 and is_draft = 0 and is_private = 0
   </select>
-<!--  查询问题数-->
+<!--  后台查询问题数-->
   <select id="countQuestion">
     select count(*)
     from blog
@@ -100,11 +102,100 @@
     from blog
     where status = 1 and is_draft = 0 and is_private = 0
   </select>
-<!--  根据课程号查找博客-->
-  <select id="selectByCourseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+<!--  查询用户文章数-->
+  <select id="countUserArticle" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*)
+    from blog
+    where role_id=#{roleId} and category = 0 and is_draft = 0 and is_private = 0 and status = 1
+  </select>
+  <!--  查询用户问题数-->
+  <select id="countUserQuestion" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*)
+    from blog
+    where role_id=#{roleId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1
+  </select>
+  <!--  查询用户浏览数-->
+  <select id="countUserViews" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(views)
+    from blog
+    where role_id=#{roleId} and is_draft = 0 and is_private = 0 and status = 1
+  </select>
+
+<!--  根据课程ID查找文章-->
+  <select id="selectArticleByCourseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"></include>
-    where course_id=#{courseId}
+    where course_id=#{courseId} and category = 0 and is_draft = 0 and is_private = 0 and status = 1
+  </select>
+
+  <!--  根据课程ID查找问答-->
+  <select id="selectQuestionByCourseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    where course_id=#{courseId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1
+  </select>
+
+  <!--根据ID查找草稿-->
+  <select id="selectDraftById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from blog
+    where role_id=#{roleId} and is_draft=1
+    order by release_date desc
+  </select>
+
+  <!--  根据ID查询文章列表-->
+  <select id="selectArticleById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from blog
+    where role_id=#{roleId} and category = 0 and is_draft = 0 and is_private = 0 and status = 1
+    order by release_date desc
+  </select>
+
+  <!--  根据ID查询问答列表-->
+  <select id="selectQuestionById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from blog
+    where role_id=#{roleId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1
+    order by release_date desc
+  </select>
+
+  <!--  根据内容、标题、摘要搜索文章-->
+  <select id="selectArticleByContent" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from blog
+    where category = 0 and is_draft = 0 and is_private = 0 and status = 1 and (title like concat('%', #{key}, '%') or summary like concat('%', #{key}, '%') or course_name like concat('%', #{key}, '%') or content like concat('%',#{key},'%'))
+    order by views desc
+  </select>
+
+  <!--  根据内容、标题、摘要搜索博问题-->
+  <select id="selectQuestionByContent" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from blog
+    where category = 1 and is_draft = 0 and is_private = 0 and status = 1 and (title like concat('%', #{key}, '%') or summary like concat('%', #{key}, '%') or course_name like concat('%', #{key}, '%') or content like concat('%',#{key},'%'))
+    order by views desc
+  </select>
+
+  <!--展示所有文章-->
+  <select id="selectArticleList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from blog
+    where category = 0 and is_draft = 0 and is_private = 0 and status = 1
+    order by release_date desc
+  </select>
+
+  <!--展示所有问答-->
+  <select id="selectQuestionList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from blog
+    where category = 1 and is_draft = 0 and is_private = 0 and status = 1
+    order by release_date desc
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

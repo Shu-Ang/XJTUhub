@@ -22,4 +22,6 @@ public interface CommentServiceApi {
     int countComment();
 
     List<Comment> selectCommentPage(Page page);
+
+    List<Comment> processComment(List<Comment> list);
 }

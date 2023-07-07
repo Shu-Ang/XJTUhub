@@ -2,6 +2,8 @@ package com.xjtuhub.mapper;
 
 import com.xjtuhub.entity.Favorites;
 
+import java.util.List;
+
 public interface FavoritesMapper {
     int deleteByPrimaryKey(Integer favoriteId);
 
@@ -14,4 +16,6 @@ public interface FavoritesMapper {
     int updateByPrimaryKeySelective(Favorites record);
 
     int updateByPrimaryKey(Favorites record);
+
+    List<Favorites> selectByRoleId(String roleId);
 }

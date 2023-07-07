@@ -1,9 +1,15 @@
 package com.xjtuhub.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class Favorites_relationKey {
     private Integer favoriteId;
 
     private Integer blogId;
+    private Blog blog;
 
     public Integer getFavoriteId() {
         return favoriteId;

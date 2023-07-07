@@ -41,6 +41,31 @@
   </select>
 
 
+  <resultMap id="FollowMap" type="com.xjtuhub.entity.Role">
+    <id column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="face_addr" jdbcType="VARCHAR" property="faceAddr" />
+    <association property="follow" javaType="com.xjtuhub.entity.Follow">
+      <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+      <result column="writer_id" jdbcType="VARCHAR" property="writerId" />
+    </association>
+  </resultMap>
+  <sql id="selectFollowList">
+    role.role_id, role.face_addr
+  </sql>
+  <!--  查询关注列表-->
+  <select id="selectFollowList" parameterType="java.lang.String" resultMap="FollowMap">
+    select
+    <include refid="selectFollowList"></include>
+    from role, follow
+    where follow.role_id = #{roleId} and follow.writer_id = role.role_id
+  </select>
+<!--查询粉丝列表-->
+  <select id="selectFanList" parameterType="java.lang.String" resultMap="FollowMap">
+    select
+    <include refid="selectFollowList"></include>
+    from role, follow
+    where follow.writer_id = #{roleId} and follow.role_id = role.role_id
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -14,4 +14,6 @@ public interface LikesMapper {
     int updateByPrimaryKeySelective(Likes record);
 
     int updateByPrimaryKey(Likes record);
+
+    int countUserLikes(String roleId);
 }

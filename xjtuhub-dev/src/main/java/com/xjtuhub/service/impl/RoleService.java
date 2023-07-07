@@ -69,5 +69,13 @@ public class RoleService implements RoleServiceApi {
         return roleMapper.countRole();
     }
 
+    @Override
+    public List<Role> selectFollowList(String roleId) {
+        return roleMapper.selectFollowList(roleId);
+    }
+    @Override
+    public List<Role> selectFanList(String roleId){
+        return roleMapper.selectFanList(roleId);
+    }
 
 }

@@ -1,9 +1,14 @@
 package com.xjtuhub.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
+@Getter
+@Setter
 public class Comment {
     private Integer commentId;
 
@@ -11,13 +16,18 @@ public class Comment {
 
     private String roleId;
 
-    private Integer parentComment;
+    private Integer parentId;
+
+    private Integer rootId;
+
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date commentDate;
 
     private String commentContent;
 
     private Blog blog;
+
+    private List<Comment> child;
 
     public Integer getCommentId() {
         return commentId;
@@ -43,13 +53,7 @@ public class Comment {
         this.roleId = roleId == null ? null : roleId.trim();
     }
 
-    public Integer getParentComment() {
-        return parentComment;
-    }
 
-    public void setParentComment(Integer parentComment) {
-        this.parentComment = parentComment;
-    }
 
     public Date getCommentDate() {
         return commentDate;

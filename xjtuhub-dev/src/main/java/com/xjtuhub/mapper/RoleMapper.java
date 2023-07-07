@@ -24,4 +24,8 @@ public interface RoleMapper {
     List<Role> selectRolePage(Page page);
 
     int countRole();
+
+    List<Role> selectFollowList(String roleId);
+
+    List<Role> selectFanList(String roleId);
 }

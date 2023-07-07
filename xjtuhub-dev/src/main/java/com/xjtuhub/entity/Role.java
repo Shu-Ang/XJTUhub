@@ -1,9 +1,12 @@
 package com.xjtuhub.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
-
+@Getter
+@Setter
 public class Role {
     private String roleId;
 
@@ -19,6 +22,7 @@ public class Role {
     private String sign;
 
     private Integer status;
+    private Follow follow;
 
     public String getRoleId() {
         return roleId;

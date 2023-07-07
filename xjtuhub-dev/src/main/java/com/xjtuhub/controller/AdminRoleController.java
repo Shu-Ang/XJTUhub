@@ -66,4 +66,6 @@ public class AdminRoleController {
         page.setResultList(roleList);
         return JSONResult.ok(page);
     }
+
+
 }
