@@ -8,7 +8,11 @@
         <el-table-column prop="roleId" label="评论人" width="140"></el-table-column>
         <!-- <el-table-column prop="commentContent" label="评论内容" width="140"></el-table-column> -->
         <el-table-column prop="commentDate" label="评论时间" width="200"></el-table-column>
-        <el-table-column prop="blog.title" label="所属博客" width="220"></el-table-column>
+        <el-table-column prop="blog.title" label="标题">
+          <template #default='scope'>
+            <el-link type="primary" @click="gotoBlog(scope.row.blogId)" :underline="true">{{ scope.row.blog.title }}</el-link>
+          </template>
+        </el-table-column>
         <el-table-column prop="operate" label="操作" width="200">
           <template #default='scope'>
             <el-button type="danger" size="small" :icon="Delete" @click="deleteComment(scope.row.commentId)" circle></el-button>
@@ -35,6 +39,7 @@
 import { Delete} from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue';
 import { get, post, tip } from "@/common";
+import router from '../../router';
 // 分页模糊查询数据
 const params = reactive({
   pageSize: 5,
@@ -50,7 +55,7 @@ const comment = reactive({
 // 表格数据
 const commentPageList = ref();
 
-// 获取分页模糊查询结果
+// 获取分页查询结果
 const getCommentList = () => {
   get("/admin/comment/commentPage", params).then(result => {
     console.log(result.data)
@@ -76,6 +81,10 @@ const changePageSize = (val) => {
 const changePageNum = (val) => {
   params.pageNum = val
   getCommentList();
+}
+const gotoBlog = (blogId) => {
+  const id = blogId + ''
+  router.push("/blog/" + id)
 }
 </script>
 <style lang="scss">

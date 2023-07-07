@@ -14,7 +14,8 @@ import 'github-markdown-css/github-markdown.css';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { VueShowdown } from 'vue-showdown'
 import 'showdown-highlight'
-
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 const app = createApp(App)
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -26,4 +27,5 @@ app.use(createPinia())
 app.use(router)
 app.use(VueAxios, axios)
 app.use(store)
+app.use(mavonEditor)
 app.mount('#app')

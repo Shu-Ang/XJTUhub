@@ -36,7 +36,7 @@
 </template>
 <script setup>
 import { ref, reactive } from 'vue'
-import editor from '../../components/editor.vue';
+import editor from '../../components/editor/editor.vue';
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
