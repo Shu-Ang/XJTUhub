@@ -49,7 +49,7 @@ public class BlogController {
     @PostMapping("/editBlog")
     @ApiOperation(value = "编辑博客")
     public JSONResult editBlog(@RequestBody Blog blog){
-        return JSONResult.ok(blogService.updateByPrimaryKey(blog));
+        return JSONResult.ok(blogService.updateByPrimaryKeySelective(blog));
     }
 
     final static String PIC_PATH = "static/img/"; //图片存放的相对于项目的相对位置

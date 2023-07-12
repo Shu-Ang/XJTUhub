@@ -68,6 +68,9 @@ public class InfoController {
         page.setTotalNum(totalNum);
         List<Role> roleList = roleService.selectFollowList(role, page);
         page.setResultList(roleList);
+        for(Role role1:roleList){
+            System.out.println(role1.toString());
+        }
         return JSONResult.ok(page);
     }
 
@@ -181,6 +184,11 @@ public class InfoController {
     @GetMapping("/getInfo")
     @ApiOperation(value = "根据roleId获取信息")
     public JSONResult getInfoByRole(Role role){
+        return JSONResult.ok(roleService.selectInfoByRole(role));
+    }
+    @GetMapping("/getFuckingInfo")
+    @ApiOperation(value = "根据roleId获取信息")
+    public JSONResult getFuckingInfoByRole(Role role){
         return JSONResult.ok(roleService.selectInfoByRole(role));
     }
 

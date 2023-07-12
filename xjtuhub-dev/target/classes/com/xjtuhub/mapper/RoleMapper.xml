@@ -59,7 +59,7 @@
     select
     <include refid="FollowList"></include>
     from role, follow
-    where follow.role_id = #{role.roleId} and follow.role_id = role.role_id
+    where follow.role_id = #{role.roleId} and follow.writer_id = role.role_id
     LIMIT #{page.limitIndex}, #{page.pageSize}
   </select>
 <!--查询粉丝列表-->

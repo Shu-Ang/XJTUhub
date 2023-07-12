@@ -123,9 +123,10 @@
   </select>
   <!--  查询用户浏览数-->
   <select id="countViewsByRole" parameterType="com.xjtuhub.entity.Role" resultType="java.lang.Integer">
-    select count(views)
+    select sum(views)
     from blog
     where role_id=#{roleId} and is_draft = 0 and is_private = 0 and status = 1
+    group by role_id
   </select>
 
 <!--  根据课程ID查找文章-->
@@ -186,7 +187,7 @@
     select
     <include refid="Base_Column_List"></include>
     from blog,course
-    where role_id=#{role.roleId} and is_draft = 1 and is_private = 0 and status = 1 and blog.course_id = course.course_id
+    where role_id=#{role.roleId} and is_draft = 1 and is_private = 0  and blog.course_id = course.course_id
     order by release_date desc
     LIMIT #{page.limitIndex}, #{page.pageSize}
   </select>
@@ -206,7 +207,7 @@
     select
     <include refid="Base_Column_List"></include>
     from blog,course
-    where role_id=#{role.roleId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1 and blog.course_id = course.course_id
+    where role_id=#{role.roleId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1 and blog.course_id = course.course_id and root_id = -1
     order by release_date desc
     LIMIT #{page.limitIndex}, #{page.pageSize}
   </select>

@@ -15,7 +15,7 @@
   </select>
 <!--根据用户查浏览记录-->
   <select id="selectFootprintsByRole" parameterType="java.util.Map" resultMap="BaseResultMap">
-    select *
+    select blog_id
     from footprints
     where role_id=#{role.roleId}
     order by view_date desc
