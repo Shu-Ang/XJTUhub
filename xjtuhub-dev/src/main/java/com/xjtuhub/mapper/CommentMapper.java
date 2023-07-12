@@ -1,5 +1,6 @@
 package com.xjtuhub.mapper;
 
+import com.xjtuhub.entity.Blog;
 import com.xjtuhub.entity.Comment;
 import com.xjtuhub.entity.Page;
 
@@ -23,4 +24,6 @@ public interface CommentMapper {
 
     List<Comment> selectCommentPage(Page page);
 
+    List<Comment> selectCommentListByBlog(Blog blog);
+    Integer countCommentByBlog(Blog blog);
 }

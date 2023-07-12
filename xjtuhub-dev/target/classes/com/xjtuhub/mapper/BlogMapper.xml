@@ -5,11 +5,11 @@
   <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Blog" autoMapping="true">
     <id column="blog_id" jdbcType="INTEGER" property="blogId" />
     <result column="role_id" jdbcType="VARCHAR" property="roleId" />
-    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="release_date" jdbcType="TIMESTAMP" property="releaseDate" />
-    <result column="is_draft" jdbcType="BIT" property="isDraft" />
-    <result column="is_private" jdbcType="BIT" property="isPrivate" />
-    <result column="is_top" jdbcType="BIT" property="isTop" />
+    <result column="is_draft" jdbcType="INTEGER" property="isDraft" />
+    <result column="is_private" jdbcType="INTEGER" property="isPrivate" />
+    <result column="is_top" jdbcType="INTEGER" property="isTop" />
     <result column="category" jdbcType="INTEGER" property="category" />
     <result column="root_id" jdbcType="INTEGER" property="rootId" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -19,6 +19,7 @@
     <result column="file_addr" jdbcType="VARCHAR" property="fileAddr" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="summary" jdbcType="LONGVARCHAR" property="summary" />
+    <result column="is_done" jdbcType="INTEGER" property="isDone" />
     <association property="course" javaType="com.xjtuhub.entity.Course">
       <result column="major_id" jdbcType="INTEGER" property="majorId" />
       <result column="course_name" jdbcType="VARCHAR" property="courseName" />
@@ -31,7 +32,7 @@
   <resultMap id="admin_blog_map" type="com.xjtuhub.entity.Blog" autoMapping="true">
     <id column="blog_id" jdbcType="INTEGER" property="blogId" />
     <result column="role_id" jdbcType="VARCHAR" property="roleId" />
-    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="release_date" jdbcType="TIMESTAMP" property="releaseDate" />
     <result column="category" jdbcType="INTEGER" property="category" />
     <result column="title" jdbcType="VARCHAR" property="title" />
@@ -40,7 +41,6 @@
       <result column="course_name" jdbcType="VARCHAR" property="courseName" />
     </association>
   </resultMap>
-
 
 
   <!--  后台：只显示标题、课程、作者、时间、摘要、内容、分类-->
@@ -61,7 +61,7 @@
     where status=0 and is_draft=0 and is_private=0
   </select>
 <!--  查询未审核博客-->
-  <select id="selectAdminRawBlog" resultMap="admin_blog_map" resultType="com.xjtuhub.entity.Blog">
+  <select id="selectAdminRawBlog" parameterType="com.xjtuhub.entity.Page" resultMap="admin_blog_map">
     select
     <include refid="Admin_Blog_List"></include>
     from blog , course
@@ -85,119 +85,217 @@
   </select>
 
 <!--  后台查询文章数-->
-  <select id="countArticle">
+  <select id="countArticle" resultType="java.lang.Integer">
     select count(*)
     from blog
     where category = 0 and status = 1 and is_draft = 0 and is_private = 0
   </select>
 <!--  后台查询问题数-->
-  <select id="countQuestion">
+  <select id="countQuestion" resultType="java.lang.Integer">
     select count(*)
     from blog
-    where category = 1 and status = 1 and is_draft = 0 and is_private = 0
+    where category = 1 and status = 1 and is_draft = 0 and is_private = 0 and root_id = -1
   </select>
 <!--  查询访问量-->
-  <select id="countViews">
+  <select id="countViews" resultType="java.lang.Integer">
     select count(views)
     from blog
     where status = 1 and is_draft = 0 and is_private = 0
   </select>
+
 <!--  查询用户文章数-->
-  <select id="countUserArticle" parameterType="java.lang.String" resultType="java.lang.Integer">
+  <select id="countArticleByRole" parameterType="com.xjtuhub.entity.Role" resultType="java.lang.Integer">
     select count(*)
     from blog
     where role_id=#{roleId} and category = 0 and is_draft = 0 and is_private = 0 and status = 1
   </select>
   <!--  查询用户问题数-->
-  <select id="countUserQuestion" parameterType="java.lang.String" resultType="java.lang.Integer">
+  <select id="countQuestionByRole" parameterType="com.xjtuhub.entity.Role" resultType="java.lang.Integer">
     select count(*)
     from blog
-    where role_id=#{roleId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1
+    where role_id=#{roleId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1 and root_id = -1
+  </select>
+  <!--  查询用户回答数-->
+  <select id="countAnswerByRole" parameterType="com.xjtuhub.entity.Role" resultType="java.lang.Integer">
+    select count(*)
+    from blog
+    where role_id=#{roleId} and category = 1 and status = 1 and root_id != -1
   </select>
   <!--  查询用户浏览数-->
-  <select id="countUserViews" parameterType="java.lang.String" resultType="java.lang.Integer">
+  <select id="countViewsByRole" parameterType="com.xjtuhub.entity.Role" resultType="java.lang.Integer">
     select count(views)
     from blog
     where role_id=#{roleId} and is_draft = 0 and is_private = 0 and status = 1
   </select>
 
 <!--  根据课程ID查找文章-->
-  <select id="selectArticleByCourseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectArticleByCourse" parameterType="com.xjtuhub.entity.Course" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"></include>
+    from blog,course
+    where blog.course_id=#{courseId} and category = 0 and is_draft = 0 and is_private = 0 and status = 1 and blog.course_id = course.course_id
+    limit 10
+  </select>
+  <!--  根据课程ID查找文章数-->
+  <select id="countArticleByCourse" parameterType="com.xjtuhub.entity.Course" resultType="java.lang.Integer">
+    select count(*)
+    from blog
     where course_id=#{courseId} and category = 0 and is_draft = 0 and is_private = 0 and status = 1
   </select>
-
-  <!--  根据课程ID查找问答-->
-  <select id="selectQuestionByCourseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <!--  根据课程ID分页查找文章-->
+  <select id="selectArticlePageByCourse" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"></include>
-    where course_id=#{courseId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1
+    from blog,course
+    where blog.course_id=#{course.courseId} and category = 0 and is_draft = 0 and is_private = 0 and blog.course_id = course.course_id and status = 1
+    LIMIT #{page.limitIndex}, #{page.pageSize}
   </select>
 
-  <!--根据ID查找草稿-->
-  <select id="selectDraftById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <!--  根据课程ID查找问题-->
+  <select id="selectQuestionByCourse" parameterType="com.xjtuhub.entity.Course" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"></include>
+    from blog,course
+    where blog.course_id=#{courseId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1 and blog.course_id = course.course_id
+    limit 10
+  </select>
+
+  <!--  根据课程ID查找问题数-->
+  <select id="countQuestionByCourse" parameterType="com.xjtuhub.entity.Course" resultType="java.lang.Integer">
+    select count(*)
     from blog
-    where role_id=#{roleId} and is_draft=1
+    where course_id=#{courseId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1
+  </select>
+  <!--  根据课程ID分页查找问题-->
+  <select id="selectQuestionPageByCourse" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from blog,course
+    where blog.course_id=#{course.courseId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1 and blog.course_id = course.course_id
+    LIMIT #{page.limitIndex}, #{page.pageSize}
+  </select>
+
+  <!--根据用户ID查找草稿-->
+  <select id="selectDraftByRole" parameterType="com.xjtuhub.entity.Role" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from blog, course
+    where role_id=#{roleId} and is_draft=1 and blog.course_id = course.course_id
     order by release_date desc
   </select>
 
-  <!--  根据ID查询文章列表-->
-  <select id="selectArticleById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <!--  根据用户ID查询文章列表-->
+  <select id="selectArticleByRole" parameterType="com.xjtuhub.entity.Role" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"></include>
-    from blog
+    from blog,course
     where role_id=#{roleId} and category = 0 and is_draft = 0 and is_private = 0 and status = 1
     order by release_date desc
   </select>
 
   <!--  根据ID查询问答列表-->
-  <select id="selectQuestionById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectQuestionByRole" parameterType="com.xjtuhub.entity.Role" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"></include>
-    from blog
+    from blog,course
     where role_id=#{roleId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1
     order by release_date desc
   </select>
 
-  <!--  根据内容、标题、摘要搜索文章-->
-  <select id="selectArticleByContent" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <!--  根据内容搜索文章-->
+  <select id="selectArticleByContent" parameterType="com.xjtuhub.entity.Blog" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"></include>
-    from blog
-    where category = 0 and is_draft = 0 and is_private = 0 and status = 1 and (title like concat('%', #{key}, '%') or summary like concat('%', #{key}, '%') or course_name like concat('%', #{key}, '%') or content like concat('%',#{key},'%'))
+    from blog,course
+    where category = 0 and is_draft = 0 and is_private = 0 and blog.course_id = course.course_id and status = 1 and (title like concat('%', #{content}, '%') or summary like concat('%', #{content}, '%') or course_name like concat('%', #{content}, '%') or content like concat('%',#{content},'%'))
     order by views desc
   </select>
+<!-- 根据内容查询文章数 -->
+  <select id="countArticleByContent" parameterType="com.xjtuhub.entity.Blog" resultType="java.lang.Integer">
+    select count(*)
+    from blog,course
+    where category = 0 and is_draft = 0 and is_private = 0 and  blog.course_id = course.course_id and status = 1 and (title like concat('%', #{content}, '%') or summary like concat('%', #{content}, '%') or course_name like concat('%', #{content}, '%') or content like concat('%',#{content},'%'))
 
-  <!--  根据内容、标题、摘要搜索博问题-->
-  <select id="selectQuestionByContent" parameterType="java.lang.String" resultMap="BaseResultMap">
+  </select>
+  <!--  根据内容分页搜索文章-->
+  <select id="selectArticlePageByContent" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"></include>
-    from blog
-    where category = 1 and is_draft = 0 and is_private = 0 and status = 1 and (title like concat('%', #{key}, '%') or summary like concat('%', #{key}, '%') or course_name like concat('%', #{key}, '%') or content like concat('%',#{key},'%'))
+    from blog,course
+    where category = 0 and is_draft = 0 and is_private = 0 and blog.course_id = course.course_id and status = 1 and (title like concat('%', #{blog.content}, '%') or summary like concat('%', #{blog.content}, '%') or course_name like concat('%', #{blog.content}, '%') or content like concat('%',#{blog.content},'%'))
     order by views desc
+    LIMIT #{page.limitIndex}, #{page.pageSize}
+  </select>
+
+  <!--  根据内容搜索问题-->
+  <select id="selectQuestionByContent" parameterType="com.xjtuhub.entity.Blog" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from blog,course
+    where category = 1 and is_draft = 0 and is_private = 0 and status = 1 and blog.course_id = course.course_id and (title like concat('%', #{content}, '%') or summary like concat('%', #{content}, '%') or course_name like concat('%', #{content}, '%') or content like concat('%',#{content},'%'))
+    order by views desc
+  </select>
+  <!-- 根据内容查询问题数 -->
+  <select id="countQuestionByContent" parameterType="com.xjtuhub.entity.Blog" resultType="java.lang.Integer">
+    select count(*)
+    from blog,course
+    where category = 1 and is_draft = 0 and is_private = 0 and status = 1 and blog.course_id = course.course_id and (title like concat('%', #{content}, '%') or summary like concat('%', #{content}, '%') or course_name like concat('%', #{content}, '%') or content like concat('%',#{content},'%'))
+  </select>
+  <!--  根据内容分页搜索问题-->
+  <select id="selectQuestionPageByContent" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from blog,course
+    where category = 1 and is_draft = 0 and is_private = 0 and status = 1 and blog.course_id = course.course_id and (title like concat('%', #{blog.content}, '%') or summary like concat('%', #{blog.content}, '%') or course_name like concat('%', #{blog.content}, '%') or content like concat('%',#{blog.content},'%'))
+    order by views desc
+    LIMIT #{page.limitIndex}, #{page.pageSize}
   </select>
 
   <!--展示所有文章-->
-  <select id="selectArticleList" resultMap="BaseResultMap">
+  <select id="selectArticleList" parameterType="com.xjtuhub.entity.Page" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"></include>
-    from blog
-    where category = 0 and is_draft = 0 and is_private = 0 and status = 1
+    from blog, course
+    where category = 0 and is_draft = 0 and is_private = 0 and status = 1 and blog.course_id = course.course_id
     order by release_date desc
+    LIMIT #{limitIndex}, #{pageSize}
   </select>
 
-  <!--展示所有问答-->
-  <select id="selectQuestionList" resultMap="BaseResultMap">
+  <!--展示所有问题-->
+  <select id="selectQuestionList" parameterType="com.xjtuhub.entity.Page" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"></include>
-    from blog
-    where category = 1 and is_draft = 0 and is_private = 0 and status = 1
+    from blog, course
+    where category = 1 and is_draft = 0 and is_private = 0 and status = 1 and root_id = -1 and blog.course_id = course.course_id
     order by release_date desc
+    LIMIT #{limitIndex}, #{pageSize}
+  </select>
+<!--获取相关文章-->
+  <select id="selectRelativeBlog" parameterType="com.xjtuhub.entity.Blog" resultMap="BaseResultMap">
+    select *
+    from blog
+    where blog.course_id = #{courseId} and blog.status = 1 and blog.is_draft = 0 and blog.is_private = 0 and blog.blog_id != #{blogId}
   </select>
 
+  <resultMap id="starBlogMap" type="com.xjtuhub.entity.Blog" autoMapping="true">
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <association property="favorites_relation" javaType="com.xjtuhub.entity.Favorites_relationKey">
+      <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
+      <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+    </association>
+  </resultMap>
+<!--  获取博客收藏数-->
+  <select id="countStarByBlog" parameterType="com.xjtuhub.entity.Blog" resultType="java.lang.Integer">
+    select count(*)
+    from blog , favorites_relation
+    where blog.blog_id = #{blogId} and blog.blog_id = favorites_relation.blog_id
+  </select>
+<!--  获取问题下答案列表-->
+  <select id="selectAnswerListByBlog" parameterType="com.xjtuhub.entity.Blog" resultMap="BaseResultMap">
+    select *
+    from blog
+    where category = 1 and status = 1 and is_draft = 0 and is_private = 0 and root_id = #{blogId}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -214,14 +312,14 @@
       release_date, is_draft, is_private, 
       is_top, category, status, 
       views, title, graph_addr, 
-      file_addr, content, summary
+      file_addr, content, summary, root_id, is_done
       )
     values (#{blogId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, #{courseId,jdbcType=VARCHAR}, 
       #{releaseDate,jdbcType=TIMESTAMP}, #{isDraft,jdbcType=BIT}, #{isPrivate,jdbcType=BIT}, 
       #{isTop,jdbcType=BIT}, #{category,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{views,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{graphAddr,jdbcType=VARCHAR}, 
-      #{fileAddr,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{summary,jdbcType=LONGVARCHAR}
-      )
+      #{fileAddr,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{summary,jdbcType=LONGVARCHAR}, #{rootId,jdbcType=INTEGER}, #{isDone,jdbcType=INTEGER}
+    )
   </insert>
 
   <insert id="insertSelective" parameterType="com.xjtuhub.entity.Blog">

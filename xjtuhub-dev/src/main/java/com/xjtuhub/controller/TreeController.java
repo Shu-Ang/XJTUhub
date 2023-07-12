@@ -30,25 +30,10 @@ public class TreeController {
     @ApiOperation(value = "获取树")
     public JSONResult getCourseTree(){
         List<Course> courseList = courseService.selectCourseList();
-        for (Course course : courseList){
-            System.out.println(course.getCourseId());
-        }
-        System.out.println("-----------------");
         List<Major> majorList = majorService.selectMajorList();
-        for (Major major : majorList){
-            System.out.println(major.getMajorId());
-        }
-        System.out.println("-----------------");
         List<Major> majors = majorService.getMajorList(courseList, majorList);
-        for (Major major : majors){
-            System.out.println(major.getMajorId());
-        }
-        System.out.println("-----------------");
         List<Department> departmentList = departmentService.selectDepartmentList();
         List<Department> departments = departmentService.getDepartmentList(majors, departmentList);
-        for (Department department : departments){
-            System.out.println(department.getDepartmentId());
-        }
         return JSONResult.ok(departments);
     }
 }

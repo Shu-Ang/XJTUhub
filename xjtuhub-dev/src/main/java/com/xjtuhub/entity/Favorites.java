@@ -1,5 +1,12 @@
 package com.xjtuhub.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class Favorites {
     private Integer favoriteId;
 
@@ -7,37 +14,7 @@ public class Favorites {
 
     private String favoriteName;
 
-    private Boolean isPrivate;
+    private Integer isPrivate;
 
-    public Integer getFavoriteId() {
-        return favoriteId;
-    }
 
-    public void setFavoriteId(Integer favoriteId) {
-        this.favoriteId = favoriteId;
-    }
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId == null ? null : roleId.trim();
-    }
-
-    public String getFavoriteName() {
-        return favoriteName;
-    }
-
-    public void setFavoriteName(String favoriteName) {
-        this.favoriteName = favoriteName == null ? null : favoriteName.trim();
-    }
-
-    public Boolean getIsPrivate() {
-        return isPrivate;
-    }
-
-    public void setIsPrivate(Boolean isPrivate) {
-        this.isPrivate = isPrivate;
-    }
 }

@@ -1,5 +1,6 @@
 package com.xjtuhub.service.impl;
 
+import com.xjtuhub.entity.Blog;
 import com.xjtuhub.entity.Comment;
 import com.xjtuhub.entity.Page;
 import com.xjtuhub.mapper.CommentMapper;
@@ -7,10 +8,7 @@ import com.xjtuhub.service.CommentServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CommentService implements CommentServiceApi {
@@ -60,26 +58,44 @@ public class CommentService implements CommentServiceApi {
     public List<Comment> processComment(List<Comment> list) {
         Map<Integer, Comment> map = new HashMap<>();   // (id, Comment)
         List<Comment> result = new ArrayList<>();
-        // 将所有根评论加入 map
+        // 将所有根评论加入 result
         for(Comment comment : list) {
-            if(comment.getParentId() == -1)
+            if(comment.getParentId() == null)
                 result.add(comment);
             map.put(comment.getCommentId(), comment);
         }
         // 子评论加入到父评论的 child 中
         for(Comment comment : list) {
             Integer id = comment.getParentId();
-            if(id != -1) {   // 当前评论为子评论
+            if(id != null) {   // 当前评论为子评论
                 Comment p = map.get(id);
                 if(p.getChild() == null)    // child 为空，则创建
                     p.setChild(new ArrayList<>());
                 p.getChild().add(comment);
             }
         }
-        map.forEach((id, comment)->{
-            result.add(comment);
-
-        });
         return result;
     }
+
+    @Override
+    public List<Comment> selectCommentListByBlog(Blog blog) {
+        return commentMapper.selectCommentListByBlog(blog);
+    }
+
+    @Override
+    public Integer countCommentByBlog(Blog blog) {
+        return commentMapper.countCommentByBlog(blog);
+    }
+
+    @Override
+    public int deleteComment(Comment comment) {
+        List<Comment> childList = comment.getChild();
+        if (childList != null){
+            for(Comment child : childList){
+                deleteComment(child);
+            }
+        }
+        return commentMapper.deleteByPrimaryKey(comment.getCommentId());
+    }
+
 }

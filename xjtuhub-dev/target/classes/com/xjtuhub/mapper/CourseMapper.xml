@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xjtuhub.mapper.CourseMapper">
   <resultMap id="BaseResultMap" type="com.xjtuhub.entity.Course">
-    <id column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <id column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="major_id" jdbcType="INTEGER" property="majorId" />
     <result column="course_name" jdbcType="VARCHAR" property="courseName" />
     <result column="credit" jdbcType="DECIMAL" property="credit" />

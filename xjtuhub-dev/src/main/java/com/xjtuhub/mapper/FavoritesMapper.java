@@ -1,6 +1,7 @@
 package com.xjtuhub.mapper;
 
 import com.xjtuhub.entity.Favorites;
+import com.xjtuhub.entity.Role;
 
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface FavoritesMapper {
 
     int updateByPrimaryKey(Favorites record);
 
-    List<Favorites> selectByRoleId(String roleId);
+    List<Favorites> selectByRole(Role role);
 }

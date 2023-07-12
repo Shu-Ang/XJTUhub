@@ -40,18 +40,16 @@ public class AdminRoleController {
 
     @ApiOperation(value = "删除用户")
     @PostMapping("/deleteRole")
-    public JSONResult deleteRole(@RequestBody String roleId){
-        Role role = roleService.findRoleById(roleId);
-        roleService.deleteRole(roleId);
+    public JSONResult deleteRole(@RequestBody Role role){
+        roleService.deleteRole(role.getRoleId());
         return JSONResult.ok("删除成功！");
     }
     @ApiOperation(value = "改变用户状态用户")
     @PostMapping("/changeRoleStatus")
-    public JSONResult changeRoleStatus(@RequestBody String roleId){
-        roleId = roleId.split("=")[0];
-        Role role = roleService.findRoleById(roleId);
-        role.setStatus(role.getStatus()==1?0:1);
-        roleService.updateRoleSelective(role);
+    public JSONResult changeRoleStatus(@RequestBody Role role){
+        Role record = roleService.findRoleById(role.getRoleId());
+        record.setStatus(record.getStatus()==1?0:1);
+        roleService.updateRoleSelective(record);
         return JSONResult.ok();
     }
 

@@ -2,15 +2,17 @@ package com.xjtuhub.controller;
 
 import com.xjtuhub.common.result.JSONResult;
 import com.xjtuhub.entity.Blog;
+import com.xjtuhub.entity.Footprints;
 import com.xjtuhub.entity.Page;
 import com.xjtuhub.service.impl.BlogService;
+import com.xjtuhub.service.impl.FootprintsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
 @Api(tags = "稿件管理")
 @RequestMapping("/admin/blog")
 @RestController
@@ -18,14 +20,9 @@ public class AdminBlogController {
 
     @Autowired
     private BlogService blogService;
-    @PostMapping("/addBlog")
-    @ApiOperation(value = "插入博客")
-    public JSONResult insertBlog(@RequestBody Blog blog){
-        blog.setStatus(0);
-        blog.setReleaseDate(new Date());
-        blogService.insert(blog);
-        return JSONResult.ok();
-    }
+    @Autowired
+    private FootprintsService footprintsService;
+
     @GetMapping("/rawBlogPage")
     @ApiOperation(value = "分页查询未审核博客")
     public JSONResult selectRawBlogPage(Page page){
@@ -91,6 +88,29 @@ public class AdminBlogController {
     @ApiOperation(value = "访问量")
     public JSONResult countViews(){
         return JSONResult.ok(blogService.countViews());
+    }
+    @GetMapping("/countRecentView")
+    @ApiOperation(value = "查看最近一周的访问量")
+    public JSONResult countViewsLastWeek(){
+        List<Integer> list = new ArrayList<>();
+        List<Date> dateList = new ArrayList<>();
+        List<String> formatList = new ArrayList<>();
+        for (int i = 7;i >= 1;i--){
+            Calendar cal=Calendar.getInstance();
+            cal.add(Calendar.DATE,-i);
+            Date d =cal.getTime();
+            dateList.add(d);
+        }
+        Footprints footprints = new Footprints();
+        for (Date date : dateList){
+            formatList.add(String.format("%tF",date));
+            footprints.setViewDate(date);
+            list.add(footprintsService.countViewsByDate(footprints));
+        }
+        HashMap<String,List> map = new HashMap<>();
+        map.put("date", formatList);
+        map.put("data", list);
+        return JSONResult.ok(map);
     }
 
 }

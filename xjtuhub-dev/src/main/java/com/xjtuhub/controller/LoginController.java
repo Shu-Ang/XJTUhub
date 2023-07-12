@@ -9,8 +9,10 @@ import com.xjtuhub.common.utils.RedisOperator;
 import com.xjtuhub.common.utils.TokenUtils;
 import com.xjtuhub.common.utils.XjtuhubConstants;
 import com.xjtuhub.common.utils.CurrentUser;
+import com.xjtuhub.entity.Favorites;
 import com.xjtuhub.entity.LoginUser;
 import com.xjtuhub.entity.Role;
+import com.xjtuhub.service.impl.FavoritesService;
 import com.xjtuhub.service.impl.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,6 +31,8 @@ public class LoginController {
 
     @Autowired
     private MyMailSender myMailSender;
+    @Autowired
+    private FavoritesService favoritesService;
     @PostMapping("/register")
     @ApiOperation(value = "注册")
     public JSONResult registerRole(@RequestBody Role role){
@@ -53,6 +57,11 @@ public class LoginController {
             role.setStatus(1);
             roleService.updateRoleSelective(role);
             redisOperator.del(uuid);
+            Favorites favorites = new Favorites();
+            favorites.setFavoriteName("默认收藏夹");
+            favorites.setIsPrivate(0);
+            favorites.setRoleId(roleId);
+            favoritesService.newFavorite(favorites);
             return JSONResult.responseCustom(ResponseStatusEnum.ACTIVATE_SUCCEED);
         } else {
             return JSONResult.responseCustom(ResponseStatusEnum.ACTIVATE_FAIL);

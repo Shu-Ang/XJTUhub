@@ -17,6 +17,9 @@ public interface FollowMapper {
     int updateByPrimaryKeySelective(Follow record);
 
     int updateByPrimaryKey(Follow record);
-    int countFans(String roleId);
-    List<Role> selectFollowList(String roleId);
+    int countFansByRole(Role role);
+    int isFollow(Follow follow);
+
+    int unFollow(Follow follow);
+
 }

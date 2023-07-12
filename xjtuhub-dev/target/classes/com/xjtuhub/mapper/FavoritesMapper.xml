@@ -5,13 +5,13 @@
     <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
     <result column="role_id" jdbcType="VARCHAR" property="roleId" />
     <result column="favorite_name" jdbcType="VARCHAR" property="favoriteName" />
-    <result column="is_private" jdbcType="BIT" property="isPrivate" />
+    <result column="is_private" jdbcType="INTEGER" property="isPrivate" />
   </resultMap>
   <sql id="Base_Column_List">
     favorite_id, role_id, favorite_name, is_private
   </sql>
 <!--  查询用户所有收藏夹列表-->
-  <select id="selectByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByRole" parameterType="com.xjtuhub.entity.Role" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from favorites
@@ -25,10 +25,12 @@
     from favorites
     where favorite_id = #{favoriteId,jdbcType=INTEGER}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from favorites
     where favorite_id = #{favoriteId,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.xjtuhub.entity.Favorites">
     insert into favorites (favorite_id, role_id, favorite_name, 
       is_private)

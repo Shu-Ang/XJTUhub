@@ -10,11 +10,11 @@
     <result column="sign" jdbcType="VARCHAR" property="sign" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
+
   <sql id="Base_Column_List">
     role_id, face_addr, email, create_date, password, sign, status
   </sql>
 <!--  后台：只显示用户名、email、 创建时间、状态-->
-
 
 <!--  查询用户列表-->
   <select id="selectRoleList" resultMap="BaseResultMap">
@@ -44,28 +44,31 @@
   <resultMap id="FollowMap" type="com.xjtuhub.entity.Role">
     <id column="role_id" jdbcType="VARCHAR" property="roleId" />
     <result column="face_addr" jdbcType="VARCHAR" property="faceAddr" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="sign" jdbcType="VARCHAR" property="sign" />
     <association property="follow" javaType="com.xjtuhub.entity.Follow">
       <result column="role_id" jdbcType="VARCHAR" property="roleId" />
       <result column="writer_id" jdbcType="VARCHAR" property="writerId" />
     </association>
   </resultMap>
-  <sql id="selectFollowList">
-    role.role_id, role.face_addr
+  <sql id="FollowList">
+    role.role_id, role.face_addr, role.sign, role.email
   </sql>
   <!--  查询关注列表-->
-  <select id="selectFollowList" parameterType="java.lang.String" resultMap="FollowMap">
+  <select id="selectFollowList" parameterType="com.xjtuhub.entity.Role" resultMap="FollowMap">
     select
-    <include refid="selectFollowList"></include>
+    <include refid="FollowList"></include>
     from role, follow
     where follow.role_id = #{roleId} and follow.writer_id = role.role_id
   </select>
 <!--查询粉丝列表-->
-  <select id="selectFanList" parameterType="java.lang.String" resultMap="FollowMap">
+  <select id="selectFanList" parameterType="com.xjtuhub.entity.Role" resultMap="FollowMap">
     select
-    <include refid="selectFollowList"></include>
+    <include refid="FollowList"></include>
     from role, follow
     where follow.writer_id = #{roleId} and follow.role_id = role.role_id
   </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

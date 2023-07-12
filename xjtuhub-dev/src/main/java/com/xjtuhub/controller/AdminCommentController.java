@@ -25,7 +25,6 @@ public class AdminCommentController {
     public JSONResult selectCommentPage(Page page){
         // 获取总条数
         Integer totalNum = commentService.countComment();
-        System.out.println(totalNum);
         page.setTotalNum(totalNum);
         // 根据条件查询
         List<Comment> commentList = commentService.selectCommentPage(page);
@@ -36,7 +35,6 @@ public class AdminCommentController {
     @PostMapping("/deleteComment")
     @ApiOperation(value = "删除评论")
     public JSONResult deleteComment(@RequestBody Comment comment){
-        System.out.println(comment.getCommentId());
         int commentId = comment.getCommentId();
         commentService.deleteByPrimaryKey(commentId);
         return JSONResult.ok();

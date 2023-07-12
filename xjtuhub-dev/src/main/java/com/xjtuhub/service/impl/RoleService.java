@@ -70,12 +70,17 @@ public class RoleService implements RoleServiceApi {
     }
 
     @Override
-    public List<Role> selectFollowList(String roleId) {
-        return roleMapper.selectFollowList(roleId);
+    public List<Role> selectFollowList(Role role) {
+        return roleMapper.selectFollowList(role);
     }
     @Override
-    public List<Role> selectFanList(String roleId){
-        return roleMapper.selectFanList(roleId);
+    public List<Role> selectFanList(Role role){
+        return roleMapper.selectFanList(role);
+    }
+
+    @Override
+    public Role selectInfoByRole(Role role) {
+        return roleMapper.selectByPrimaryKey(role.getRoleId());
     }
 
 }

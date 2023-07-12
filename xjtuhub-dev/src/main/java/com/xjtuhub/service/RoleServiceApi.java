@@ -22,6 +22,9 @@ public interface RoleServiceApi {
 
     //查询用户总数
     public int countRole();
-    List<Role> selectFollowList(String roleId);
-    List<Role> selectFanList(String roleId);
+    List<Role> selectFollowList(Role role);
+    List<Role> selectFanList(Role role);
+
+    Role selectInfoByRole(Role role);
+
 }

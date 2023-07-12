@@ -6,7 +6,7 @@
     <result column="comment_id" jdbcType="INTEGER" property="commentId" />
     <result column="blog_id" jdbcType="INTEGER" property="blogId" />
     <result column="role_id" jdbcType="VARCHAR" property="roleId" />
-    <result column="flag" jdbcType="BIT" property="flag" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
   </resultMap>
 
   <resultMap id="UserInfoMap" type="com.xjtuhub.entity.Likes" autoMapping="true">
@@ -14,7 +14,7 @@
     <result column="comment_id" jdbcType="INTEGER" property="commentId" />
     <result column="blog_id" jdbcType="INTEGER" property="blogId" />
     <result column="role_id" jdbcType="VARCHAR" property="roleId" />
-    <result column="flag" jdbcType="BIT" property="flag" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
     <association property="blog" javaType="com.xjtuhub.entity.Blog">
       <result column="role_id" jdbcType="VARCHAR" property="roleId" />
     </association>
@@ -26,12 +26,31 @@
   <sql id="UserInfoList">
     likes_id, comment_id, comment.blog_id, comment.role_id, flag, blog.role_id
   </sql>
+<!--  博客点赞数-->
+  <select id="countLikesByBlog" parameterType="com.xjtuhub.entity.Blog" resultType="java.lang.Integer">
+    select count(*)
+    from likes
+    where likes.blog_id = #{blogId}
+  </select>
 <!--  用户点赞数-->
-  <select id="countUserLikes" parameterType="java.lang.String" resultType="java.lang.Integer">
+  <select id="countLikesByRole" parameterType="com.xjtuhub.entity.Role" resultType="java.lang.Integer">
     select count(*)
     form likes, blog
     where blog.role_id = #{roleId} and blog.blog_id = likes.blog_id
   </select>
+<!--  查询是否已点赞-->
+  <select id="isLike" parameterType="com.xjtuhub.entity.Likes" resultType="java.lang.Integer">
+    select count(*)
+    from likes
+    where likes.role_id = #{roleId} and likes.blog_id = #{blogId} and flag = 0
+  </select>
+
+<!--  根据roleId blogId / commentId 删除likes-->
+  <delete id="deleteLike" parameterType="com.xjtuhub.entity.Likes">
+    delete from likes
+    where likes.role_id = #{roleId} and likes.blog_id = #{blogId} and flag = 0
+  </delete>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

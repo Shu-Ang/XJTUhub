@@ -6,8 +6,8 @@
     <result column="blog_id" jdbcType="INTEGER" property="blogId" />
     <result column="view_date" jdbcType="TIMESTAMP" property="viewDate" />
   </resultMap>
-
-  <select id="selectFootprintsByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+<!--根据用户查浏览记录-->
+  <select id="selectFootprintsByRole" parameterType="com.xjtuhub.entity.Role" resultMap="BaseResultMap">
     select *
     from footprints
     where role_id=#{roleId}
@@ -19,6 +19,18 @@
     values (#{roleId,jdbcType=VARCHAR}, #{blogId,jdbcType=INTEGER}, #{viewDate,jdbcType=TIMESTAMP}
       )
   </insert>
+<!--  查询博客浏览量-->
+  <select id="countBlogViews" parameterType="com.xjtuhub.entity.Blog" resultType="java.lang.Integer">
+    select count(*)
+    from footprints
+    where footprints.blog_id = #{blogId}
+  </select>
+  <!--  按照日期查询访问量-->
+  <select id="countViewsByDate" parameterType="com.xjtuhub.entity.Footprints" resultType="java.lang.Integer">
+    select count(*)
+    from footprints
+    where TO_DAYS(view_date) = TO_DAYS(#{viewDate})
+  </select>
   <insert id="insertSelective" parameterType="com.xjtuhub.entity.Footprints">
     insert into footprints
     <trim prefix="(" suffix=")" suffixOverrides=",">

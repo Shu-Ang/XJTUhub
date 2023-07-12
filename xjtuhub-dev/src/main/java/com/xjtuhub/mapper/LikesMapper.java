@@ -1,6 +1,8 @@
 package com.xjtuhub.mapper;
 
+import com.xjtuhub.entity.Blog;
 import com.xjtuhub.entity.Likes;
+import com.xjtuhub.entity.Role;
 
 public interface LikesMapper {
     int deleteByPrimaryKey(Integer likesId);
@@ -15,5 +17,9 @@ public interface LikesMapper {
 
     int updateByPrimaryKey(Likes record);
 
-    int countUserLikes(String roleId);
+    int countLikesByBlog(Blog blog);
+    int countLikesByRole(Role role);
+    int isLike(Likes likes);
+    int deleteLike(Likes likes);
+
 }

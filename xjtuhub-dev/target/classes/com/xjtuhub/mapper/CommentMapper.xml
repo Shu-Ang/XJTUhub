@@ -23,8 +23,18 @@
     </association>
   </resultMap>
 
+  <resultMap id="BlogResultMap" type="com.xjtuhub.entity.Comment">
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="root_id" jdbcType="INTEGER" property="rootId" />
+    <result column="comment_date" jdbcType="TIMESTAMP" property="commentDate" />
+    <result column="comment_content" jdbcType="LONGVARCHAR" property="commentContent" />
+  </resultMap>
+
   <sql id="Base_Column_List">
-    comment_id, blog_id, role_id, parent_comment, comment_date, comment_content
+    comment_id, blog_id, role_id, parent_id, comment_date, comment_content, root_id
   </sql>
   
   <sql id="Admin_Comment_List">
@@ -45,7 +55,20 @@
     where comment.blog_id = blog.blog_id
     LIMIT #{limitIndex}, #{pageSize}
   </select>
-
+<!--  根据blogId查询评论列表-->
+  <select id="selectCommentListByBlog" parameterType="com.xjtuhub.entity.Blog" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from comment
+    where comment.blog_id = #{blogId}
+    order by comment_date desc
+  </select>
+<!--根据blogId获取评论数-->
+  <select id="countCommentByBlog" parameterType="com.xjtuhub.entity.Blog" resultType="java.lang.Integer">
+    select count(*)
+    from comment
+    where comment.blog_id = #{blogId}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -59,11 +82,11 @@
   </delete>
 
   <insert id="insert" parameterType="com.xjtuhub.entity.Comment">
-    insert into comment (comment_id, blog_id, role_id, 
-      parent_comment, comment_date, comment_content
+    insert into comment (comment_id, blog_id, role_id,
+      parent_id, comment_date, comment_content,root_id
       )
     values (#{commentId,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR}, 
-      #{parentComment,jdbcType=INTEGER}, #{commentDate,jdbcType=TIMESTAMP}, #{commentContent,jdbcType=LONGVARCHAR}
+      #{parentId,jdbcType=INTEGER}, #{commentDate,jdbcType=TIMESTAMP}, #{commentContent,jdbcType=LONGVARCHAR},#{rootId,jdbcType=INTEGER}
       )
   </insert>
 

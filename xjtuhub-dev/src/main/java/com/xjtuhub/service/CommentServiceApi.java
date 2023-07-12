@@ -1,5 +1,6 @@
 package com.xjtuhub.service;
 
+import com.xjtuhub.entity.Blog;
 import com.xjtuhub.entity.Comment;
 import com.xjtuhub.entity.Page;
 
@@ -24,4 +25,8 @@ public interface CommentServiceApi {
     List<Comment> selectCommentPage(Page page);
 
     List<Comment> processComment(List<Comment> list);
+    List<Comment> selectCommentListByBlog(Blog blog);
+    Integer countCommentByBlog(Blog blog);
+
+    int deleteComment(Comment comment);
 }
