@@ -11,15 +11,18 @@
                             <div class="writerInfo">
                                 <el-col>
                                     <el-card :body-style="{ padding: '10px' }">
-                                        <el-avatar :size="270"  :shape="square" :src="writer.faceAddr" @click="goToInfo(writer.roleId)"/>
+                                        <el-avatar :size="270" :shape="square" :src="writer.faceAddr"
+                                            @click="goToInfo(writer.roleId)" />
                                         <div style="padding: 14px; font-size: x-large;font-weight: 500; ">
-                                            <span style="text-align: center; display:block;" >{{ writer.roleId }} <el-tag size="mini" type="primary" style="margin-left: 5px;">题主</el-tag></span>
-                                            
+                                            <span style="text-align: center; display:block;">{{ writer.roleId }} <el-tag
+                                                    size="mini" type="primary" style="margin-left: 5px;">题主</el-tag></span>
+
                                             <div style="font-size: large;">
-                                                <span style="text-align: center; display:block;" >e-mail:{{ writer.email }}</span>
+                                                <span style="text-align: center; display:block;">e-mail:{{ writer.email
+                                                }}</span>
                                             </div>
                                             <div style="font-size: large;">
-                                                <span style="text-align: center; display:block;" >{{ writer.sign }}</span>
+                                                <span style="text-align: center; display:block;">{{ writer.sign }}</span>
                                             </div>
                                         </div>
                                     </el-card>
@@ -32,8 +35,8 @@
                                 <el-card class="relative" style="margin-top: 20px;">
                                     <h3 class="aside-title" style="font-size: x-large; font-weight: 500;">相关问题</h3>
                                     <li v-for="rela in relativeList">
-                                        <el-link type="default" @click="goToBlog( rela.blogId)"
-                                            style="font-size: large;" :underline="true">{{
+                                        <el-link type="default" @click="goToBlog(rela.blogId)" style="font-size: large;"
+                                            :underline="true">{{
                                                 rela.title }}<el-icon style="margin-right: 5px;">
                                                 <View />
                                             </el-icon>
@@ -112,12 +115,12 @@
                                 <div class="writerInfo" style="margin-top: 30px;">
                                     <el-col>
                                         <el-card v-if="writerList[index]" :body-style="{ padding: '10px' }">
-                                            <div class="writerImg" @click="goToInfo(writerList[index].roleId)">
-                                                <img :src="writerList[index].faceAddr" class="image" />
-                                            </div>
+                                            <el-avatar :size="270" :shape="square" :src="writerList[index].faceAddr"
+                                            @click="goToInfo(writerList[index].roleId)" />
                                             <div style="padding: 14px; font-size: x-large;font-weight: 500;">
                                                 <span>{{ writerList[index].roleId }}</span>
-                                                <el-tag size="mini" type="primary" style="margin-left: 5px;" v-show="writerList[index].roleId == blog.blogId">题主</el-tag>
+                                                <el-tag size="mini" type="primary" style="margin-left: 5px;"
+                                                    v-show="writerList[index].roleId == blog.blogId">题主</el-tag>
                                                 <div style="font-size: large;">
                                                     <span>e-mail:{{ writerList[index].email }}</span>
                                                 </div>
@@ -176,24 +179,28 @@
                     <el-row>
                         <el-col :span="5" style="margin-left: 40px;">
                             <!-- 作者信息 -->
-                    <el-row>
-                            <div class="writerInfo">
-                                <el-col>
-                                    <el-card :body-style="{ padding: '10px' }">
-                                        <el-avatar :size="270"  :shape="square" :src="user.faceAddr" @click="goToInfo(user.roleId)"/>
-                                        <div style="padding: 14px; font-size: x-large;font-weight: 500; ">
-                                            <span style="text-align: center; display:block;" >{{ user.roleId }} <el-tag v-if="user.roleId == blog.roleId" size="mini" type="primary" style="margin-left: 5px;">题主</el-tag></span>
-                                            <div style="font-size: large;">
-                                                <span style="text-align: center; display:block;" >e-mail:{{ user.email }}</span>
+                            <el-row>
+                                <div class="writerInfo">
+                                    <el-col>
+                                        <el-card :body-style="{ padding: '10px' }">
+                                            <el-avatar :size="270" :shape="square" :src="user.faceAddr"
+                                                @click="goToInfo(user.roleId)" />
+                                            <div style="padding: 14px; font-size: x-large;font-weight: 500; ">
+                                                <span style="text-align: center; display:block;">{{ user.roleId }} <el-tag
+                                                        v-if="user.roleId == blog.roleId" size="mini" type="primary"
+                                                        style="margin-left: 5px;">题主</el-tag></span>
+                                                <div style="font-size: large;">
+                                                    <span style="text-align: center; display:block;">e-mail:{{ user.email
+                                                    }}</span>
+                                                </div>
+                                                <div style="font-size: large;">
+                                                    <span style="text-align: center; display:block;">{{ user.sign }}</span>
+                                                </div>
                                             </div>
-                                            <div style="font-size: large;">
-                                                <span style="text-align: center; display:block;" >{{ user.sign }}</span>
-                                            </div>
-                                        </div>
-                                    </el-card>
-                                </el-col>
-                            </div>
-                        </el-row>
+                                        </el-card>
+                                    </el-col>
+                                </div>
+                            </el-row>
                         </el-col>
                         <el-col style="margin-top: -300px; margin-left: -35px;">
                             <el-form-item label="" prop="content">
@@ -355,17 +362,11 @@ export default {
             })
         },
         async likeListClick(index) {
-            await userApi.getUserId().then(async res => {
+            this.like.roleId = this.userId
+            this.like.blogId = this.answerList[index].blogId
+            await blogApi.like(this.like).then(async res => {
                 if (res.success) {
-                    this.like.roleId = res.data.userId
-                    this.like.blogId = this.answerList[index].blogId
-                    await blogApi.like(this.like).then(async res => {
-                        if (res.success) {
-                            await this.updateLikeOfIndex(index)
-                        } else {
-                            tip.error(res.msg)
-                        }
-                    })
+                    await this.updateLikeOfIndex(index)
                 } else {
                     tip.error(res.msg)
                 }
@@ -375,65 +376,55 @@ export default {
             await blogApi.getLikesNum({ blogId: this.blog.blogId }).then(async res => {
                 if (res.success) {
                     this.likeNum = res.data
-                    await userApi.getUserId().then(async res => {
+                    this.user.roleId = this.userId
+                    await infoApi.getInfo({ roleId: this.userId }).then(res => {
+                        this.user.faceAddr = res.data.faceAddr
+                        this.user.email = res.data.email
+                        this.user.sign = res.data.sign
+                    })
+                    await blogApi.isLike({
+                        roleId: this.userId,
+                        blogId: this.blog.blogId
+                    }).then(res => {
                         if (res.success) {
-                            this.user.roleId = res.data.userId
-                            await infoApi.getInfo({ roleId: res.data.userId }).then(res => {
-                                this.user.faceAddr = res.data.faceAddr
-                                this.user.email = res.data.email
-                                this.user.sign = res.data.sign
-                            })
-                            await blogApi.isLike({
-                                roleId: res.data.userId,
-                                blogId: this.blog.blogId
-                            }).then(res => {
-                                if (res.success) {
-                                    if (res.data === 1) {
-                                        let likeElem = this.$refs.likeFix.parentNode;
-                                        likeElem.style.color = "red";    // 调整点赞后样式
-                                    } else {
-                                        let likeElem = this.$refs.likeFix.parentNode;
-                                        likeElem.style.color = null;    // 调整点赞后样式
-                                    }
-                                } else {
-                                    tip.error(res.msg)
-                                }
-                            })
+                            if (res.data === 1) {
+                                let likeElem = this.$refs.likeFix.parentNode;
+                                likeElem.style.color = "red";    // 调整点赞后样式
+                            } else {
+                                let likeElem = this.$refs.likeFix.parentNode;
+                                likeElem.style.color = null;    // 调整点赞后样式
+                            }
                         } else {
                             tip.error(res.msg)
                         }
                     })
+                } else {
+                    tip.error(res.msg)
                 }
             })
         },
         // 点赞点击事件
         async likeClick() {
-            await userApi.getUserId().then(async res => {
-                this.like.roleId = res.data.userId
-                this.like.blogId = this.blog.blogId
-                await blogApi.like(this.like).then(async res => {
-                    await this.updateLike()
-                })
+            this.like.roleId = this.userId
+            this.like.blogId = this.blog.blogId
+            await blogApi.like(this.like).then(async res => {
+                await this.updateLike()
             })
         },
         async updateStar() {
             await blogApi.getStarsNum({ blogId: this.blog.blogId }).then(async res => {
                 if (res.success) {
                     this.starNum = res.data
-                    await userApi.getUserId().then(async res => {
+                    await blogApi.isStar({
+                        blogId: this.blog.blogId,
+                        roleId: this.userId
+                    }).then(res => {
                         if (res.success) {
-                            await blogApi.isStar({
-                                blogId: this.blog.blogId,
-                                roleId: res.data.userId
-                            }).then(res => {
-                                if (res.success) {
-                                    this.starClickNum = res.data
-                                    if (this.starClickNum === 1) {
-                                        let starElem = this.$refs.starFix.parentNode;
-                                        starElem.style.color = "rgb(226, 168, 8)";    // 调整收藏后样式
-                                    }
-                                }
-                            })
+                            this.starClickNum = res.data
+                            if (this.starClickNum === 1) {
+                                let starElem = this.$refs.starFix.parentNode;
+                                starElem.style.color = "rgb(226, 168, 8)";    // 调整收藏后样式
+                            }
                         }
                     })
                 }
@@ -441,15 +432,9 @@ export default {
         },
         async starClick() {
             if (this.starClickNum === 0) {
-                await userApi.getUserId().then(async res => {
-                    if (res.success) {
-                        await infoApi.getFavoriteList({ roleId: res.data.userId }).then(async res => {
-                            this.favoriteList = res.data
-                            this.favoriteListShow = true
-                        })
-                    } else {
-                        tip.error(res.msg)
-                    }
+                await infoApi.getFavoriteList({ roleId: this.userId }).then(async res => {
+                    this.favoriteList = res.data
+                    this.favoriteListShow = true
                 })
             }
         },
@@ -532,8 +517,7 @@ export default {
         },
     },
     async created() {
-        
-        this.userId = this.$route.query.user; 
+        this.userId = this.$route.query.user;
         this.blog.blogId = this.$route.query.qa;     // 赋值博客ID
         await this.getBlogDetails();    // 获取文章内容
         await this.getAnswerList();

@@ -1,16 +1,17 @@
 <template>
-<div>
-	<div class="comment-line-box">
-		<div class="comment-list-item">
-			<el-avatar :src="comment.faceAddr" :size="35" style="width: 38px;"></el-avatar>
-			<div class="right-box">
-				<div class="new-info-box clearfix">
-					<div class="comment-top">
-						<div class="user-box">
-							<span class="comment-name">{{ comment.roleId }}</span>
-							<el-tag size="mini" type="primary" v-show="comment.roleId === blog.roleId" style="margin-left: 5px;">作者</el-tag>
-							<span class="date">{{ comment.commentDate }}</span>
-							<div class="opt-comment">
+	<div>
+		<div class="comment-line-box">
+			<div class="comment-list-item">
+				<el-avatar :src="comment.faceAddr" @click="goToInfo(comment.roleId)" :size="35" style="width: 38px;"></el-avatar>
+				<div class="right-box">
+					<div class="new-info-box clearfix">
+						<div class="comment-top">
+							<div class="user-box">
+								<span class="comment-name">{{ comment.roleId }}</span>
+								<el-tag size="mini" type="primary" v-show="comment.roleId === blog.roleId"
+									style="margin-left: 5px;">作者</el-tag>
+								<span class="date">{{ comment.commentDate }}</span>
+								<div class="opt-comment">
 									<i class="el-icon-delete"></i>
 									<el-button @click="deleteComment(comment)" type="default" size="mini" icon="Delete"
 										style="border-radius: 15px;"></el-button>
@@ -18,18 +19,19 @@
 									<el-button @click="rootCommentShow = !rootCommentShow" type="default" size="mini"
 										icon="ChatLineRound" style="border-radius: 15px;"></el-button>
 								</div>
+							</div>
 						</div>
-					</div>
-					<div class="comment-center">
-						<div class="new-comment">{{ comment.commentContent }}</div>
+						<div class="comment-center">
+							<div class="new-comment">{{ comment.commentContent }}</div>
+						</div>
 					</div>
 				</div>
 			</div>
+			<!-- 回复框 -->
+			<replay v-if="comment != null" :rootId="comment.commentId" :comment="comment" :showReplay="rootCommentShow"
+				:blogId="blogId" :getCommentList="getCommentList" style="margin-top: 5px;"></replay>
 		</div>
-		<!-- 回复框 -->
-		<replay v-if="comment!=null" :rootId="comment.commentId" :comment="comment" :showReplay="rootCommentShow" :blogId="blogId"  :getCommentList="getCommentList" style="margin-top: 5px;"></replay>
 	</div>
-</div>
 </template>
 
 <script>
@@ -37,7 +39,7 @@ import replay from '@/components/Blog/replay.vue'
 import blogApi from '@/api/blog'
 import userApi from '@/api/user'
 import infoApi from '@/api/info'
-import { tip, getLocalToken} from '@/common'
+import { tip, getLocalToken } from '@/common'
 import Message from '@/common/request/request-message'
 export default {
 	name: "root",
@@ -60,6 +62,7 @@ export default {
 	},
 	data() {
 		return {
+			userId: "",
 			rootCommentShow: false,     // 评论回复输入框是否可见
 			blogId: this.blog.blogId,     // 博客ID
 		}
@@ -79,27 +82,28 @@ export default {
 			);
 			if (flag) {
 				// 检查权限（本文作者 或 本条评论作者 或 系统管理员 可删除）
-				await userApi.getUserId(getLocalToken).then(async res => {
-					console.log(comm.roleId)
-					if (res.data.userId === this.blog.roleId || res.data.userId === comm.roleId || res.data.userId === "admin") {
-						let res = await blogApi.deleteComment(comm);
-						if (res.success) {
-							tip.success(res.msg);
-							this.getCommentList();
-						} else {
-							tip.error(res.msg);
-						}
+				if (this.userId === this.blog.roleId || this.userId === comm.roleId || this.userId === "admin") {
+					let res = await blogApi.deleteComment(comm);
+					if (res.success) {
+						tip.success(res.msg);
+						this.getCommentList();
 					} else {
-						tip.error("您没有删除本条评论的权限");
+						tip.error(res.msg);
 					}
-				})
+				} else {
+					tip.error("您没有删除本条评论的权限");
+				}
 			}
 		},
+		async goToInfo(id){
+			await infoApi.goToInfo(id, this.userId);
+		}
 	},
 	mounted() {
 		this.blogId = this.blog.blogId;
+		this.userId = this.$route.query.user
 	}
-	
+
 }
 </script>
 
@@ -111,19 +115,23 @@ export default {
 	position: relative;
 	margin-top: 8px;
 }
+
 .comment-line-box .comment-list-item {
 	display: flex;
 	width: 100%;
 }
+
 .comment-line-box .right-box {
 	padding-top: 5px;
 	padding-bottom: 5px;
 	width: 100%;
 	margin-left: 8px;
 }
+
 .comment-line-box .right-box .new-info-box {
 	width: 100%;
 }
+
 .comment-line-box .right-box .new-info-box .comment-top {
 	display: flex;
 	-webkit-box-pack: end;
@@ -132,6 +140,7 @@ export default {
 	line-height: 20px;
 	font-size: 14px;
 }
+
 .comment-line-box .right-box .new-info-box .user-box {
 	-webkit-box-flex: 1;
 	flex: 1;
@@ -143,16 +152,19 @@ export default {
 	top: 0;
 	padding-right: 8px;
 }
+
 .comment-name {
 	display: flex;
 	-webkit-box-align: center;
 	align-items: center;
 }
+
 .date {
 	font-size: 14px;
 	color: #777888;
 	margin-left: 5px;
 }
+
 .opt-comment {
 	line-height: 20px;
 	height: 20px;
@@ -163,13 +175,14 @@ export default {
 	padding-left: 16px;
 	background: #fff;
 }
+
 .opt-comment:hover {
 	cursor: pointer;
 }
+
 .new-comment {
 	font-size: 14px;
 	color: #222226;
 	line-height: 22px;
 	word-break: break-word;
-}
-</style>
+}</style>

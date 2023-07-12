@@ -1,6 +1,6 @@
 <template>
   <div class="fanorfollow_box">
-    <h4>{{ userId }}的关注列表</h4>
+    <h4>{{ localId }}的关注列表</h4>
     <div class="fanorfollow" v-for="(fo, index) in FollowList" :key="index">
       <div class="fanorfollow_left">
         <img class="fanorfollow_img" v-image-preview :src="fo.faceAddr" />

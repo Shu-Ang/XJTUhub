@@ -1,17 +1,15 @@
 <template>
   <div class="myart1">
-    <h4>{{ userId }}的提问</h4>  
+    <h4>{{ localId }}的提问</h4>  
       <div>
       <div v-for="blog in blogs" :key="blog.blogId">
         <el-card class="box-card">
           <template #header>
             <div class="card-header"  v-on:click="blogApi.goToBlog(blog.blogId, userId)">
               <h4 v-on:click="blogApi.goToBlog(blog.blogId, userId)"
-                style="cursor: pointer"
+                style="cursor: pointer; width: 300px;"
                 >{{ blog.title }}</h4>
               <div class="blog_button">
-                <el-button v-on:click="blogApi.goToBlog(blog.blogId, userId)" type="primary" plain size="small" >
-                <el-icon><Pointer /></el-icon>文章详情</el-button>
                 <el-popconfirm
                   v-if="userId == localId"
                   confirm-button-text="是"

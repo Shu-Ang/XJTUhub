@@ -95,7 +95,7 @@
                                         <li class="tool-item tool-item-size tool-active is-like">
                                             <el-tooltip class="item" effect="dark" content="评 论" placement="top">
                                                 <div class="comment-div">
-                                                    <el-icon @click="commentShow = !commentShow"
+                                                    <el-icon @click="showComment()"
                                                         style="font-size: x-large;">
                                                         <ChatLineRound />
                                                     </el-icon>
@@ -302,22 +302,16 @@ export default {
             await blogApi.getLikesNum({ blogId: this.blog.blogId }).then(async res => {
                 if (res.success) {
                     this.likeNum = res.data
-                    await userApi.getUserId(getLocalToken).then(async res => {
+                    await blogApi.isLike({
+                        roleId: this.userId,
+                        blogId: this.blog.blogId
+                    }).then(res => {
                         if (res.success) {
-                            await blogApi.isLike({
-                                roleId: res.data.userId,
-                                blogId: this.blog.blogId
-                            }).then(res => {
-                                if (res.success) {
-                                    this.likeClickNum = res.data
-                                    if (this.likeClickNum === 1) {
-                                        let likeElem = this.$refs.likeFix.parentNode;
-                                        likeElem.style.color = "red";    // 调整点赞后样式
-                                    }
-                                } else {
-                                    tip.error(res.msg)
-                                }
-                            })
+                            this.likeClickNum = res.data
+                            if (this.likeClickNum === 1) {
+                                let likeElem = this.$refs.likeFix.parentNode;
+                                likeElem.style.color = "red";    // 调整点赞后样式
+                            }
                         } else {
                             tip.error(res.msg)
                         }
@@ -327,46 +321,40 @@ export default {
         },
         // 点赞点击事件
         async likeClick() {
-            await userApi.getUserId(getLocalToken).then(async res => {
-                this.like.roleId = res.data.userId
-                this.like.blogId = this.blog.blogId
-                if (this.likeClickNum === 0) {
-                    await blogApi.like(this.like).then(async res => {
-                        this.likeClickNum = 1
-                        await this.updateLike().then(res => {
-                            let likeElem = this.$refs.likeFix.parentNode;
-                            likeElem.style.color = "red";    // 调整点赞后样式
-                        })
+            this.like.roleId = this.userId
+            this.like.blogId = this.blog.blogId
+            if (this.likeClickNum === 0) {
+                await blogApi.like(this.like).then(async res => {
+                    this.likeClickNum = 1
+                    await this.updateLike().then(res => {
+                        let likeElem = this.$refs.likeFix.parentNode;
+                        likeElem.style.color = "red";    // 调整点赞后样式
                     })
-                } else {
-                    await blogApi.like(this.like).then(async res => {
-                        this.likeClickNum = 0
-                        await this.updateLike().then(res => {
-                            let likeElem = this.$refs.likeFix.parentNode;
-                            likeElem.style.color = null;    // 调整点赞后样式
-                        })
+                })
+            } else {
+                await blogApi.like(this.like).then(async res => {
+                    this.likeClickNum = 0
+                    await this.updateLike().then(res => {
+                        let likeElem = this.$refs.likeFix.parentNode;
+                        likeElem.style.color = null;    // 调整点赞后样式
                     })
-                }
-            })
+                })
+            }
         },
         async updateStar() {
             await blogApi.getStarsNum({ blogId: this.blog.blogId }).then(async res => {
                 if (res.success) {
                     this.starNum = res.data
-                    await userApi.getUserId(getLocalToken).then(async res => {
+                    await blogApi.isStar({
+                        blogId: this.blog.blogId,
+                        roleId: this.userId
+                    }).then(res => {
                         if (res.success) {
-                            await blogApi.isStar({
-                                blogId: this.blog.blogId,
-                                roleId: res.data.userId
-                            }).then(res => {
-                                if (res.success) {
-                                    this.starClickNum = res.data
-                                    if (this.starClickNum === 1) {
-                                        let starElem = this.$refs.starFix.parentNode;
-                                        starElem.style.color = "rgb(226, 168, 8)";    // 调整收藏后样式
-                                    }
-                                }
-                            })
+                            this.starClickNum = res.data
+                            if (this.starClickNum === 1) {
+                                let starElem = this.$refs.starFix.parentNode;
+                                starElem.style.color = "rgb(226, 168, 8)";    // 调整收藏后样式
+                            }
                         }
                     })
                 }
@@ -374,22 +362,14 @@ export default {
         },
         async starClick() {
             if (this.starClickNum === 0) {
-                await userApi.getUserId(getLocalToken).then(async res => {
-                    if (res.success) {
-                        await infoApi.getFavoriteList({ roleId: res.data.userId }).then(async res => {
-                            this.favoriteList = res.data
-                            this.favoriteListShow = true
-                        })
-                    } else {
-                        tip.error(res.msg)
-                    }
+                await infoApi.getFavoriteList({ roleId: this.userId }).then(async res => {
+                    this.favoriteList = res.data
+                    this.favoriteListShow = true
                 })
             }
-
         },
         submitStar() {
             this.favoriteListShow = false
-            console.log(this.favoriteId)
             blogApi.star({
                 blogId: this.blog.blogId,
                 favoriteId: this.favoriteId
@@ -437,19 +417,17 @@ export default {
         },
         // 添加评论
         async addComment() {
-            await userApi.getUserId(getLocalToken).then(async res => {
-                this.commentModel.commentContent = this.commentContent;
-                this.commentModel.blogId = this.blog.blogId;
-                this.commentModel.roleId = res.data.userId;
-                await blogApi.addComment(this.commentModel).then(res => {
-                    if (res.success) {
-                        tip.success(res.msg);
-                        this.getCommentList();
-                        this.commentContent = "";
-                    } else {
-                        tip.error(res.msg);
-                    }
-                })
+            this.commentModel.commentContent = this.commentContent;
+            this.commentModel.blogId = this.blog.blogId;
+            this.commentModel.roleId = this.userId;
+            await blogApi.addComment(this.commentModel).then(res => {
+                if (res.success) {
+                    tip.success(res.msg);
+                    this.getCommentList();
+                    this.commentContent = "";
+                } else {
+                    tip.error(res.msg);
+                }
             })
         },
         async goToBlog(blogId) {
@@ -459,30 +437,28 @@ export default {
             infoApi.goToInfo(roleId, this.userId)
         },
         async getCurrUser() {
-            await userApi.getUserId().then(res => {
+            await infoApi.getInfo({ roleId: this.userId }).then(res => {
                 if (res.success) {
-                    infoApi.getInfo({roleId: res.data.userId}).then(res => {
-                        if (res.success) {
-                            this.currUser.roleId = res.data.roleId
-                            this.currUser.faceAddr = res.data.faceAddr
-                            this.currUser.email = res.data.email
-                            this.currUser.sign = res.data.sign
-                        } else {
-                            tip.error(res.msg)
-                        }
-                    })
-                }else{
+                    this.currUser.roleId = res.data.roleId
+                    this.currUser.faceAddr = res.data.faceAddr
+                    this.currUser.email = res.data.email
+                    this.currUser.sign = res.data.sign
+                } else {
                     tip.error(res.msg)
                 }
             })
         },
+        async showComment(){
+            await this.getCurrUser();
+            this.commentShow = !this.commentShow;
+            
+        }
     },
     async created() {
-        
+
         this.userId = this.$route.query.user;
         this.blog.blogId = this.$route.query.blog;     // 赋值博客ID
-        await this.getCurrUser();
-        await this.getBlogDetails();    // 获取文章内容
+        this.getBlogDetails();    // 获取文章内容
         await this.updateLike();
         await this.updateStar();
         await this.getCommentList();    // 获取评论列表
@@ -1017,4 +993,5 @@ ul {
     background: rgba(245, 246, 247, 0.8);
     border-radius: 8px;
     padding: 14px 0;
-}</style>
+}
+</style>

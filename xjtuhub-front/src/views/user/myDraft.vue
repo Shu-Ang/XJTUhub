@@ -1,6 +1,6 @@
 <template>
   <div class="myart1">
-    <h4>{{ userId }}的草稿箱</h4>
+    <h4>{{ localId }}的草稿箱</h4>
     <div>
       <div v-for="blog in blogs" :key="blog.blogId">
         <el-card class="box-card">

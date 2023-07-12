@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4>{{ userId }}的收藏夹</h4>
+    <h4>{{ localId }}的收藏夹</h4>
     <div class="favorite_box">
       <el-button type="primary" @click="showDia" plain><el-icon><CirclePlus /></el-icon>新建收藏夹</el-button> 
       <div class="favorite" v-for="favorite in favorites" :key="favorite.favoriteId">

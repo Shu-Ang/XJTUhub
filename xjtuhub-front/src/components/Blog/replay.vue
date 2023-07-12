@@ -56,6 +56,7 @@ export default {
 	},
 	data() {
 		return {
+			userId:"",
 			countWordNum: 1000,     // 剩余可输入字数
 			commentContent: "",     // 评论输入内容
 			commentModel: {         // 添加评论模型
@@ -72,33 +73,33 @@ export default {
 		countNum() {
 			this.countWordNum = 1000 - this.commentContent.length;
 		},
-		
 		// 添加评论
 		async addComment() {
-			await userApi.getUserId(getLocalToken).then(async res => {
-				console.log()
-				console.log(this.comment)
-				this.commentModel.commentContent = this.commentContent;
-				this.commentModel.blogId = this.blogId;
-				this.commentModel.parentId = this.comment.commentId;
-				this.commentModel.rootId = this.rootId;
-				this.commentModel.roleId = res.data.userId;
-				await blogApi.addComment(this.commentModel).then(res => {
-					if (res.success) {
-						tip.success(res.msg);
-						this.$parent.closeReplay();    // 关闭输入框
-						this.getCommentList();
-						this.commentContent = "";
-					} else {
-						tip.error(res.msg);
-					}
-				})
+			console.log()
+			console.log(this.comment)
+			this.commentModel.commentContent = this.commentContent;
+			this.commentModel.blogId = this.blogId;
+			this.commentModel.parentId = this.comment.commentId;
+			this.commentModel.rootId = this.rootId;
+			this.commentModel.roleId = this.userId;
+			await blogApi.addComment(this.commentModel).then(res => {
+				if (res.success) {
+					tip.success(res.msg);
+					this.$parent.closeReplay();    // 关闭输入框
+					this.getCommentList();
+					this.commentContent = "";
+				} else {
+					tip.error(res.msg);
+				}
 			})
 		},
-		async closeComment(){
-			this.$parent.closeReplay(); 
+		async closeComment() {
+			this.$parent.closeReplay();
 		}
 	},
+	mounted() {
+		this.userId = this.$route.query.user
+	}
 }
 </script>
 

@@ -112,7 +112,7 @@ const login = async () => {
                     setLocalToken(result.data)
                     if (loginForm.userId == 'admin') {
                         tip.success("欢迎")
-                        router.push("/admin/dashboard")
+                        router.push({ path: '/admin/dashboard', query: { user: loginForm.userId } });
                     }
                     else {
                         tip.success("欢迎")

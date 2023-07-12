@@ -71,13 +71,17 @@ const route = useRoute();
 const formRef = ref()
 const centerDialogVisible = ref(false)
 const form = reactive({
+	blogId: 0,
 	roleId: null,
 	title: '',
 	summary: '',
 	content: '',
 	courseId: 1,
 	category: 0,
-	isDraft: 0
+	isDraft: 0,
+	isPrivate: 0,
+	status: 0,
+	rootId: -1,
 })
 const props = {
 	expandTrigger: 'hover' as const,
@@ -115,9 +119,14 @@ const rules = reactive<FormRules<typeof form>>({
 const release = async () => {
 	formRef.value.validate(async (valid) => {
 		if (valid) {
+			form.roleId = route.query.user;
 			form.isDraft = 0
+			form.courseId = form.courseId[2]
 			await blogApi.addBlog(form).then(result => {
 				tip.success(result.msg)
+				form.title = ""
+				form.summary = ""
+				form.content = ""
 			})
 		} else {
 			tip.error("发布失败，请检查信息是否完整")
@@ -127,9 +136,14 @@ const release = async () => {
 const save = async () => {
 	formRef.value.validate(async (valid) => {
 		if (valid) {
+			form.roleId = route.query.user;
 			form.isDraft = 1
+			form.courseId = form.courseId[2]
 			await blogApi.addBlog(form).then(result => {
 				tip.success(result.msg)
+				form.title = ""
+				form.summary = ""
+				form.content = ""
 			})
 		} else {
 			tip.error("保存失败，请检查信息是否完整")

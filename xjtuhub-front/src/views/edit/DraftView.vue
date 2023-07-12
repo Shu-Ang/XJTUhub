@@ -81,7 +81,10 @@ const form = reactive({
 	content: '',
 	courseId: 1,
 	category: 0,
-	isDraft: 0
+	isDraft: 0,
+	isPrivate: 0,
+	status: 0,
+	rootId: -1,
 })
 
 const validateTitle = (rule: any, value: any, callback: any) => {
@@ -120,6 +123,9 @@ const release = async () => {
 			form.isDraft = 0
 			await post("/blog/editBlog", form).then(result => {
 				tip.success(result.msg)
+				form.title = ""
+				form.summary = ""
+				form.content = ""
 			})
 		} else {
 			tip.error("发布失败，请检查信息是否完整")
@@ -132,6 +138,9 @@ const save = async () => {
 			form.isDraft = 1
 			await post("/blog/editBlog", form).then(result => {
 				tip.success(result.msg)
+				form.title = ""
+				form.summary = ""
+				form.content = ""
 			})
 		} else {
 			tip.error("保存失败，请检查信息是否完整")

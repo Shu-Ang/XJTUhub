@@ -20,7 +20,7 @@
           <div id="ShowBlogs">
             <div v-for="blog in blogList" :key="blog.blogid" class="singleBlog">
               <el-link :underline="false" @click="blogApi.goToBlog(blog.blogId, userId)"
-                style="font-size: xx-large; font-weight: bolder;">{{ blog.title }}</el-link>
+                style="font-size: xx-large; font-weight: bolder;">{{blog.course.coursename}} <span>|</span>{{ blog.title }}|</el-link>
               <h3>by:{{ blog.roleId }}
                 <el-icon style="margin-left: 10px;">
                   <View />

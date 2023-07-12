@@ -153,12 +153,16 @@ const roleAvatar = reactive({
 })
 
 const getInfo = async () => {
-  await infoApi.getInfo({ roleId: localId }).then(res => {
+  if(getLocalToken){
+    await get("/info/getFuckingInfo",{ roleId: localId }).then(res => {
     if (res.success) {
       roleAvatar.url = res.data.faceAddr
       userId.value = res.data.roleId
     }
   })
+  }else{
+    return
+  }
 }
 getInfo();
 

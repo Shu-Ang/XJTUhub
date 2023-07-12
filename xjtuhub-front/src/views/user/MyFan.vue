@@ -1,6 +1,6 @@
 <template>
   <div class="fanorfollow_box">
-    <h4>{{ userId }}的粉丝列表</h4>
+    <h4>{{ localId }}的粉丝列表</h4>
     <div class="fanorfollow" v-for="(fan, index) in fanList" :key="index">
       <div class="fanorfollow_left">
         <img class="fanorfollow_img" v-image-preview :src="fan.faceAddr" />
@@ -9,7 +9,7 @@
         <div class="fanorfollow_info_top">
           <span
             style="color: #666; max-width: 180px"
-            @click="userApi.goToInfo(fan.roleId, userId)"
+            @click="infoApi.goToInfo(fan.roleId, userId)"
             >{{ fan.roleId }}</span
           >
         </div>

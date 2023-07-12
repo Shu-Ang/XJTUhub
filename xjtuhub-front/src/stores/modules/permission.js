@@ -7,7 +7,7 @@ export default {
       localStorage.getItem('navs') ? JSON.parse(localStorage.getItem('navs')) : [
         {
           label: '仪表盘',
-          path: '/admin/dashboard'
+          path: '/admin/dashboard',
         },
         {
           label: '稿件审核',

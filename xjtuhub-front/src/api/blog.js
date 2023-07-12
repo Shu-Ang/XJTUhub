@@ -102,19 +102,24 @@ export default {
 						this.getBlogDetails({ blogId: params }).then(res => {
 							if (res.success) {
 								if (res.data.category == 0) {
-									router.push({
+									let routeData = 
+									router.resolve({
 										path: "/blog",
 										query: { blog: params, user: userId }
 									})
+									window.open(routeData.href)
 								} else {
-									router.push({
+									let routeData = 
+									router.resolve({
 										path: "/qa",
 										query: { qa: params, user: userId }
 									})
+									window.open(routeData.href)
 								}
-								setTimeout(function () {  //跳转后刷新
-									location.reload();
-								}, 5);
+								
+								// setTimeout(function () {  //跳转后刷新
+								// 	location.reload();
+								// }, 10);
 							} else {
 								tip.error(res.msg)
 							}

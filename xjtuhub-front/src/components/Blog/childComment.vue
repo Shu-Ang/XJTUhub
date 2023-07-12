@@ -2,7 +2,7 @@
 	<div>
 		<div class="comment-line-box" v-for="(childComment, index) in childComments">
 			<div class="comment-list-item">
-				<el-avatar :src="childComment.faceAddr" :size="35" style="width: 38px;"></el-avatar>
+				<el-avatar :src="childComment.faceAddr" @click="goToInfo(childComment.roleId)" :size="35" style="width: 38px;"></el-avatar>
 				<div class="right-box">
 					<div class="new-info-box clearfix">
 						<div class="comment-top">
@@ -76,6 +76,7 @@ export default {
 	},
 	data() {
 		return {
+			userId:"",
 			showReplay: false,     // 是否显示评论回复框
 			blogId: this.blog.blogId,     // 博客ID
 		}
@@ -95,24 +96,26 @@ export default {
 			);
 			if (flag) {
 				// 检查权限（本文作者 或 本条评论作者 或 系统管理员 可删除）
-				await userApi.getUserId(getLocalToken).then(async res => {
-					if (res.data.userId === this.blog.roleId || res.data.userId === comm.roleId || res.data.userId === "admin") {
-						let res = await blogApi.deleteComment(comm);
-						if (res.success) {
-							tip.success(res.msg);
-							this.getCommentList();
-						} else {
-							tip.error(res.msg);
-						}
+				if (this.userId === this.blog.roleId || this.userId === comm.roleId || this.userId === "admin") {
+					let res = await blogApi.deleteComment(comm);
+					if (res.success) {
+						tip.success(res.msg);
+						this.getCommentList();
 					} else {
-						tip.error("您没有删除本条评论的权限");
+						tip.error(res.msg);
 					}
-				})
+				} else {
+					tip.error("您没有删除本条评论的权限");
+				}
 			}
+		},
+		async goToInfo(id){
+			await infoApi.goToInfo(id, this.userId)
 		},
 	},
 	mounted() {
 		this.blogId = this.blog.blogId;
+		this.userId = this.$route.query.user
 	}
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="myart1">
-    <h4>{{ userId }}的浏览记录</h4>
+    <h4>{{ localId }}的浏览记录</h4>
     <div>
       <div v-for="blog in blogs" :key="blog.blogId">
         <el-card class="box-card">
@@ -41,7 +41,7 @@ import blogApi from '@/api/blog';
 import { ref} from 'vue';
 import {get, tip} from "@/common";
 import { useRouter, useRoute } from 'vue-router';
-
+import { reactive } from 'vue';
 const router = useRouter();
 const route = useRoute();
 
