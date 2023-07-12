@@ -9,7 +9,7 @@
           <div class="PersonTop_text">
             <div class="user_text">
               <div class="userId">
-                <span>{{ myuserId }}</span>
+                <span>{{ userId }}</span>
               </div>
               <div class="userSign">
                 <span>{{ userInfo.sign }}</span>
@@ -25,7 +25,7 @@
                   size="medium"
                   plain
                   @click="showDia"
-                  >编辑
+                  ><el-icon><EditPen /></el-icon> 编辑 
                 </el-button>
                 <el-button
                   v-if="getLocalToken() && !isMypage"
@@ -44,9 +44,11 @@
                     :before-upload="beforeAvatarUpload"
                     :http-request="handleAvatarUpload"
                     >
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-                    <el-button v-else class="avatar-uploader-icon" type="info" plain><Plus />上传头像 </el-button>
-                    <!-- <el-button v-else class="avatar-uploader-icon"><Plus /></el-button> -->
+                    
+                    <el-button  class="avatar-uploader-icon" type="info" plain><Plus />
+                      <el-icon><Upload /></el-icon>上传头像 
+                    </el-button>
+                    <!-- <el-button class="avatar-uploader-icon"><Plus /></el-button> -->
                   </el-upload>
               </div>
             </div>
@@ -91,21 +93,21 @@
                   index="myarticle"
                   @click="toMyArticle"
                 >
-                  <i class="el-icon-edit-outline"></i>
+                  <el-icon><Edit /></el-icon>
                   <span slot="title">发帖</span>
                 </el-menu-item>
                 <el-menu-item
                   index="myquestion"
                   @click="toMyQuestion"
                 >
-                  <i class="el-icon-edit-outline"></i>
+                  <el-icon><Help /></el-icon>
                   <span slot="title">问题</span>
                 </el-menu-item>
                 <el-menu-item
                   index="mycollect"
                   @click="toMyCollect"
                 >
-                  <i class="el-icon-document"></i>
+                  <el-icon><Star /></el-icon>
                   <span slot="title">收藏</span>
                 </el-menu-item>
                 <el-menu-item
@@ -113,28 +115,28 @@
                   @click="toMyDraft"
                   v-if="isMypage"
                 >
-                  <i class="el-icon-document"></i>
+                  <el-icon><Document /></el-icon>
                   <span slot="title">草稿</span>
                 </el-menu-item>
                 <el-menu-item
                   index="myfan"
                   @click="toMyFan"
                 >
-                  <i class="el-icon-tableware"></i>
+                  <el-icon><Bowl /></el-icon>
                   <span slot="title">粉丝</span>
                 </el-menu-item>
                 <el-menu-item
                   index="myfollow"
                   @click="toMyFollow"
                 >
-                  <i class="el-icon-tableware"></i>
+                  <el-icon><CirclePlus /></el-icon>
                   <span slot="title">关注</span>
                 </el-menu-item>
                 <el-menu-item
                   index="myfootprint"
                   @click="toFootprint"
                 >
-                  <i class="el-icon-tableware"></i>
+                  <el-icon><Clock /></el-icon>
                   <span slot="title">历史记录</span>
                 </el-menu-item>
               </el-menu>
@@ -167,18 +169,16 @@
           <el-button @click="handleClose">取 消</el-button>
           <el-button type="primary" @click="submit">提 交</el-button>
         </span>
-        <myfollow :localId="localId" />
     </el-dialog>
   </el-container>
 </template>
-
 
 
 <script setup>
 import { ref, reactive, toRefs } from 'vue'
 import axios from 'axios'
 import { useRouter, useRoute } from 'vue-router'
-import {get, post, setLocalToken, getLocalToken, removeLocalToken, tip} from "@/common";
+import { get, post, setLocalToken, getLocalToken, removeLocalToken, tip } from "@/common";
 import { InfoFilled } from '@element-plus/icons-vue'
 import { Plus } from '@element-plus/icons-vue'
 import userApi from '@/api/user.js'
@@ -189,15 +189,8 @@ import { ElMessage } from 'element-plus'
 const router = useRouter();
 const route = useRoute();
 
-
-// let localId = ref('');  //已经登录的用户的id
-
-//从主页(index.vue)获取myuserId参数
-let myuserId = route.query.myuserId;
-let localId = route.query.localId;
-
-//查看别人主页
-let userId = route.query.userId;
+let localId = route.query.info;
+let userId = route.query.user;
 
 // 上传图片之前做简单验证
 const beforeAvatarUpload = rawFile => {
@@ -221,7 +214,7 @@ const handleAvatarUpload = uploadFile => {
     }
   }).then((res) => {
     post('/info/editInfo', {
-      roleId: myuserId,
+      roleId: userId,
       faceAddr: res.data.data.imgUrl
     })
     location.reload();
@@ -250,66 +243,60 @@ const userInfo = reactive({
 var isFollow = ref();
 
 const getUserInfo = async () => {
-  await userApi.getUserId(getLocalToken)
-  .then(async res => {
-    if(res.data.userId == myuserId){     //判断是否是自己主页
+  await userApi.getUserId().then(async res => {
+    if (res.data.userId == localId) {     //判断是否是自己主页
       isMypage.value = true;
-    }else { isMypage.value = false;
+    } else {
+      isMypage.value = false;
+      await get('/info/isFollow',
+        {    //判断是否关注
+          roleId: res.data.userId,
+          writerId: localId
+        })
+        .then((res) => {
+          isFollow = res.data;
+        })
     }
-    await get('/info/isFollow',{    //判断是否关注
-      roleId: res.data.userId,
-      writerId: myuserId
-    })
-    .then((res) => {
-      console.log("isFollow", res.data);
-      isFollow = res.data;
-    })
+
     await get('/info/getInfo', {
-      roleId: myuserId
-      
+      roleId: localId
     })
-    .then((res) => {
-      userInfo.avatar = res.data.faceAddr;
-      userInfo.email = res.data.email;
-      userInfo.sign = res.data.sign;
-    })
+      .then((res) => {
+        userInfo.avatar = res.data.faceAddr;
+        userInfo.email = res.data.email;
+        userInfo.sign = res.data.sign;
+      })
 
     await get("/info/countFans", {
-      roleId: res.data.userId
+      roleId: localId
     })
-    .then((res) => {
-      fanCounts.value = res.data;
-      console.log("粉丝数：", fanCounts.value);
+      .then((res) => {
+        fanCounts.value = res.data;
+      })
+    await get("/info/countArticle", {
+      roleId: localId
     })
-      await get("/info/countArticle", {
-      roleId: res.data.userId
+      .then((res) => {
+        blogCounts.value = res.data;
+      })
+    await get("/info/countQuestion", {
+      roleId: localId
     })
-    .then((res) => {
-      blogCounts.value = res.data;
-      console.log("文章数：", blogCounts.value);
+      .then((res) => {
+        questionCounts.value = res.data;
+      })
+    await get("/info/countFavorite", {
+      roleId: localId
     })
-      await  get("/info/countQuestion", {
-      roleId: res.data.userId
+      .then((res) => {
+        collectCounts.value = res.data;
+      })
+    await get("/info/countViews", {
+      roleId: localId
     })
-    .then((res) => {
-      questionCounts.value = res.data;
-      console.log("问题数：", questionCounts.value);
-    })
-      await get("/info/countFavorite", {
-      roleId: res.data.userId
-    })
-    .then((res) => {
-      collectCounts.value = res.data;
-      console.log("收藏数：", collectCounts.value);
-    })
-      await get("/info/countViews", {
-      roleId: res.data.userId
-    })
-    .then((res) => {
-      viewCounts.value = res.data;
-      console.log("浏览数：", viewCounts.value);
-    })
-
+      .then((res) => {
+        viewCounts.value = res.data;
+      })
 
   })
 }
@@ -317,111 +304,106 @@ setTimeout(function () { //防止get重复请求被拦截
   getUserInfo();
 }, 2);
 
-
 //打开文章列表
 const toMyArticle = () => {
-  router.push({path: '/user/myarticle', query: {myuserId: myuserId, localId: localId}});
+  router.push({ path: '/user/myarticle', query: { info: localId, user: userId } });
 }
 //打开问题列表
 const toMyQuestion = () => {
-  router.push({path: '/user/myquestion', query: {myuserId: myuserId, localId: localId}});
+  router.push({ path: '/user/myquestion', query: { info: localId, user: userId } });
 }
 //打开收藏列表
 const toMyCollect = () => {
-  router.push({path: '/user/mycollectlist', query: {myuserId: myuserId, localId: localId}});
+  router.push({ path: '/user/mycollectlist', query: { info: localId ,user: userId} });
 }
 //打开粉丝列表
 const toMyFan = () => {
-  router.push({path: '/user/myfan', query: {myuserId: myuserId, localId: localId}});
+  router.push({ path: '/user/myfan', query: { info: localId, user: userId } });
 }
 //打开关注列表
 const toMyFollow = () => {
-  router.push({path: '/user/myfollow', query: {myuserId: myuserId, localId: localId}});
+  router.push({ path: '/user/myfollow', query: { info: localId , user: userId} });
 }
 //打开草稿列表
 const toMyDraft = () => {
-  router.push({path: '/user/mydraft', query: {myuserId: myuserId, localId: localId}});
+  router.push({ path: '/user/mydraft', query: { info: localId ,user: userId} });
 }
 //打开历史记录
 const toFootprint = () => {
-  router.push({path: '/user/myfootprint', query: {myuserId: myuserId, localId: localId}});
+  router.push({ path: '/user/myfootprint', query: { info: localId ,user: userId} });
 }
 
 //打开编辑弹窗按钮
 var dialogVisible = ref(false);
+
 const showDia = () => {
   dialogVisible.value = true;
-  console.log("visible",dialogVisible);
 };
 const handleClose = () => {
   dialogVisible.value = false;
-  console.log("visible",dialogVisible);
 }
 
 const submit = async () => {
-  //提交个人信息修改
-  post("/info/editInfo", {
-    roleId: myuserId,
-    faceAddr: userInfo.avatar,
-    // faceAddr: imageUrl.value,
-    email: userInfo.email,
-    sign: userInfo.sign
-  })
-  .then((res) => {
-    console.log(res);
-    dialogVisible = false;
-    location.reload();
-  })
+    if (res.success) {
+      //提交个人信息修改
+      post("/info/editInfo", {
+        roleId: userId,
+        faceAddr: userInfo.avatar,
+        email: userInfo.email,
+        sign: userInfo.sign
+      })
+        .then((res) => {
+          dialogVisible = false;
+          location.reload();
+        })
+    }else{
+      tip.error(res.msg)
+    }
+
 }
 
 //关注操作
 
 const addFollow = async () => {
-  await userApi.getUserId(getLocalToken)
-  .then(res => {
+  await userApi.getUserId()
+    .then(res => {
       post('/info/follow', {
         roleId: res.data.userId,
-        writerId: myuserId
+        writerId: localId
       })
-      .then((res) => {
-        console.log(res.data);
-        // isFollow = 1;
-        ElMessage({
-          showClose: true,
-          message: "已成功关注",
-          type: "success",
-        });
-        location.reload();
+        .then((res) => {
+          ElMessage({
+            showClose: true,
+            message: "已成功关注",
+            type: "success",
+          });
+          location.reload();
+        })
     })
-  })
 }
 
 const deleteFollow = async () => {
-  await userApi.getUserId(getLocalToken)
-  .then(res => {
+  await userApi.getUserId()
+    .then(res => {
       post('/info/unFollow', {
         roleId: res.data.userId,
-        writerId: myuserId
+        writerId: localId
       })
-      .then((res) => {
-        console.log(res.data);
-        // isFollow = 0;
-        ElMessage({
-          showClose: true,
-          message: "已取消关注",
-          type: "success",
-        });
-        location.reload();
+        .then((res) => {
+          ElMessage({
+            showClose: true,
+            message: "已取消关注",
+            type: "success",
+          });
+          location.reload();
+        })
     })
-  })
 }
 
 const changeFollow = () => {
-  if(!isFollow) addFollow();
+  if (!isFollow) addFollow();
   else deleteFollow();
 }
-
-
 
 </script>
 
@@ -446,8 +428,8 @@ const changeFollow = () => {
   width: 150px;
   height: 150px;
   background-color: #8c939d;
-  margin-right: 24px;
-  margin-left: 20px;
+  /* margin-right: 24px;
+  margin-left: 20px; */
   overflow: hidden;
   border-radius: 20px;
   border: black;
@@ -635,4 +617,5 @@ body {
 .example-showcase .el-loading-mask {
   z-index: 9;
 }
+
 </style>

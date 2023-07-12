@@ -1,58 +1,105 @@
 <template>
-    <div class="myart1">
-        <!-- <article-item v-for="blog in blogs" :key="blog.id" v-bind="blog"/> -->
-      <div id="ShowBlogs">
-        <div v-for="blog in blogs" :key="blog.blogId" class="singleBlog">
-          <h2 v-on:click="readBlog(blog.blogId)">{{ blog.title }}</h2>
-          <h3 v-on:click="JumpUser">user id: {{ blog.roleId }}</h3>
-          <h3>文章号: {{ blog.blogId }}</h3>
-          <h3>所属课程: {{ blog.course.courseName }}</h3>
-          <article>
-            {{ blog.summary }}
-          </article>
-        </div>
+  <div class="myart1">
+    <h4>{{ userId }}的浏览记录</h4>
+    <div>
+      <div v-for="blog in blogs" :key="blog.blogId">
+        <el-card class="box-card">
+          <template #header>
+            <div class="card-header"  v-on:click="blogApi.goToBlog(blog.blogId, userId)">
+              <h4 v-on:click="blogApi.goToBlog(blog.blogId, userId)"
+                style="cursor: pointer"
+                >{{ blog.title }}</h4>
+              <div class="blog_button">
+                <el-button v-on:click="blogApi.goToBlog(blog.blogId, userId)" type="primary" plain size="small" >
+                <el-icon><Pointer /></el-icon>文章详情</el-button>
+              </div>
+            </div>
+          </template>
+          <h4 v-on:click="infoApi.goToInfo(blog.roleId, userId)" style="cursor: pointer">
+            作者: {{ blog.roleId }} 所属课程: {{ blog.course.courseName }}</h4>
+        </el-card>
       </div>
-      <el-empty
-          v-if="blogs.length == 0"
-          :image-size="250"
-          description="暂未查看过文章或问题"
-      ></el-empty>
     </div>
+    <el-empty
+        v-if="blogs.length == 0"
+        :image-size="250"
+        description="暂未浏览任何文章或问题"
+    ></el-empty>
+    <!-- 分页 -->
+    <div class="demo-pagination-block" style="margin-left: 140px;">
+      <div class="demonstration"></div>
+      <el-pagination v-model:current-page="params.pageNum" v-model:page-size="params.pageSize"
+        :page-sizes="[5, 10, 15, 20]" :small="small" :disabled="disabled" :background="background"
+        layout="sizes, prev, pager, next" :total="params.totalNum" @size-change="changePageSize"
+        @current-change="changePageNum" />
+    </div>
+  </div>
 </template>
 
 <script setup>
-import userApi from '@/api/user.js';
-import { ref, reactive } from 'vue';
-import {get, post, setLocalToken, getLocalToken, removeLocalToken, tip} from "@/common";
-import axios from "axios";
-import { useRouter, useRoute } from 'vue-router'
+import blogApi from '@/api/blog';
+import { ref} from 'vue';
+import {get, tip} from "@/common";
+import { useRouter, useRoute } from 'vue-router';
+
+const router = useRouter();
+const route = useRoute();
 
 const blogs = ref([]);
-let myuserId = route.query.myuserId;
-let localId = route.query.myuserId;
+let localId = route.query.info;
+let userId = route.query.user;
 
-const myget = () => {
-  get('/info/footprints',{
-    roleId: myuserId
-  })
+//请求
+const params = reactive({
+  roleId: "",
+  pageSize: 5,
+  pageNum: 1,
+  totalNum: 0
+})
+const changePageSize = (val) => {
+  params.pageSize = val
+  getFootPrints();
+}
+const changePageNum = (val) => {
+  params.pageNum = val
+  getFootPrints();
+}
+
+const getFootPrints = () => {
+  params.roleId = localId
+  get('/info/footprints',params)
   .then((res) => {
-    console.log(res.data);
-    blogs.value = res.data;
+    blogs.value = res.data.resultList;
+    params.totalNum = res.data.totalNum;
   });
 };
-myget();
+getFootPrints();
 
 </script>
 
-<style>
+<style scoped>
 .myart1{
     line-height: 30px;
 }
-.singleBlog {
-  padding: 20px;
-  margin: 20px 0;
-  background: rgba(255,250,240, 0.9);
-  /* background-color: ; */
+.box-card :hover {
+  border-width: 1px;
+  border-color: deepskyblue;
+  background-color: lightGray;
+  /* box-shadow: 0 2px 10px 0 rgba(37, 38, 39, 0.664); */
+}
+.box-card{
+  margin-bottom: 10px;
+  height: 90px;
+  
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5px;
+}
+.blog_button {
+  margin-left: 400px
 }
 </style>
   

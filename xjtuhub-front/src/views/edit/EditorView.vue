@@ -1,9 +1,6 @@
 <template>
 	<div class="editor">
 		<el-container>
-			<el-header style="text-align: right; font-size: 20px">
-				<span>XJTUHUB</span>
-			</el-header>
 			<el-main>
 				<el-form :model="form" :rules="rules" ref="formRef" label-position="top">
 					<el-form-item label="标题" prop="title">
@@ -151,7 +148,6 @@ const handleEditorImgAdd = async (pos, $file) => {
 	}).then((result) => {
 		console.log(result)
 		if (result.data.status === 200) {
-			console.log(result)
 			tip.success("上传成功")
 			console.log(result.data)
 			console.log(result.data.data.imgUrl)
@@ -182,12 +178,12 @@ const handleEditorImgAdd = async (pos, $file) => {
 const handleEditorImgDel = (pos) => {
 
 }
+
 // 树结构数据
 const treeData = ref([]);
 // 将后台数据进行转化
 const convertData = (data) => {
 	// data为后台传递过来的数据
-	console.log("data", data);
 	for (let i in data) {
 		let d = data[i];
 		let department = {};
@@ -216,7 +212,6 @@ const convertData = (data) => {
 		department.children = majors;
 		treeData.value.push(department);
 	}
-	console.log("tree", treeData.value)
 }
 
 const getData = async () => {

@@ -87,10 +87,10 @@ export default {
 	async deleteComment(params) {
 		return await post("/blog/deleteComment", params)
 	},
-	async getFaceAddrList(params){
-		return await get("/blog/getFaceAddrList",params)
+	async getFaceAddrList(params) {
+		return await get("/blog/getFaceAddrList", params)
 	},
-	async goToBlog(params) {
+	async goToBlog(params, userId) {
 		await userApi.getUserId().then(async res => {
 			console.log(res.data.userId)
 			if (res.success) {
@@ -99,19 +99,22 @@ export default {
 					roleId: res.data.userId
 				}).then(res => {
 					if (res.success) {
-						this.getBlogDetails({blogId: params}).then(res => {
+						this.getBlogDetails({ blogId: params }).then(res => {
 							if (res.success) {
 								if (res.data.category == 0) {
 									router.push({
 										path: "/blog",
-										query: { blog: params }
+										query: { blog: params, user: userId }
 									})
 								} else {
 									router.push({
 										path: "/qa",
-										query: { qa: params }
+										query: { qa: params, user: userId }
 									})
 								}
+								setTimeout(function () {  //跳转后刷新
+									location.reload();
+								}, 5);
 							} else {
 								tip.error(res.msg)
 							}

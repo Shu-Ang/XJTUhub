@@ -116,7 +116,7 @@ const login = async () => {
                     }
                     else {
                         tip.success("欢迎")
-                        router.push({ path: '/', query: { 'myuserId': loginForm.userId, 'localId': loginForm.userId } });
+                        router.push({ path: '/', query: { user: loginForm.userId } });
                     }
                 })
         } else {

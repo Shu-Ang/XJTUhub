@@ -11,7 +11,7 @@
           </div>
         </el-aside>
         <el-main>
-          <h2 align="" style="margin-left: 140px;">
+          <h2 align="" style="margin-left: 225px;">
             <el-button type="primary" :dark="isDark" plain size="large" style="margin-top: 20px;"
               @click="changeToArticle">文章</el-button>
             <el-button type="primary" :dark="isDark" plain size="large" style="margin-top: 20px;"
@@ -19,7 +19,7 @@
           </h2>
           <div id="ShowBlogs">
             <div v-for="blog in blogList" :key="blog.blogid" class="singleBlog">
-              <el-link :underline="false" @click="blogApi.goToBlog(blog.blogId)"
+              <el-link :underline="false" @click="blogApi.goToBlog(blog.blogId, userId)"
                 style="font-size: xx-large; font-weight: bolder;">{{ blog.title }}</el-link>
               <h3>by:{{ blog.roleId }}
                 <el-icon style="margin-left: 10px;">
@@ -33,7 +33,7 @@
             </div>
           </div>
           <!-- 分页 -->
-          <div class="demo-pagination-block" style="margin-left: 140px;">
+          <div class="demo-pagination-block" style="margin-left: 225px;">
             <div class="demonstration"></div>
             <el-pagination v-model:current-page="params.pageNum" v-model:page-size="params.pageSize"
               :page-sizes="[5, 10, 15, 20]" :small="small" :disabled="disabled" :background="background"
@@ -73,9 +73,7 @@ const changePageNum = (val) => {
   params.pageNum = val
   getBlogList();
 }
-
-//跳转搜索
-
+let userId = route.query.user
 const blogList = ref([]);
 const category = ref(0)
 //树形结构

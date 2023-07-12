@@ -32,7 +32,7 @@
                                 <el-card class="relative" style="margin-top: 20px;">
                                     <h3 class="aside-title" style="font-size: x-large; font-weight: 500;">相关问题</h3>
                                     <li v-for="rela in relativeList">
-                                        <el-link type="default" @click="goToBlog({ blogId: rela.blogId })"
+                                        <el-link type="default" @click="goToBlog( rela.blogId)"
                                             style="font-size: large;" :underline="true">{{
                                                 rela.title }}<el-icon style="margin-right: 5px;">
                                                 <View />
@@ -243,6 +243,7 @@ export default {
     },
     data() {
         return {
+            userId: "",
             blog: {     // 博客信息
                 blogId: 0,
                 title: "",
@@ -471,10 +472,10 @@ export default {
             console.log(val)
         },
         async goToBlog(blogId) {
-            blogApi.goToBlog(blogId)
+            blogApi.goToBlog(blogId, this.userId)
         },
         async goToInfo(roleId) {
-            infoApi.goToInfo(roleId)
+            infoApi.goToInfo(roleId, this.userId)
         },
         handleEditorImgAdd(pos, $file) {
             const formdata = new FormData();
@@ -531,6 +532,8 @@ export default {
         },
     },
     async created() {
+        
+        this.userId = this.$route.query.user; 
         this.blog.blogId = this.$route.query.qa;     // 赋值博客ID
         await this.getBlogDetails();    // 获取文章内容
         await this.getAnswerList();

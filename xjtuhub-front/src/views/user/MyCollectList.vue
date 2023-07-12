@@ -1,14 +1,16 @@
 <template>
   <div>
-    <h4>我的收藏夹</h4>
+    <h4>{{ userId }}的收藏夹</h4>
     <div class="favorite_box">
-      <el-button type="primary" @click="showDia" plain>新建收藏夹</el-button> 
+      <el-button type="primary" @click="showDia" plain><el-icon><CirclePlus /></el-icon>新建收藏夹</el-button> 
       <div class="favorite" v-for="favorite in favorites" :key="favorite.favoriteId">
-          <h2 v-on:click="enterFavorite(favorite.favoriteId, favorite.favoriteName)">{{ favorite.favoriteName }}-</h2>
-          <h2>id :{{ favorite.favoriteId }}</h2>
+          <div class="favorite_info">
+            <h3 v-on:click="enterFavorite(favorite.favoriteId)" style="cursor: pointer"
+            ><el-icon><StarFilled /></el-icon> {{ favorite.favoriteName }}</h3>
+          </div>
           <div class="favorite_button">
             <el-popconfirm
-              v-if="myuserId == localId"
+              v-if="userId == localId"
               confirm-button-text="是"
               cancel-button-text="否"
               :icon="InfoFilled"
@@ -17,7 +19,7 @@
               @cancel="cancelEvent"
               title="确定删除收藏夹吗？">
               <template #reference>
-                <el-button type="danger" plain>删除收藏夹</el-button>
+                <el-button type="danger" plain><el-icon><Delete /></el-icon>删除收藏夹</el-button>
               </template>
             </el-popconfirm>
           </div>
@@ -52,6 +54,14 @@
         <el-button type="primary" @click="submit">提 交</el-button>
         </span>
     </el-dialog>
+      <!-- 分页 -->
+    <div class="demo-pagination-block" style="margin-left: 140px;">
+      <div class="demonstration"></div>
+      <el-pagination v-model:current-page="params.pageNum" v-model:page-size="params.pageSize"
+        :page-sizes="[5, 10, 15, 20]" :small="small" :disabled="disabled" :background="background"
+        layout="sizes, prev, pager, next" :total="params.totalNum" @size-change="changePageSize"
+        @current-change="changePageNum" />
+    </div>
   </div>  
 </template>
 
@@ -67,27 +77,42 @@ const router =useRouter();
 const route = useRoute();
 
 const favorites = ref([]);
-let myuserId = route.query.myuserId;
-let localId = route.query.myuserId;
-console.log("myuserId", myuserId)
+let localId = route.query.info;
+let userId = route.query.user;
 
-const myget = async () => {
-    get('/info/favorites', {
-        roleId: localId
-    })
+//请求文章
+const params = reactive({
+  roleId: "",
+  pageSize: 5,
+  pageNum: 1,
+  totalNum: 0
+})
+const changePageSize = (val) => {
+  params.pageSize = val
+  getFavoriteList();
+}
+const changePageNum = (val) => {
+  params.pageNum = val
+  getFavoriteList();
+}
+
+const getFavoriteList = async () => {
+    params.roleId = localId 
+    get('/info/favorites', params)
     .then((res) => {
-        console.log(res.data);
-        favorites.value = res.data;
+        favorites.value = res.data.resultList;
+        params.totalNum = res.data.totalNum;
     });
 };
-myget();
+getFavoriteList();
 
-const enterFavorite = (favoriteId, favoriteName) => {
+const enterFavorite = (favoriteId) => {
   router.push({
       path: '/user/mycollect', 
       query: {
-          favoriteId: favoriteId,
-          favoriteName: favoriteName
+          favorite: favoriteId,
+          user: userId,
+          info: localId
       }
   });
 }
@@ -96,14 +121,11 @@ const enterFavorite = (favoriteId, favoriteName) => {
 var dialogVisible = ref(false);
 const showDia = () => {
   dialogVisible.value = true;
-  console.log("visible",dialogVisible);
 };
 const handleClose = () => {
   dialogVisible.value = false;
-  console.log("visible",dialogVisible);
 }
 
-// const value = ref('')
 
 const options = [
   {
@@ -120,6 +142,7 @@ const favInfo = reactive({
   favName: '',
   isPrivate: 0
 })
+
 const submit = () => {
   post('/info/newFavorite', 
   {
@@ -128,8 +151,6 @@ const submit = () => {
       isPrivate: favInfo.isPrivate
   })
   .then((res) => {
-    console.log("favInfo.isPrivate", favInfo.isPrivate);
-    console.log("res", res.data)
     dialogVisible.value = false;
     location.reload();
   })
@@ -141,7 +162,6 @@ const deleteFavorite = (favoriteId) => {
     favoriteId: favoriteId
   })
   .then((res) =>{
-    // if(res.data)
     location.reload();
   })
 }
@@ -164,7 +184,6 @@ const cancelEvent = () => { //取消操作
 .myart1{
     line-height: 30px;
 }
-
 .favorite_box :hover {
   border-width: 1px;
   border-color: deepskyblue;
@@ -175,6 +194,7 @@ const cancelEvent = () => { //取消操作
   display: flex;
   align-items: center;
   border: 1px solid #ebebeb;
+  margin-bottom: 5px
 }
 .favorite :hover {
   border-width: 1px;
@@ -184,7 +204,7 @@ const cancelEvent = () => { //取消操作
   width: 60px;
   height: 60px;
 }
-.ffavorite_img {
+.favorite_img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -219,7 +239,7 @@ const cancelEvent = () => { //取消操作
   color: deepskyblue;
 }
 .favorite_button {
-  margin-left: 0px;
+  margin-right: 0px;
   /* padding-left: 1000; */
 }
 

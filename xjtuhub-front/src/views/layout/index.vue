@@ -18,18 +18,18 @@
             </el-input>
           </el-col>
           <el-col :span="1.5">
-            <el-button type="primary" v-on:click="JumpSearch">搜索</el-button>
+            <el-button type="primary" v-on:click="JumpSearch" :icon="Search">搜索</el-button>
             <!-- <el-button type="primary" v-on:click="ShowSearch">搜索</el-button> -->
           </el-col>
           <el-col :span="1.5">
-            <el-button type="primary" v-on:click="AddBlog">发布</el-button></el-col>
+            <el-button type="primary" v-on:click="AddBlog()" :icon="Edit">发布</el-button></el-col>
           <el-col :span="1.5" v-if="!getLocalToken()">
-            <el-button type="primary" @click="login" class="btn btn-success">登录</el-button>
+            <el-button type="primary" @click="login()" class="btn btn-success" :icon="Position">登录</el-button>
           </el-col>
           <el-col :span="1.5" v-if="!getLocalToken()">
-            <el-button type="primary" @click="register">注册</el-button></el-col>
+            <el-button type="primary" @click="register()" :icon="EditPen">注册</el-button></el-col>
           <el-col :span="1.5" v-if="getLocalToken()">
-            <el-button type="primary" v-on:click="JumpUser">个人中心</el-button></el-col>
+            <el-button type="primary" v-on:click="JumpUser()" :icon="User">个人中心</el-button></el-col>
           <el-col :span="1.5" v-if="!getLocalToken()">
             <div class="demo-basic--circle">
               <div class="block">
@@ -47,7 +47,7 @@
                 <!-- <img v-image-preview :src="roleAvatar.url" /> -->
               </template>
               <el-menu-item @click="JumpUser">
-                {{ localId }}
+                {{ userId }}
               </el-menu-item>
               <el-menu-item @click="JumpUser">个人中心</el-menu-item>
               <el-menu-item>
@@ -78,12 +78,13 @@ import { useRouter, useRoute } from 'vue-router';
 import { ElTree } from "element-plus";
 import { ref, onMounted, reactive, watch, toRefs, computed } from "vue";
 import axios from "axios";
-import { Search, Edit, Check, Message, Star, Delete } from '@element-plus/icons-vue';
-import userApi from '@/api/user.js';
-
+import { Edit, EditPen, Position, Search, User } from '@element-plus/icons-vue';
+import userApi from '@/api/user';
+import infoApi from '@/api/info';
 const router = useRouter();
 const route = useRoute();
 
+let localId = route.query.user;
 const login = () => {
   //指定跳转地址
   router.push({ path: "/login" });
@@ -98,36 +99,38 @@ const register = () => {
 const searchInput = ref('');
 
 const JumpSearch = () => {
-  router.push({
+  let routeData = router.resolve({
     path: '/home',
     query: {
-      'search': searchInput.value,
+      user: localId,
+      search: searchInput.value,
     }
+
   });
+  window.open(routeData.href, '_blank')
 };
 
-
-// window.onkeydown = ($event) => {
-//     if ($event.key && $event.key == 'Enter') {
-//         JumpSearch();
-//     }
-// };
 
 //写文章，提问题
 const AddBlog = () => {
   if (getLocalToken()) {
-    router.push({ path: '/edit', query: { 'myuserId': myuserId ,'localId': localId} });
+    router.push({
+      path: '/edit',
+      query:{
+        user: localId
+      }
+    });
   }
-  else { router.push({ path: "/login" }); }
+  else { router.push({ path: "/login" ,query:{user: localId}}); }
 };
 
 
 let gohome = () => {
-  router.push({ path: '/home', query: { 'localId': localId } })
+  router.push({ path: "/home", query: { user: localId} });
 }
 //跳转到个人中心
-const JumpUser = () => {
-  router.push({ path: "/user", query: { 'myuserId': localId, 'localId': localId } });
+const JumpUser = async () => {
+  router.push({ path: "/user", query: { info: localId ,user: localId} });
 };
 
 //请求默认头像（游客状态）
@@ -141,27 +144,23 @@ const defualtAvatar = reactive({
 
 const { circleUrl, squareUrl, sizeList } = toRefs(defualtAvatar)
 
-//从登录页面获取右上角显示的用户名
-let myuserId = route.query.myuserId;
-let localId = route.query.localId
 
+const userId = ref()
 //获取右上角户头像和id
 const roleAvatar = reactive({
   fits: 'fill',
   url: '',
 })
 
-const getAvatar = async () => {
-  get('/info/getInfo', {
-    roleId: localId
+const getInfo = async () => {
+  await infoApi.getInfo({ roleId: localId }).then(res => {
+    if (res.success) {
+      roleAvatar.url = res.data.faceAddr
+      userId.value = res.data.roleId
+    }
   })
-    .then((res) => {
-      console.log("头像地址", res.data.faceAddr);
-      roleAvatar.url = res.data.faceAddr;
-    })
 }
-getAvatar();
-
+getInfo();
 
 const { fit, url } = toRefs(roleAvatar)
 

@@ -210,6 +210,7 @@ export default {
     },
     data() {
         return {
+            userId: "",
             currUser: {
                 roleId: "",
                 faceAddr: "",
@@ -452,10 +453,10 @@ export default {
             })
         },
         async goToBlog(blogId) {
-            blogApi.goToBlog(blogId)
+            blogApi.goToBlog(blogId, this.userId)
         },
         async goToInfo(roleId) {
-            infoApi.goToInfo(roleId)
+            infoApi.goToInfo(roleId, this.userId)
         },
         async getCurrUser() {
             await userApi.getUserId().then(res => {
@@ -477,6 +478,8 @@ export default {
         },
     },
     async created() {
+        
+        this.userId = this.$route.query.user;
         this.blog.blogId = this.$route.query.blog;     // 赋值博客ID
         await this.getCurrUser();
         await this.getBlogDetails();    // 获取文章内容
