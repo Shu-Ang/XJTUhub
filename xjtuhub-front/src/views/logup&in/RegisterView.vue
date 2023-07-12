@@ -39,17 +39,6 @@
                     </div>
                 </el-form-item>
             </el-form>
-
-            <el-dialog v-model="centerDialogVisible" width="30%" align-center>
-                <span>{{ content }}</span>
-                <template #footer>
-                    <span class="dialog-footer">
-                        <el-button type="primary" @click="centerDialogVisible = false">
-                            确认
-                        </el-button>
-                    </span>
-                </template>
-            </el-dialog>
         </el-card>
     </div>
 </template>
@@ -59,8 +48,6 @@ import { reactive, ref } from 'vue'
 import type { FormRules } from 'element-plus'
 import {post, tip} from '../../common'
 const ruleFormRef = ref()
-const centerDialogVisible = ref(false)
-const content = ref()
 const validateRoleId = (rule: any, value: any, callback: any) => {
     if (!value) {
         return callback(new Error('请输入用户名'))
@@ -116,7 +103,6 @@ const rules = reactive<FormRules<typeof registerForm>>({
 const register = () => {
     ruleFormRef.value.validate(async (valid) => {
         if (valid) {
-            console.log('submit!')
             await post(
                 "/register", {
                 roleId: registerForm.roleId,
@@ -124,13 +110,11 @@ const register = () => {
                 email: registerForm.Email
             }
             ).then(result => {
-                console.log(result.data)
-                content.value = result.data.msg
-                centerDialogVisible.value = true
+                tip.success(result.msg)
             })
 
         } else {
-            console.log('error submit!')
+            tip.success("注册失败！请检查信息是否完整")
             return false
         }
     })

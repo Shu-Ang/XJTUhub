@@ -38,7 +38,7 @@
                 </el-form-item>
             </el-form>
 
-            
+
         </el-card>
     </div>
 </template>
@@ -73,7 +73,6 @@ const validateRoleId = (rule: any, value: any, callback: any) => {
     } else {
         callback()
     }
-
 }
 
 const validatePass = (rule: any, value: any, callback: any) => {
@@ -104,24 +103,21 @@ const rules = reactive<FormRules<typeof loginForm>>({
     verificationCode: [{ validator: validateKey, trigger: 'blur' }],
 })
 
-const config = reactive({
-    servMsg : true
-})
+
 const login = async () => {
     ruleFormRef.value.validate(async (valid) => {
         if (valid) {
-            console.log('submit!')
-            
             await post("/login",
-                loginForm, config).then(result => {
-                    //setLocalToken(result.data)
-                    if(loginForm.userId == 'admin'){
+                loginForm).then(result => {
+                    setLocalToken(result.data)
+                    if (loginForm.userId == 'admin') {
+                        tip.success("欢迎")
                         router.push("/admin/dashboard")
                     }
-                    else{
-                        router.push("/home")
+                    else {
+                        tip.success("欢迎")
+                        router.push({ path: '/', query: { 'myuserId': loginForm.userId, 'localId': loginForm.userId } });
                     }
-                    
                 })
         } else {
             console.log('error submit!')

@@ -1,3 +1,5 @@
+import { reactive } from "vue";
+
 /**
  * 常量定义
  * 作者：王坤 2022-03

@@ -19,19 +19,22 @@
 					</el-form-item>
 
 					<el-row :gutter="20">
-						<el-col :span="12">
-							<div class="m-4">
-								<p>所属课程</p>
-								<el-cascader v-model="form.courseId" :options="treeData" :props="props"
-									@change="handleChange" />
-							</div>
-						</el-col>
+						<!-- <el-col :span="12">
+							<el-form-item label="所属课程" prop="cate">
+								<el-select v-model="form.courseId" placeholder="请选择分类（输入可添加新分类）" :allow-create="true"
+									:filterable="true" style="width: 100%;">
+									<el-option :label="item.name" :value="item.id" v-for="item in categoryList"
+										:key="item.id"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col> -->
 						<el-col :span="12">
 							<el-form-item label="类型" prop="category">
 								<el-radio-group v-model="form.category" size="large">
 									<el-radio-button label=0>文章</el-radio-button>
 									<el-radio-button label=1>问答</el-radio-button>
 								</el-radio-group>
+
 							</el-form-item>
 						</el-col>
 					</el-row>
@@ -65,15 +68,18 @@
 import 'mavon-editor/dist/css/index.css'
 import { reactive, ref } from 'vue'
 import type { FormRules } from 'element-plus'
-import { post, tip, get } from '../../common'
+import { post, tip } from '../../common'
 import router from '../../router'
 import { useRoute } from 'vue-router'
 import blogApi from '../../api/blog'
 import axios from 'axios'
 const route = useRoute();
+const categoryList = ref()
 const formRef = ref()
+const content = ref()
 const centerDialogVisible = ref(false)
 const form = reactive({
+    blogId: 0,
 	roleId: null,
 	title: '',
 	summary: '',
@@ -82,9 +88,7 @@ const form = reactive({
 	category: 0,
 	isDraft: 0
 })
-const props = {
-	expandTrigger: 'hover' as const,
-}
+
 const validateTitle = (rule: any, value: any, callback: any) => {
 	if (value === '') {
 		return callback(new Error('请输入标题'))
@@ -110,7 +114,7 @@ const validateContent = (rule: any, value: any, callback: any) => {
 
 const rules = reactive<FormRules<typeof form>>({
 	title: [{ validator: validateTitle, required: true, message: '请输入标题', trigger: 'change' }],
-	courseId: [{ required: true, message: '请选择所属课程', trigger: 'change' }],
+	// courseId: [{ required: true, message: '请选择所属课程', trigger: 'change' }],
 	summary: [{ validator: validateSummary, required: true, message: '请输入摘要', trigger: 'change' }],
 	content: [{ validator: validateContent, required: true, message: '请输入正文', trigger: 'change' }],
 })
@@ -119,7 +123,7 @@ const release = async () => {
 	formRef.value.validate(async (valid) => {
 		if (valid) {
 			form.isDraft = 0
-			await blogApi.addBlog(form).then(result => {
+			await post("/blog/editBlog", form).then(result => {
 				tip.success(result.msg)
 			})
 		} else {
@@ -131,7 +135,7 @@ const save = async () => {
 	formRef.value.validate(async (valid) => {
 		if (valid) {
 			form.isDraft = 1
-			await blogApi.addBlog(form).then(result => {
+			await post("/blog/editBlog", form).then(result => {
 				tip.success(result.msg)
 			})
 		} else {
@@ -182,54 +186,7 @@ const handleEditorImgAdd = async (pos, $file) => {
 const handleEditorImgDel = (pos) => {
 
 }
-// 树结构数据
-const treeData = ref([]);
-// 将后台数据进行转化
-const convertData = (data) => {
-	// data为后台传递过来的数据
-	console.log("data", data);
-	for (let i in data) {
-		let d = data[i];
-		let department = {};
-		department.value = d.departmentId;
-		department.label = d.departmentName;
 
-		let majors = [];
-		for (let j in d.majorList) {
-			let m = d.majorList[j];
-			let major = {};
-			major.value = m.majorId;
-			major.label = m.majorName;
-
-			let courses = [];
-			for (let k in m.courseList) {
-				let c = m.courseList[k];
-				let course = {}
-				course.value = c.courseId;
-				course.label = c.courseName;
-				courses.push(course);
-			}
-			major.children = courses;
-
-			majors.push(major);
-		}
-		department.children = majors;
-		treeData.value.push(department);
-	}
-	console.log("tree", treeData.value)
-}
-
-const getData = async () => {
-	await get("/tree/getTree").then(res => {
-		convertData(res.data)
-	})
-}
-getData();
-
-
-const handleChange = (val) => {
-	console.log(val)
-}
 const cancel = () => {
 	centerDialogVisible.value = true
 }
@@ -238,7 +195,21 @@ const exit = () => {
 	router.push("/home")
 }
 
-
+const loadDraft = async () => {
+	let id = route.query.blog
+	await blogApi.getBlogDetails({ blogId: id }).then(res => {
+        form.blogId = res.data.blogId
+		form.title = res.data.title
+		form.content = res.data.content
+		form.summary = res.data.summary
+        form.category = res.data.category
+        form.courseId = res.data.courseId
+        form.isDraft = res.data.isDraft
+        form.roleId = res.data.roleId
+	})
+}
+loadDraft();
+console.log(route.query.draft)
 </script>
 
 <style scoped>

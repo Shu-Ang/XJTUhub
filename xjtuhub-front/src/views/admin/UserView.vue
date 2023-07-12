@@ -3,9 +3,13 @@
     <h1>用户管理</h1>
     <div>
       <el-table v-loading="loading" :data="rolePageList">
-        <!--<el-table-column prop="id" label="用户ID"></el-table-column>-->
-        <el-table-column prop="roleId" label="用户名" />
-        <el-table-column prop="email" label="用户邮箱" width="220" />
+        <el-table-column prop="roleId" label="用户名" width="220" >
+          <template #default='scope'>
+            <el-link type="primary" @click="UserApi.goToInfo(scope.row.roleId)" :underline="true">{{ scope.row.roleId }}</el-link>
+          </template>
+        </el-table-column>
+        <el-table-column prop="sign" label="个性签名" width="400" />
+        <el-table-column prop="email" label="用户邮箱" width="300" />
         <el-table-column prop="status" label="用户状态" width="140">
           <template #default='scope'>
             <el-tag size="small" :type="scope.row.status === 1 ? 'success' : 'danger'">{{ scope.row.status === 1 ? '启用' :
@@ -31,7 +35,6 @@
       </div>
     </div>
   </div>
-  
 </template>
 <script setup>
 import {
@@ -40,6 +43,8 @@ import {
 } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue';
 import { get, post, tip } from "@/common";
+import Message from '@/common/request/request-message'
+import UserApi from '@/api/user'
 // 分页模糊查询数据
 const params = reactive({
   pageSize: 5,
@@ -47,26 +52,36 @@ const params = reactive({
   totalNum: 0
 })
 const config = reactive({
-    servMsg : true
+  servMsg: true
 })
 // 表格数据
 const rolePageList = ref();
-
+const role = reactive({
+  roleId: ''
+})
 // 获取分页模糊查询结果
 const getRoleList = () => {
   get("/admin/role/rolePage", params).then(result => {
-    console.log(result.data.resultList)
     rolePageList.value = result.data.resultList;
     params.totalNum = result.data.totalNum;
   });
 }
 getRoleList();
 
-const changeRoleStatus = (roleId) => {
-  post("/admin/role/changeRoleStatus", roleId, config).then(result => {
-    console.log(result)
-    getRoleList();
-  })
+const changeRoleStatus = async (roleId) => {
+  let flag = await Message.confirm(
+    {
+      title: "警告",
+      content: "确定要改变该用户的状态吗？"
+    }
+  );
+  if (flag) {
+    role.roleId = roleId
+    post("/admin/role/changeRoleStatus", role, config).then(result => {
+      tip.success(result.msg)
+      getRoleList();
+    })
+  }
 
 }
 
@@ -90,7 +105,7 @@ div.page-comment {
     padding: 20px 0;
   }
 
-  & > div {
+  &>div {
     padding: 30px 20px;
     background: #fff;
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);

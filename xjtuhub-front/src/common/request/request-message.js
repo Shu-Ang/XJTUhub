@@ -3,26 +3,10 @@
  * 作者：王坤 2022-03
  */
 
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 
-class Message {
-
-  error = (info) => {
-    return new Promise((resolve) => {
-      // alert("错误：" + info);
-      ElMessage.error(info)
-      resolve();
-    });
-  };
-
-  success = (info) => {
-    return new Promise((resolve) => {
-      ElMessage.suceess(info);
-      resolve();
-    });
-  };
-
-  confirm = ({ title, content }) => {
+export default {
+  confirm({ title, content }) {
     return new Promise((resolve, reject) => {
 
       ElMessageBox.confirm(
@@ -34,14 +18,10 @@ class Message {
           type: 'warning',
         }
       )
-        .then(() => resolve())
-        .catch(() => reject());
+        .then(() => resolve(true))
+        .catch(() => reject(false));
 
     });
 
-  };
-
+  }
 }
-
-
-export default new Message();

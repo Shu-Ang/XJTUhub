@@ -24,24 +24,26 @@ div.page-gj {
     <h1>稿件管理</h1>
     <div>
       <el-table v-loading="loading" :data="blogPageList">
-        <el-table-column prop="blogId" label="博客ID"/>
-        <el-table-column prop="course.courseName" label="课程" width="220"/>
+        <el-table-column prop="blogId" label="博客ID" />
+        <el-table-column prop="course.courseName" label="课程" width="220" />
         <el-table-column prop="category" label="分类" width="140">
           <template #default='scope'>
-            <el-tag size="small" :type="scope.row.category === 1 ? 'success' : 'primary'">{{scope.row.category === 1 ? '提问' : '文章'}}</el-tag>
+            <el-tag size="small" :type="scope.row.category === 1 ? 'success' : 'primary'">{{ scope.row.category === 1 ?
+              '提问' : '文章' }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="title" label="标题">
           <template #default='scope'>
-            <el-link type="primary" @click="gotoBlog(scope.row.blogId)" :underline="true">{{ scope.row.title }}</el-link>
+            <el-link type="primary" @click="BlogApi.goToBlog(scope.row.blogId)" :underline="true">{{ scope.row.title }}</el-link>
           </template>
         </el-table-column>
         <!-- <el-table-column prop="summary" label="摘要" width="220"/> -->
-        <el-table-column prop="roleId" label="作者" width="140"/>
-        <el-table-column prop="releaseDate" label="发布时间" width="220"/>
+        <el-table-column prop="roleId" label="作者" width="140" />
+        <el-table-column prop="releaseDate" label="发布时间" width="220" />
         <el-table-column prop="status" label="状态">
           <template #default='scope'>
-            <el-tag size="small" :type="scope.row.status === 1 ? 'success' : 'primary'">{{scope.row.status === 1 ? '通过' : '未通过'}}</el-tag>
+            <el-tag size="small" :type="scope.row.status === 1 ? 'success' : 'primary'">{{ scope.row.status === 1 ? '通过' :
+              '未通过' }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="220">
@@ -63,10 +65,11 @@ div.page-gj {
   </div>
 </template>
 <script setup>
-import { Delete} from '@element-plus/icons-vue'
+import { Delete } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue';
-import { get, post, tip } from "@/common";
-import router from '../../router';
+import { get, post, tip} from "@/common";
+import Message from '@/common/request/request-message'
+import BlogApi from '@/api/blog'
 const params = reactive({
   pageSize: 5,
   pageNum: 1,
@@ -88,11 +91,20 @@ getBlogList();
 const blog = reactive({
   blogId: 0
 })
-const deleteBlog = (blogId) => {
-  blog.blogId = blogId
-  post("/admin/blog/deleteBlog", blog).then(result => {
-    getBlogList()
-  })
+const deleteBlog = async (blogId) => {
+  let flag = await Message.confirm(
+    {
+      title: "警告",
+      content: "确定要删除这条博客吗？"
+    }
+  );
+  if (flag) {
+    blog.blogId = blogId
+    post("/admin/blog/deleteBlog", blog).then(result => {
+      tip.success(result.msg)
+      getBlogList()
+    })
+  }
 }
 
 const changePageSize = (val) => {
@@ -104,8 +116,5 @@ const changePageNum = (val) => {
   params.pageNum = val
   getBlogList();
 }
-const gotoBlog = (blogId) => {
-  const id = blogId + ''
-  router.push("/blog/" + id)
-}
+
 </script>

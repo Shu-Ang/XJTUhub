@@ -5,9 +5,8 @@
 
 import axios from "axios";
 import router from '../../router'
-import message from './request-message';
-
-
+import { tip } from "@/common"
+import Message from '@/common/request/request-message'
 import {
 	API_BASE_URL, HEADER_TOKEN, LOGIN_ROUTE_NAME
 } from '../constants'
@@ -272,7 +271,7 @@ instance.interceptors.request.use(
 	},
 	function (error) {
 		// 对请求错误做些什么
-		message.error('请求失败！');
+		tip.error('请求失败！');
 		return Promise.reject(error);
 	}
 );
@@ -341,7 +340,7 @@ instance.interceptors.response.use(function (response) {
 			console.error("-令牌失效-")
 			if (getLocalToken()) {
 				removeLocalToken();
-				message.error('登录令牌失效！请重新登录。');
+				tip.error('登录令牌失效！请重新登录。');
 			}
 			router.replace({
 				name: LOGIN_ROUTE_NAME
@@ -350,26 +349,26 @@ instance.interceptors.response.use(function (response) {
 
 
 
-		} else if (data && (data.message || typeof data.code === 'number')) {
-			message.error(getCodeMessage(data));
+		} else if (data && (data.msg || typeof data.code === 'number')) {
+			tip.error(getCodeMessage(data));
 
 		} else if (error.response.status === undefined || error.response.status === null || error.response.status === 0) {
-			message.error('服务不可用！');
+			tip.error('服务不可用！');
 
 		} else {
-			message.error(getHttpMessage(error.response.status));
+			tip.error(getHttpMessage(error.response.status));
 		}
 
 	} else if (error.request) {
 		// The request was made but no response was received
 		// `error.request` is an instance of XMLHttpRequest in the browser and an instance of
 		// http.ClientRequest in node.js
-		message.error('服务无响应！');
+		tip.error('服务无响应！');
 		console.error(error.request);
 	} else if (!axios.isCancel(error)) {//如果不是被取消的请求
 		// Something happened in setting up the request that triggered an Error
-		message.error(error.message);
-		console.error('Error', error.message);
+		tip.error(error.msg);
+		console.error('Error', error.msg);
 	}
 
 	return Promise.reject(error);
@@ -395,14 +394,13 @@ const ajax = function (getAxiosPromise) {
 
 					const data = response.data || {};
 					if (isSuccessful(data)) { //操作成功
-
-						if (response.config.servMsg === true && data.message && data.message.trim()) { //如果设置显示服务端消息，并且服务端有消息，则显示
+						if (response.config.servMsg === true && data.msg && data.message.trim()) { //如果设置显示服务端消息，并且服务端有消息，则显示
 							if (response.config.servMsgSync) { //服务端消息是否同步显示
-								message.success(data.message).then(() => {
+								tip.success(data.msg).then(() => {
 									resolve(data);
 								});
 							} else {
-								message.success(data.message);
+								tip.success(data.msg);
 								resolve(data);
 							}
 
@@ -420,7 +418,7 @@ const ajax = function (getAxiosPromise) {
 						console.error("-令牌失效-")
 						if (getLocalToken()) {
 							removeLocalToken();
-							message.error('请重新登录！');
+							tip.error('请重新登录！');
 						}
 						router.replace({
 							name: LOGIN_ROUTE_NAME
@@ -430,7 +428,7 @@ const ajax = function (getAxiosPromise) {
 					}
 
 					//提示错误
-					message.error(getCodeMessage(data)).then(() => {
+					tip.error(data.msg).then(() => {
 						reject(response);
 					});
 
@@ -438,7 +436,7 @@ const ajax = function (getAxiosPromise) {
 				.catch(err => { //处理错误响应
 
 					if (axios.isCancel(err)) {
-						console.error("请求取消：", err.message);
+						console.error("请求取消：", err.msg);
 					} else {
 						reject(err.response);
 					}
@@ -450,7 +448,7 @@ const ajax = function (getAxiosPromise) {
 
 			console.log(error);
 
-			message.error('错误:' + error.message);
+			tip.error('错误:' + error.msg);
 
 			throw error;
 
@@ -479,7 +477,7 @@ const operate = function (getAxiosPromise, config) {
 					})
 			};
 
-			message.confirm({
+			Message.confirm({
 				title: config.title,
 				content: config.message
 			})

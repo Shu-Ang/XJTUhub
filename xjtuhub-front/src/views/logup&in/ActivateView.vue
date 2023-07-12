@@ -3,7 +3,7 @@
         <span>{{ content }}</span>
         <template #footer>
             <span class="dialog-footer">
-                <RouterLink to="/home"><el-button type="primary" @click="centerDialogVisible = false">
+                <RouterLink to="/login"><el-button type="primary" @click="centerDialogVisible = false">
                         确认
                     </el-button></RouterLink>
             </span>

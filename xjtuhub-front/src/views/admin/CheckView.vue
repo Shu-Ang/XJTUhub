@@ -24,7 +24,11 @@ div.page-gj {
     <h1>稿件审核</h1>
     <div>
       <el-table v-loading="loading" :data="blogPageList">
-        <el-table-column prop="blogId" label="博客ID" />
+        <el-table-column prop="blogId" label="博客ID" >
+          <template #default='scope'>
+            <el-link type="primary" @click="blogApi.goToBlog( scope.row.blogId)" :underline="true">{{ scope.row.blogId }}</el-link>
+          </template>
+        </el-table-column>
         <el-table-column prop="course.courseName" label="课程" width="220" />
         <el-table-column prop="category" label="分类" width="140">
           <template #default='scope'>
@@ -36,7 +40,7 @@ div.page-gj {
 
         <el-table-column prop="title" label="标题">
           <template #default='scope'>
-            <el-link type="primary" @click="gotoBlog(scope.row.blogId)" :underline="true">{{ scope.row.title }}</el-link>
+            <el-link type="primary" @click="blogApi.goToBlog( scope.row.blogId)" :underline="true">{{ scope.row.title }}</el-link>
           </template>
         </el-table-column>
         <!-- <el-table-column prop="summary" label="摘要" width="220"/> -->
@@ -65,7 +69,8 @@ div.page-gj {
 import { Check, Close } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue';
 import { get, post, tip } from "../../common";
-import router from '../../router';
+import Message from '@/common/request/request-message'
+import blogApi from '@/api/blog'
 const params = reactive({
   pageSize: 5,
   pageNum: 1,
@@ -78,7 +83,6 @@ const blogPageList = ref();
 // 获取分页模糊查询结果
 const getPaperList = () => {
   get("/admin/blog/rawBlogPage", params).then(result => {
-    console.log(result.data.resultList)
     blogPageList.value = result.data.resultList;
     params.totalNum = result.data.totalNum;
   });
@@ -88,21 +92,37 @@ getPaperList();
 const blog = reactive({
   blogId: 0
 })
-const passblog = (blogId) => {
-  console.log(blogId)
-  blog.blogId = blogId
-  post("/admin/blog/passBlog", blog).then(result => {
-    getPaperList()
-  })
+const passblog = async (blogId) => {
+  let flag = await Message.confirm(
+    {
+      title: "警告",
+      content: "确定要审核通过这条博客吗？"
+    }
+  );
+  if (flag) {
+    blog.blogId = blogId
+    post("/admin/blog/passBlog", blog).then(result => {
+      tip.success(result.msg)
+      getPaperList()
+    })
+  }
 }
-const unpassblog = (blogId) => {
-  blog.blogId = blogId
-  post("/admin/blog/unPassBlog", blog).then(result => {
-    getPaperList()
-  })
+const unpassblog = async (blogId) => {
+  let flag = await Message.confirm(
+    {
+      title: "警告",
+      content: "确定要审核不通过这条博客吗？"
+    }
+  );
+  if (flag) {
+    blog.blogId = blogId
+    post("/admin/blog/unPassBlog", blog).then(result => {
+      tip.success(result.msg)
+      getPaperList()
+    })
+  }
 }
 const changePageSize = (val) => {
-
   params.pageSize = val
   getPaperList();
 }
@@ -110,8 +130,5 @@ const changePageNum = (val) => {
   params.pageNum = val
   getPaperList();
 }
-const gotoBlog = (blogId) => {
-  const id = blogId + ''
-  router.push("/blog/" + id)
-}
+
 </script>
