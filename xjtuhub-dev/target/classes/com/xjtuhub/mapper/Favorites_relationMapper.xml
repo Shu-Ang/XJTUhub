@@ -26,6 +26,13 @@
     where favorites_relation.blog_id = blog.blog_id and blog.role_id = #{roleId}
   </select>
 
+  <!--  查询收藏夹内收藏数-->
+  <select id="countFavoriteByFavorite" parameterType="com.xjtuhub.entity.Favorites" resultType="java.lang.Integer">
+    select count(*)
+    from favorites_relation
+    where favorites_relation.favorite_id = #{favoriteId}
+  </select>
+
   <resultMap id="favoriteResultMap" type="com.xjtuhub.entity.FavoriteBlog" autoMapping="true">
     <id column="favorite_id" jdbcType="INTEGER" property="favoriteId" />
     <id column="blog_id" jdbcType="INTEGER" property="blogId" />
@@ -37,7 +44,16 @@
     favorite_id, favorites_relation.blog_id, blog.role_id, blog.title, blog.summary, blog.release_date, blog.category
   </sql>
 <!--  根据收藏夹ID查询博客列表-->
-  <select id="selectBlogListByFavorite" parameterType="com.xjtuhub.entity.Favorites" resultMap="favoriteResultMap">
+  <select id="selectBlogListByFavorite" parameterType="java.util.Map" resultMap="favoriteResultMap">
+    select
+    <include refid="favoriteResultList"></include>
+    from favorites_relation , blog
+    where favorites_relation.blog_id = blog.blog_id and favorites_relation.favorite_id = #{favorites.favoriteId}
+    LIMIT #{page.limitIndex}, #{page.pageSize}
+  </select>
+
+  <!--  根据收藏夹ID查询博客列表-->
+  <select id="selectBlogByFavorite" parameterType="com.xjtuhub.entity.Favorites" resultMap="favoriteResultMap">
     select
     <include refid="favoriteResultList"></include>
     from favorites_relation , blog

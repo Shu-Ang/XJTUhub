@@ -55,18 +55,20 @@
     role.role_id, role.face_addr, role.sign, role.email
   </sql>
   <!--  查询关注列表-->
-  <select id="selectFollowList" parameterType="com.xjtuhub.entity.Role" resultMap="FollowMap">
+  <select id="selectFollowList" parameterType="java.util.Map" resultMap="FollowMap">
     select
     <include refid="FollowList"></include>
     from role, follow
-    where follow.role_id = #{roleId} and follow.writer_id = role.role_id
+    where follow.role_id = #{role.roleId} and follow.role_id = role.role_id
+    LIMIT #{page.limitIndex}, #{page.pageSize}
   </select>
 <!--查询粉丝列表-->
-  <select id="selectFanList" parameterType="com.xjtuhub.entity.Role" resultMap="FollowMap">
+  <select id="selectFanList" parameterType="java.util.Map" resultMap="FollowMap">
     select
     <include refid="FollowList"></include>
     from role, follow
-    where follow.writer_id = #{roleId} and follow.role_id = role.role_id
+    where follow.writer_id = #{role.roleId} and follow.role_id = role.role_id
+    LIMIT #{page.limitIndex}, #{page.pageSize}
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

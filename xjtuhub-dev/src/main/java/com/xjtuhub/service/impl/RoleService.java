@@ -70,12 +70,20 @@ public class RoleService implements RoleServiceApi {
     }
 
     @Override
-    public List<Role> selectFollowList(Role role) {
-        return roleMapper.selectFollowList(role);
+    public List<Role> selectFollowList(Role role, Page page) {
+        Map map = new HashMap();
+        // map的key要和mapper.xml中保持一致
+        map.put("page", page);
+        map.put("role", role);
+        return roleMapper.selectFollowList(map);
     }
     @Override
-    public List<Role> selectFanList(Role role){
-        return roleMapper.selectFanList(role);
+    public List<Role> selectFanList(Role role, Page page){
+        Map map = new HashMap();
+        // map的key要和mapper.xml中保持一致
+        map.put("page", page);
+        map.put("role", role);
+        return roleMapper.selectFanList(map);
     }
 
     @Override

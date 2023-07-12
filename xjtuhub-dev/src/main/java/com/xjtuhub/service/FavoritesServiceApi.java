@@ -1,16 +1,17 @@
 package com.xjtuhub.service;
 
-import com.xjtuhub.entity.FavoriteBlog;
-import com.xjtuhub.entity.Favorites;
-import com.xjtuhub.entity.Favorites_relationKey;
-import com.xjtuhub.entity.Role;
+import com.xjtuhub.entity.*;
 
 import java.util.List;
 
 public interface FavoritesServiceApi {
     int countFavoriteByRole(Role role);
+    int countFavoritesByRole(Role role);
+    int countFavoriteByFavorite(Favorites favorites);
+    List<Favorites> selectFavoriteByRole(Role role, Page page);
     List<Favorites> selectByRole(Role role);
-    List<FavoriteBlog> selectBlogListByFavorite(Favorites favorites);
+    List<FavoriteBlog> selectBlogByFavorite(Favorites favorites);
+    List<FavoriteBlog> selectBlogListByFavorite(Favorites favorites, Page page);
 
     int starBlog(Favorites_relationKey favoritesRelationKey);
     int newFavorite(Favorites record);

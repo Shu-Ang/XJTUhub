@@ -175,22 +175,30 @@
     LIMIT #{page.limitIndex}, #{page.pageSize}
   </select>
 
-  <!--根据用户ID查找草稿-->
-  <select id="selectDraftByRole" parameterType="com.xjtuhub.entity.Role" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"></include>
-    from blog, course
-    where role_id=#{roleId} and is_draft=1 and blog.course_id = course.course_id
-    order by release_date desc
+  <!--根据用户ID查找草稿数-->
+  <select id="countDraftByRole" parameterType="com.xjtuhub.entity.Role" resultType="java.lang.Integer">
+    select count(*)
+    from blog
+    where role_id=#{roleId} and is_draft = 1 and is_private = 0 and status = 1
   </select>
-
-  <!--  根据用户ID查询文章列表-->
-  <select id="selectArticleByRole" parameterType="com.xjtuhub.entity.Role" resultMap="BaseResultMap">
+  <!--根据用户ID查找草稿-->
+  <select id="selectDraftByRole" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"></include>
     from blog,course
-    where role_id=#{roleId} and category = 0 and is_draft = 0 and is_private = 0 and status = 1
+    where role_id=#{role.roleId} and is_draft = 1 and is_private = 0 and status = 1 and blog.course_id = course.course_id
     order by release_date desc
+    LIMIT #{page.limitIndex}, #{page.pageSize}
+  </select>
+
+  <!--  根据用户ID查询文章列表-->
+  <select id="selectArticleByRole" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from blog,course
+    where role_id=#{role.roleId} and category = 0 and is_draft = 0 and is_private = 0 and status = 1 and blog.course_id = course.course_id
+    order by release_date desc
+    LIMIT #{page.limitIndex}, #{page.pageSize}
   </select>
 
   <!--  根据ID查询问答列表-->
@@ -198,8 +206,9 @@
     select
     <include refid="Base_Column_List"></include>
     from blog,course
-    where role_id=#{roleId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1
+    where role_id=#{role.roleId} and category = 1 and is_draft = 0 and is_private = 0 and status = 1 and blog.course_id = course.course_id
     order by release_date desc
+    LIMIT #{page.limitIndex}, #{page.pageSize}
   </select>
 
   <!--  根据内容搜索文章-->

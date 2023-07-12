@@ -95,23 +95,40 @@ public class BlogService implements BlogServiceApi {
     }
 
     @Override
+    public int countDraftByRole(Role role) {
+        return blogMapper.countDraftByRole(role);
+    }
+
+    @Override
     public int countViewsByRole(Role role) {
         return blogMapper.countViewsByRole(role);
     }
 
     @Override
-    public List<Blog> selectDraftByRole(Role role) {
-        return blogMapper.selectDraftByRole(role);
+    public List<Blog> selectDraftByRole(Role role, Page page) {
+        Map map = new HashMap();
+        // map的key要和mapper.xml中保持一致
+        map.put("page", page);
+        map.put("role", role);
+        return blogMapper.selectDraftByRole(map);
     }
 
     @Override
-    public List<Blog> selectArticleByRole(Role role) {
-        return blogMapper.selectArticleByRole(role);
+    public List<Blog> selectArticleByRole(Role role, Page page) {
+        Map map = new HashMap();
+        // map的key要和mapper.xml中保持一致
+        map.put("page", page);
+        map.put("role", role);
+        return blogMapper.selectArticleByRole(map);
     }
 
     @Override
-    public List<Blog> selectQuestionByRole(Role role) {
-        return blogMapper.selectQuestionByRole(role);
+    public List<Blog> selectQuestionByRole(Role role, Page page) {
+        Map map = new HashMap();
+        // map的key要和mapper.xml中保持一致
+        map.put("page", page);
+        map.put("role", role);
+        return blogMapper.selectQuestionByRole(map);
     }
 
     @Override

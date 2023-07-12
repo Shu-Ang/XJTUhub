@@ -6,12 +6,14 @@ import com.xjtuhub.entity.Role;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface FootprintsMapper {
     int insert(Footprints record);
 
     int insertSelective(Footprints record);
-    List<Footprints> selectFootprintsByRole(Role role);
+    int countFootprintsByRole(Role role);
+    List<Footprints> selectFootprintsByRole(Map map);
     int countBlogViews(Blog blog);
     int countViewsByDate(Footprints footprints);
 }

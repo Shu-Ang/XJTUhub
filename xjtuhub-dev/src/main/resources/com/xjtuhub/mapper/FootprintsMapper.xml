@@ -6,13 +6,22 @@
     <result column="blog_id" jdbcType="INTEGER" property="blogId" />
     <result column="view_date" jdbcType="TIMESTAMP" property="viewDate" />
   </resultMap>
-<!--根据用户查浏览记录-->
-  <select id="selectFootprintsByRole" parameterType="com.xjtuhub.entity.Role" resultMap="BaseResultMap">
-    select *
+
+  <!--根据用户查浏览记录数-->
+  <select id="countFootprintsByRole" parameterType="com.xjtuhub.entity.Role" resultType="java.lang.Integer">
+    select count(*)
     from footprints
     where role_id=#{roleId}
-    order by view_date desc
   </select>
+<!--根据用户查浏览记录-->
+  <select id="selectFootprintsByRole" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select *
+    from footprints
+    where role_id=#{role.roleId}
+    order by view_date desc
+    LIMIT #{page.limitIndex}, #{page.pageSize}
+  </select>
+
   <insert id="insert" parameterType="com.xjtuhub.entity.Footprints">
     insert into footprints (role_id, blog_id, view_date
       )

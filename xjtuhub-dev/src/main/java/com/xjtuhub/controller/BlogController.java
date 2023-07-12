@@ -150,9 +150,15 @@ public class BlogController {
         return JSONResult.ok(commentService.countCommentByBlog(blog));
     }
 
+    @GetMapping("/getFavoriteList")
+    @ApiOperation(value = "获取收藏夹列表")
+    public JSONResult getFavoriteList(Role role){
+        return JSONResult.ok(favoritesService.selectByRole(role));
+    }
     @PostMapping("/star")
     @ApiOperation(value = "收藏")
     public JSONResult starBlog(@RequestBody Favorites_relationKey favoritesRelationKey){
+        System.out.println(favoritesRelationKey.toString());
         return JSONResult.ok(favoritesService.starBlog(favoritesRelationKey));
     }
 
@@ -170,7 +176,7 @@ public class BlogController {
         List<Favorites> favoritesList = favoritesService.selectByRole(role);
         HashMap<Integer, FavoriteBlog> favoriteBlogHashMap = new HashMap<>();
         for(Favorites favorites : favoritesList){
-            for(FavoriteBlog favoriteBlog : favoritesService.selectBlogListByFavorite(favorites)){
+            for(FavoriteBlog favoriteBlog : favoritesService.selectBlogByFavorite(favorites)){
                 favoriteBlogHashMap.put(favoriteBlog.getBlogId(), favoriteBlog);
             }
         }

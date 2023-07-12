@@ -63,16 +63,22 @@ public class InfoController {
 
     @GetMapping("/selectFollowList")
     @ApiOperation(value = "关注列表")
-    public JSONResult selectFollowList( Role role){
-        for(Role role1 : roleService.selectFollowList(role)){
-        }
-        return JSONResult.ok(roleService.selectFollowList(role));
+    public JSONResult selectFollowList( Role role, Page page){
+        int totalNum = followService.countFollowsByRole(role);
+        page.setTotalNum(totalNum);
+        List<Role> roleList = roleService.selectFollowList(role, page);
+        page.setResultList(roleList);
+        return JSONResult.ok(page);
     }
 
     @GetMapping("/selectFanList")
     @ApiOperation(value = "粉丝列表")
-    public JSONResult selectFanList( Role role){
-        return JSONResult.ok(roleService.selectFanList(role));
+    public JSONResult selectFanList( Role role, Page page){
+        int totalNum = followService.countFansByRole(role);
+        page.setTotalNum(totalNum);
+        List<Role> roleList = roleService.selectFanList(role, page);
+        page.setResultList(roleList);
+        return JSONResult.ok(page);
     }
 
     @PostMapping("/follow")
@@ -100,14 +106,29 @@ public class InfoController {
 
     @GetMapping("/favorites")
     @ApiOperation(value = "获取用户的收藏夹")
-    public JSONResult getFavorites( Role role){
-        return JSONResult.ok(favoriteService.selectByRole(role));
+    public JSONResult getFavorites( Role role, Page page){
+        int totalNum = favoriteService.countFavoritesByRole(role);
+        page.setTotalNum(totalNum);
+        List<Favorites> favoritesList = favoriteService.selectFavoriteByRole(role,page);
+        page.setResultList(favoritesList);
+        return JSONResult.ok(page);
+
     }
+
     @GetMapping("/favoriteBlog")
     @ApiOperation(value = "根据收藏夹ID获取收藏夹内容")
-    public JSONResult getFavoriteBlog(Favorites favorite){
-        return JSONResult.ok(favoriteService.selectBlogListByFavorite(favorite));
+    public JSONResult getFavoriteBlog(Favorites favorite, Page page){
+        int totalNum = favoriteService.countFavoriteByFavorite(favorite);
+        page.setTotalNum(totalNum);
+        List<FavoriteBlog> blogList = favoriteService.selectBlogListByFavorite(favorite, page);
+        List<Blog> blogs = new ArrayList<>();
+        for(FavoriteBlog favoriteBlog : blogList){
+            blogs.add(blogService.selectByPrimaryKey(favoriteBlog.getBlogId()));
+        }
+        page.setResultList(blogs);
+        return JSONResult.ok(page);
     }
+
     @PostMapping("/setFavoritePrivate")
     @ApiOperation(value = "将收藏夹设为私密")
     public JSONResult setFavoritePrivate(@RequestBody  Favorites favorites){
@@ -134,20 +155,27 @@ public class InfoController {
     }
     @GetMapping("/draft")
     @ApiOperation(value = "查看草稿箱")
-    public JSONResult getDraft(Role role){
-        return JSONResult.ok(blogService.selectDraftByRole(role));
+    public JSONResult getDraft(Role role, Page page){
+        int totalNum = blogService.countDraftByRole(role);
+        page.setTotalNum(totalNum);
+        List<Blog> blogList = blogService.selectDraftByRole(role, page);
+        page.setResultList(blogList);
+        return JSONResult.ok(page);
     }
     @GetMapping("/footprints")
     @ApiOperation(value = "查看历史记录")
-    public JSONResult getFootprints(Role role){
-        List<Footprints> footprintsList = footprintsService.selectFootprintsByRole(role);
-        List<Blog> BlogList=new ArrayList<Blog>();//结果博客列表
+    public JSONResult getFootprints(Role role, Page page){
+        int totalNum = footprintsService.countFootprintsByRole(role);
+        page.setTotalNum(totalNum);
+        List<Footprints> footprintsList = footprintsService.selectFootprintsByRole(role, page);
+        List<Blog> blogList=new ArrayList<Blog>();//结果博客列表
         for (Footprints footprints : footprintsList){
             Integer blogId = footprints.getBlogId();
             Blog blog = blogService.selectByPrimaryKey(blogId);
-            BlogList.add(blog);
+            blogList.add(blog);
         }
-        return JSONResult.ok(BlogList);
+        page.setResultList(blogList);
+        return JSONResult.ok(page);
     }
 
     @GetMapping("/getInfo")
@@ -158,14 +186,28 @@ public class InfoController {
 
     @GetMapping("/getArticleByRole")
     @ApiOperation("根据用户获得文章列表")
-    public JSONResult getArticleByRole(Role role){
-        return JSONResult.ok(blogService.selectArticleByRole(role));
+    public JSONResult getArticleByRole(Role role, Page page){
+        int totalNum = blogService.countArticleByRole(role);
+        page.setTotalNum(totalNum);
+        List<Blog> blogList = blogService.selectArticleByRole(role, page);
+        page.setResultList(blogList);
+        System.out.println(blogList.size());
+        return JSONResult.ok(page);
     }
 
     @GetMapping("/getQuestionByRole")
-    @ApiOperation("根据用户获得文章列表")
-    public JSONResult getQuestionByRole(Role role){
-        return JSONResult.ok(blogService.selectQuestionByRole(role));
+    @ApiOperation("根据用户获得问题列表")
+    public JSONResult getQuestionByRole(Role role, Page page){
+        int totalNum = blogService.countQuestionByRole(role);
+        page.setTotalNum(totalNum);
+        System.out.println(totalNum);
+        List<Blog> blogList = blogService.selectQuestionByRole(role, page);
+        System.out.println(blogList.size());
+        for(Blog blog : blogList){
+            System.out.println(blog.toString());
+        }
+        page.setResultList(blogList);
+        return JSONResult.ok(page);
     }
 
     @PostMapping("newFavorite")

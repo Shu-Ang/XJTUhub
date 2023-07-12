@@ -25,7 +25,7 @@ public interface RoleMapper {
 
     int countRole();
 
-    List<Role> selectFollowList(Role role);
+    List<Role> selectFollowList(Map map);
 
-    List<Role> selectFanList(Role role);
+    List<Role> selectFanList(Map map);
 }

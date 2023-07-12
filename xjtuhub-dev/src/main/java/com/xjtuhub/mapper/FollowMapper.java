@@ -18,6 +18,7 @@ public interface FollowMapper {
 
     int updateByPrimaryKey(Follow record);
     int countFansByRole(Role role);
+    int countFollowsByRole(Role role);
     int isFollow(Follow follow);
 
     int unFollow(Follow follow);

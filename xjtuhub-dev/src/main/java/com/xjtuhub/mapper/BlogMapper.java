@@ -31,10 +31,11 @@ public interface BlogMapper {
     int countViews();
     int countArticleByRole(Role role);
     int countQuestionByRole(Role role);
+    int countDraftByRole(Role role);
     int countViewsByRole(Role role);
-    List<Blog> selectDraftByRole(Role role);
-    List<Blog> selectArticleByRole(Role role);
-    List<Blog> selectQuestionByRole(Role role);
+    List<Blog> selectDraftByRole(Map map);
+    List<Blog> selectArticleByRole(Map map);
+    List<Blog> selectQuestionByRole(Map map);
     List<Blog> selectArticleByContent(Blog blog);
     List<Blog> selectQuestionByContent(Blog blog);
     List<Blog> selectArticleList(Page page);

@@ -5,6 +5,7 @@ import com.xjtuhub.entity.Role;
 
 public interface FollowServiceApi {
     int countFansByRole(Role role);
+    int countFollowsByRole(Role role);
     int follow(Follow follow);
     int isFollow(Follow follow);
     int unFollow(Follow follow);

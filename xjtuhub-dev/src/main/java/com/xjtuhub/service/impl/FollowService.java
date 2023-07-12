@@ -17,6 +17,11 @@ public class FollowService implements FollowServiceApi {
     }
 
     @Override
+    public int countFollowsByRole(Role role) {
+        return followMapper.countFollowsByRole(role);
+    }
+
+    @Override
     public int follow(Follow follow) {
         return followMapper.insert(follow);
     }

@@ -10,8 +10,25 @@
   <sql id="Base_Column_List">
     favorite_id, role_id, favorite_name, is_private
   </sql>
-<!--  查询用户所有收藏夹列表-->
-  <select id="selectByRole" parameterType="com.xjtuhub.entity.Role" resultMap="BaseResultMap">
+
+  <!--  查询用户所有收藏夹数-->
+  <select id="countFavoriteByRole" parameterType="com.xjtuhub.entity.Role"  resultType="java.lang.Integer">
+    select count(*)
+    from favorites
+    where role_id=#{roleId}
+  </select>
+
+<!--  分页查询用户所有收藏夹列表-->
+  <select id="selectFavoriteByRole" parameterType="java.util.Map" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from favorites
+    where role_id=#{role.roleId}
+    LIMIT #{page.limitIndex}, #{page.pageSize}
+  </select>
+
+  <!--  查询用户所有收藏夹列表-->
+  <select id="selectByRole" parameterType="com.xjtuhub.entity.Role" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
     from favorites

@@ -27,6 +27,12 @@
     where writer_id = #{roleId}
   </select>
 
+  <!--  查询关注数-->
+  <select id="countFollowsByRole" parameterType="com.xjtuhub.entity.Role" resultType="java.lang.Integer">
+    select count(*)
+    from follow
+    where role_id= #{roleId}
+  </select>
 <!--  查询是否关注-->
   <select id="isFollow" parameterType="com.xjtuhub.entity.Follow" resultType="java.lang.Integer">
     select count(*)
